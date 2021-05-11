@@ -1,0 +1,78 @@
+body{
+    background-color: white;
+    margin: 0;
+    padding: 0;
+}
+
+#menu {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #4189A8;
+    position: fixed;
+    top: 0px;
+    width: 100%;
+}
+
+.logo a{
+    float: left;
+    font-family: 'Mukta', sans-serif;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 13.5px 16px;
+    text-decoration: none;
+}
+
+.tab a{
+    float: left;
+    font-family: 'Mukta', sans-serif;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 20px 16px;
+    text-decoration: none;
+}
+
+.login a{
+    float: right;
+    font-family: 'Mukta', sans-serif;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 20px 16px;
+    text-decoration: none;
+}
+
+.logo:hover a{
+    color: #4189A8;
+    background-color: white;
+}
+
+.tab:hover a{
+    color: #4189A8;
+    background-color: white;
+}
+
+.login:hover a{
+    color: #4189A8;
+    background-color: white;
+}
+
+.fa-user{
+    padding-left: 10px;
+}
+
+.fa-dna{
+    font-size: 200%;
+}
+
+
+footer{
+    width: 100%;
+    height: 200px;
+    bottom: 0px;
+    position: fixed;
+    background-color: #343434;
+}
