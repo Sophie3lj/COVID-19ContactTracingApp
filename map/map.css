@@ -1,0 +1,49 @@
+#map{
+    width: 100%;
+    height: 100%;
+}
+
+.pure-form{
+    margin: 0;
+}
+
+#HS-box{
+    color: white;
+    margin: 0;
+    padding: 0.5em;
+    display: inline-block;
+}
+
+#CI-box{
+    color: white;
+    margin: 0;
+    padding: 0.5em;
+    display: inline-block;
+}
+
+#choices{
+    background-color: #175873;
+    margin: 0;
+    padding: 0;
+    border-bottom: 1px solid white;
+}
+
+h4{
+    color: white;
+    background-color: #193046;
+    margin: 0;
+    padding: 0.5em;
+    border-bottom: 1px solid white;
+}
+
+.checkin{
+    background-color: #EEF5FF;
+    margin: 1em 0;
+    padding: 0.5em;
+}
+
+.hotspot{
+    background-color: #EEF5FF;
+    margin: 1em 0;
+    padding: 0.5em;
+}
