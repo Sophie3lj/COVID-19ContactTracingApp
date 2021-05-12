@@ -16,97 +16,97 @@
 
     <body>
         <div id="mapPage">
-        <header>
-            <div class="pure-menu pure-menu-horizontal">
-                <ul class="pure-menu-list">
-                    <li class="pure-menu-item">
-                        <a href="#" class="pure-menu-link">Map</a>
-                    </li>
-                    <li class="pure-menu-item">
-                        <a href="#" class="pure-menu-link">Check-In History</a>
-                    </li>
-                    <li class="pure-menu-item">
-                        <a href="#" class="pure-menu-link">Check-In</a>
-                    </li>
-                </ul>
-                <ul class="pure-menu-list" id="right">
-                    <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
-                        <a href="#" id="menuLink1" class="pure-menu-link">"Username"</a>
-                        <ul class="pure-menu-children">
-                            <li class="pure-menu-item">
-                                <a href="#" class="pure-menu-link drop-down">Edit Details</a>
-                            </li>
-                            <li class="pure-menu-item">
-                                <a href="#" class="pure-menu-link drop-down">Sign Out</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </header>
+            <header>
+                <div class="pure-menu pure-menu-horizontal">
+                    <ul class="pure-menu-list">
+                        <li class="pure-menu-item">
+                            <div class="flex"><a href="#" class="pure-menu-link">Map</a></div>
+                        </li>
+                        <li class="pure-menu-item">
+                            <div class="flex"><a href="#" class="pure-menu-link">Check-In History</a></div>
+                        </li>
+                        <li class="pure-menu-item">
+                            <div class="flex"><a href="#" class="pure-menu-link">Check-In</a></div>
+                        </li>
+                    </ul>
+                    <ul class="pure-menu-list" id="right">
+                        <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+                            <div class="flex"><a href="#" id="menuLink1" class="pure-menu-link">"Username"</a></div>
+                            <ul class="pure-menu-children">
+                                <li class="pure-menu-item">
+                                    <a href="#" class="pure-menu-link drop-down">Edit Details</a>
+                                </li>
+                                <li class="pure-menu-item">
+                                    <a href="#" class="pure-menu-link drop-down">Sign Out</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </header>
 
-        <main>
+            <main>
 
-            <div class="pure-g">
-                <div class="pure-u-1-4">
-                    <div id="choices">
-                        <form class="pure-form">
-                            <label for="checkbox-option-one" id="HS-box" class="pure-checkbox">
-                                <input type="checkbox" value="" /> Hotspots</label>
-                            <label for="checkbox-option-two" id="CI-box" class="pure-checkbox">
-                                <input type="checkbox" value="" /> Check-ins</label>
-                        </form>
-                    </div>
+                <div class="pure-g">
+                    <div class="pure-u-1-4">
+                        <div id="choices">
+                            <form class="pure-form">
+                                <label for="checkbox-option-one" id="HS-box" class="pure-checkbox">
+                                    <input type="checkbox" value="" /> Hotspots</label>
+                                <label for="checkbox-option-two" id="CI-box" class="pure-checkbox">
+                                    <input type="checkbox" value="" /> Check-ins</label>
+                            </form>
+                        </div>
 
-                    <div>
-                        <div id="checkin-info">
-                            <h4>Check-ins</h3>
-                            <div class="checkin">
-                                <p>checkin 1 info</p>
+                        <div id="info">
+                            <div id="checkin-info">
+                                <h4>Check-ins</h3>
+                                <div class="checkin">
+                                    <p>checkin 1 info</p>
+                                </div>
+                                <div class="checkin">
+                                    <p>checkin 2 info</p>
+                                </div>
+                                <div class="checkin">
+                                    <p>checkin 3 info</p>
+                                </div>
                             </div>
-                            <div class="checkin">
-                                <p>checkin 2 info</p>
-                            </div>
-                            <div class="checkin">
-                                <p>checkin 3 info</p>
+                            <div id="hotspot-info">
+                                <h4>Hotspots</h3>
+                                <div class="hotspot">
+                                    <p>hotspot 1 info</p>
+                                </div>
+                                <div class="hotspot">
+                                    <p>hotspot 2 info</p>
+                                </div>
+                                <div class="hotspot">
+                                    <p>hotspot 3 info</p>
+                                </div>
                             </div>
                         </div>
-                        <div id="hotspot-info">
-                            <h4>Hotspots</h3>
-                            <div class="hotspot">
-                                <p>hotspot 1 info</p>
-                            </div>
-                            <div class="hotspot">
-                                <p>hotspot 2 info</p>
-                            </div>
-                            <div class="hotspot">
-                                <p>hotspot 3 info</p>
-                            </div>
-                        </div>
+                    </div>
+                    <div class="pure-u-3-4">
+                        <div id="map"></div>
                     </div>
                 </div>
-                <div class="pure-u-3-4">
-                    <div id="map"></div>
+
+                <script>
+                    mapboxgl.accessToken = 'pk.eyJ1Ijoic29waGllM2xqIiwiYSI6ImNrb2R5YXNoazA2MHMybm80cHVsdzRzY3oifQ.BlVnpNJHCi01_yqgo7ZexA';
+                    var map = new mapboxgl.Map({
+                        container: 'map', // container ID
+                        style: 'mapbox://styles/sophie3lj/ckojqizu24trv18kefcc9vu80', // style URL
+                        center: [138, -34], // starting position [lng, lat]
+                        zoom: 7 // starting zoom
+                    });
+                </script>
+
+            </main>
+
+            <footer>
+                <div class="pure-g footer">
                 </div>
-            </div>
-
-            <script>
-                mapboxgl.accessToken = 'pk.eyJ1Ijoic29waGllM2xqIiwiYSI6ImNrb2R5YXNoazA2MHMybm80cHVsdzRzY3oifQ.BlVnpNJHCi01_yqgo7ZexA';
-                var map = new mapboxgl.Map({
-                    container: 'map', // container ID
-                    style: 'mapbox://styles/sophie3lj/ckojqizu24trv18kefcc9vu80', // style URL
-                    center: [138, -34], // starting position [lng, lat]
-                    zoom: 7 // starting zoom
-                });
-            </script>
-
-        </main>
-
-        <footer>
-            <div class="pure-g footer">
-            </div>
-        </footer>
-    </div>
+            </footer>
+        </div>
     </body>
 
 </html>
