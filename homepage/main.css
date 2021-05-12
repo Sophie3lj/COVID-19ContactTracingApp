@@ -53,6 +53,10 @@ footer {
     margin-bottom: 0;
 }
 
+.description-text {
+    font-size: small;
+}
+
 #right {
     float: right;
 }
