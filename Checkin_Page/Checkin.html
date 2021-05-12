@@ -44,19 +44,22 @@
         </header>
 
         <main>
-            <div id="check-in-main">
-               <!--In-line form for checkin code, from Pure CSS-->
-               <form class="pure-form">
-                   <fieldset class="centered-text">
-                       <legend>
-                           <h1 class="centered-text">Check in</h1>
-                       </legend>
-                       <input type="text" class="pure-input-3-4" placeholder="Enter the checkin code" />
-                       <button type="submit" class="pure-button pure-button-primary rounded-button">Enter</button>
-                   </fieldset>
-               </form>
-               <p class="centered-text">Or</p>
-               <button class="pure-button rounded-button" id="location-checkin-button">Check in using location</button>
+            <div class="centering-flex-container">
+                <div class="centering-flex-container">
+                   <!--In-line form for checkin code, from Pure CSS-->
+                   <form class="pure-form">
+                       <fieldset class="centered-text">
+                           <legend>
+                               <h1 class="centered-text no-bottom-margin">Check in</h1>
+                               <div>Check in using a venue's check-in code or your current location</div>
+                           </legend>
+                           <input type="text" class="pure-input-3-4" placeholder="Enter the checkin code" />
+                           <button type="submit" class="pure-button pure-button-primary rounded-button">Enter</button>
+                       </fieldset>
+                   </form>
+                   <p class="centered-text">Or</p>
+                   <button class="pure-button rounded-button" id="checkin-location-button">Check in using location</button>
+               </div>
             </div>
         </main>
 
