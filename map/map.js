@@ -14,3 +14,11 @@ var map = new mapboxgl.Map({
     center: [138, -34], // starting position [lng, lat]
     zoom: 7 // starting zoom
 });
+
+
+
+var marker1 = new mapboxgl.Marker({color: "#8CB89F",draggable: true}).setLngLat([138.60414, -34.919159]).addTo(map);
+var marker2 = new mapboxgl.Marker({color: "#8CB89F",draggable: true}).setLngLat([138.6107, -34.9753]).addTo(map);
+var marker3 = new mapboxgl.Marker({color: "#8CB89F",draggable: true}).setLngLat([138.688497246, -34.825330032]).addTo(map);
+
+

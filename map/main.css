@@ -41,21 +41,22 @@ header {
 }
 
 .pure-menu-link {
-    color: white;
+    color: #EEF5FF;
 
 }
 
 .flex:hover, .flex:hover > .pure-menu-link {
     color: #4189A8;
-    background-color: white;
+    background-color: #EEF5FF;
 }
 
 .drop-down {
     color:  #4189A8;
+    background-color: #EEF5FF;
 }
 
 .drop-down:hover {
-    background-color: #EEF5FF;
+    background-color: white;
 }
 
 #right {

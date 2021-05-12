@@ -54,7 +54,7 @@
                         <div id="choices">
                             <form class="pure-form">
                                 <label for="checkbox-option-two" id="CI-box" class="pure-checkbox">
-                                    <input type="checkbox" v-model="checkins" /> Check-ins</label>
+                                    <input type="checkbox" v-model="checkins" on-change="addOrRemCheckin()"/> Check-ins</label>
                                 <label for="checkbox-option-one" id="HS-box" class="pure-checkbox">
                                     <input type="checkbox" v-model="hotspots" /> Hotspots</label>
                             </form>
