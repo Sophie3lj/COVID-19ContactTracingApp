@@ -13,6 +13,14 @@ header {
     background-color: #4189A8;
 }
 
+footer {
+    width: 100%;
+    height: 10%;
+    bottom: 0px;
+    position: fixed;
+    background-color: #343434;
+}
+
 .pure-menu-link {
     color: #EEF5FF;
 }
@@ -26,6 +34,14 @@ header {
     color:  #193046;
 }
 
+.centered-text {
+    text-align: center;
+}
+
+.rounded-button {
+    border-radius: 15px;
+}
+
 #right {
     float: right;
 }
@@ -34,11 +50,14 @@ header {
     float: left;
 }
 
+#check-in-main {
+    margin: auto;
+    width: 40%;
+    padding: 25%;
+}
 
-footer{
-    width: 100%;
-    height: 10%;
-    bottom: 0px;
-    position: fixed;
-    background-color: #343434;
+#location-checkin-button {
+    margin: auto;
+    width: 90%;
+    display: block;
 }
