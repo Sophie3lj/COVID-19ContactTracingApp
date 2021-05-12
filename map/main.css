@@ -7,10 +7,14 @@ body{
 }
 
 header {
-    height: 20%;
+    height: 10%;
     padding: 1em;
     border-bottom: 1px solid #193046;
     background-color: #4189A8;
+}
+
+main {
+    height: 80%;
 }
 
 footer {
