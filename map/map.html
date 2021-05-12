@@ -5,17 +5,19 @@
         <title>COVID-19 Contact Tracing</title>
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Mukta&display=swap" rel="stylesheet">
+        <script src="https://kit.fontawesome.com/a6624d86e5.js" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
         <link rel="stylesheet" type="text/css" href="main.css">
         <link rel="stylesheet" type="text/css" href="map.css">
         <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
         <script src='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js'></script>
         <link href='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css' rel='stylesheet' />
+        <script src="map.js"defer></script>
     </head>
 
 
     <body>
-        <div id="mapPage">
+        <div id="app">
             <header>
                 <div class="pure-menu pure-menu-horizontal">
                     <ul class="pure-menu-list">
@@ -31,7 +33,7 @@
                     </ul>
                     <ul class="pure-menu-list" id="right">
                         <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
-                            <div class="flex"><a href="#" id="menuLink1" class="pure-menu-link">"Username"</a></div>
+                            <div class="flex"><a href="#" id="menuLink1" class="pure-menu-link">Username<i class="fas fa-user"></i></a></div>
                             <ul class="pure-menu-children">
                                 <li class="pure-menu-item">
                                     <a href="#" class="pure-menu-link drop-down">Edit Details</a>
@@ -51,15 +53,15 @@
                     <div class="pure-u-1-4">
                         <div id="choices">
                             <form class="pure-form">
-                                <label for="checkbox-option-one" id="HS-box" class="pure-checkbox">
-                                    <input type="checkbox" value="" /> Hotspots</label>
                                 <label for="checkbox-option-two" id="CI-box" class="pure-checkbox">
-                                    <input type="checkbox" value="" /> Check-ins</label>
+                                    <input type="checkbox" v-model="checkins" /> Check-ins</label>
+                                <label for="checkbox-option-one" id="HS-box" class="pure-checkbox">
+                                    <input type="checkbox" v-model="hotspots" /> Hotspots</label>
                             </form>
                         </div>
 
                         <div id="info">
-                            <div id="checkin-info">
+                            <div id="checkin-info" v-if="checkins">
                                 <h4>Check-ins</h3>
                                 <div class="checkin">
                                     <p>checkin 1 info</p>
@@ -71,7 +73,7 @@
                                     <p>checkin 3 info</p>
                                 </div>
                             </div>
-                            <div id="hotspot-info">
+                            <div id="hotspot-info" v-if="hotspots">
                                 <h4>Hotspots</h3>
                                 <div class="hotspot">
                                     <p>hotspot 1 info</p>
@@ -89,16 +91,6 @@
                         <div id="map"></div>
                     </div>
                 </div>
-
-                <script>
-                    mapboxgl.accessToken = 'pk.eyJ1Ijoic29waGllM2xqIiwiYSI6ImNrb2R5YXNoazA2MHMybm80cHVsdzRzY3oifQ.BlVnpNJHCi01_yqgo7ZexA';
-                    var map = new mapboxgl.Map({
-                        container: 'map', // container ID
-                        style: 'mapbox://styles/sophie3lj/ckojqizu24trv18kefcc9vu80', // style URL
-                        center: [138, -34], // starting position [lng, lat]
-                        zoom: 7 // starting zoom
-                    });
-                </script>
 
             </main>
 

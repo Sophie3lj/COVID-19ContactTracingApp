@@ -11,7 +11,7 @@ body {
     height: 100%;
 }
 
-#mapPage {
+#app {
     height: 100%;
 }
 
@@ -41,17 +41,21 @@ header {
 }
 
 .pure-menu-link {
-    color: #EEF5FF;
+    color: white;
 
 }
 
-.pure-menu-link:hover, .flex:hover {
+.flex:hover, .flex:hover > .pure-menu-link {
     color: #4189A8;
-    background-color: #EEF5FF;
+    background-color: white;
 }
 
 .drop-down {
-    color:  #193046;
+    color:  #4189A8;
+}
+
+.drop-down:hover {
+    background-color: #EEF5FF;
 }
 
 #right {
@@ -60,6 +64,10 @@ header {
 
 #left {
     float: left;
+}
+
+.fa-user {
+    padding-left: 0.5em;
 }
 
 main {
