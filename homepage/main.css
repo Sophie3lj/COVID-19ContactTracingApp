@@ -68,3 +68,7 @@ footer {
 #checkin-location-button {
     width: 98%;
 }
+
+#checkin-form-no-bottom-padding {
+    padding-bottom: 0;
+}
