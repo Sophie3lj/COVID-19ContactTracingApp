@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='UTF-8'>
+        <title>COVID-19 Contact Tracing</title>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Mukta&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+        <link rel="stylesheet" type="text/css" href="../homepage/main.css">
+		<link rel="stylesheet" href="styles.css">
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+        <script src="../homepage/main.js" defer></script>
+    </head>
+
+
+    <body>
+        <div id="home">
+        <header>
+            <div class="pure-menu pure-menu-horizontal">
+                <ul class="pure-menu-list">
+                    <li class="pure-menu-item">
+                        <a href="#" class="pure-menu-link">Map</a>
+                    </li>
+                    <li class="pure-menu-item">
+                        <a href="#" class="pure-menu-link">Check-In History</a>
+                    </li>
+                    <li class="pure-menu-item">
+                        <a href="#" class="pure-menu-link">Check-In</a>
+                    </li>
+                </ul>
+                <ul class="pure-menu-list" id="right">
+                    <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+                        <a href="#" id="menuLink1" class="pure-menu-link">"Username"</a>
+                        <ul class="pure-menu-children">
+                            <li class="pure-menu-item">
+                                <a href="#" class="pure-menu-link drop-down">Edit Details</a>
+                            </li>
+                            <li class="pure-menu-item">
+                                <a href="#" class="pure-menu-link drop-down">Sign Out</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </header>
+
+		<main>
+			<div id="log-in-main" class="pure-g centered-text">
+				<div class="pure-u-1-2">
+					<form class=" pure-inline pure-form pure-form-stacked center-item-h">
+						<legend>Log-in</legend>
+						<label for="email">Email</label>
+						<input style="display: inline-block" type="email" id="email" placeholder="Email"/>
+						<input style="display: inline-block" type="password" id="password" placeholder="Password"/>
+						<label for="remember" class="pure-checkbox">
+						<input type="checkbox" id="remember"/>Remember me</label>
+						<button type="submit" class="pure-button pure-button-primary rounded-button">Log in</button>
+						<p>or</p>
+						<button type="submit" class="pure-button pure-button-primary rounded-button">Login with Google</button>
+						<p></p>
+						<button type="submit" class="pure-button pure-button-primary rounded-button">Login with Facebook</button>
+						
+					</form>
+				
+				</div>
+				
+				<div class="pure-u-1-2">
+					<div class="vl"></div>
+					
+					
+					<form class="pure-inline pure-form pure-form-stacked center-item-h">
+						<legend>No Account?</legend>
+
+						<button type="submit" class="pure-button pure-button-primary rounded-button">Sign up</button>
+						<p></p>
+						<button type="submit" class="pure-button pure-button-primary rounded-button">Sign up with Google</button>
+						<p></p>
+						<button type="submit" class="pure-button pure-button-primary rounded-button">Sign up with Facebook</button>
+						
+					</form>
+				</div>
+				
+			
+			</div>
+		
+		</main>
+
+        <footer>
+
+        </footer>
+    </div>
+    </body>
+
+</html>
