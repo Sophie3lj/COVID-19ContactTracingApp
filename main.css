@@ -200,12 +200,29 @@ h4 {
     color: #193046;
 }
 
-.fact {
+.fact-text {
     text-align:center;
-    color: #175873;
-    background-color: #EEF5FF;
+    color: #FFFFFF;
+}
+
+.fact1 {
+    background-color: #8CB89F;
     border: 1px solid #4189A8;
-    padding: 5%;
+    padding: 3%;
+    margin: 2%;
+}
+
+.fact2 {
+    background-color: #175873;
+    border: 1px solid #4189A8;
+    padding: 3%;
+    margin: 2%;
+}
+
+.fact3 {
+    background-color: #193046;
+    border: 1px solid #4189A8;
+    padding: 3%;
     margin: 2%;
 }
 
