@@ -226,6 +226,12 @@ h4 {
     margin: 2%;
 }
 
+.footer-link {
+    color: #FFFFFF;
+    text-decoration: none;
+    padding: 1em;
+}
+
 #table-no-border {
     border: 0;
 }
