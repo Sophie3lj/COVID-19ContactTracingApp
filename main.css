@@ -190,6 +190,14 @@ h4 {
     color: orange;
 }
 
+.bottom-border {
+    border-bottom: 1px solid black;
+}
+
+.margin-half-em {
+    margin: 0.5em;
+}
+
 #table-no-border {
     border: 0;
 }
@@ -270,6 +278,7 @@ h4 {
 #sign-up-main {
   padding-top: 10vh;
 }
+
 #log-in-main {
   padding-top: 10vh;
 }
