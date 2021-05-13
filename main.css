@@ -22,6 +22,20 @@ header {
     background-color: #4189A8;
 }
 
+.fa-dna{
+    font-size: 2em;
+    display: inline;
+}
+
+#title{
+    font-size: 1.5em;
+    display: inline;
+    height: 100%;
+    width: 1em;
+    margin: 0;
+}
+
+
 .pure-menu-horizontal {
     height: 100%;
 }
