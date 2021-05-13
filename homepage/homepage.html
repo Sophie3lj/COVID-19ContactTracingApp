@@ -4,12 +4,14 @@
         <meta charset='UTF-8'>
         <title>COVID-19 Contact Tracing</title>
         <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Mukta&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;700&display=swap" rel="stylesheet">
         <script src="https://kit.fontawesome.com/a6624d86e5.js" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
         <link rel="stylesheet" type="text/css" href="../main.css">
         <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
         <script src="../main.js" defer></script>
+        <script src='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js'></script>
+        <link href='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css' rel='stylesheet' />
     </head>
 
 
@@ -58,6 +60,30 @@
 
         <main>
 
+            <div class="pure-g">
+                <div class="pure-u-1-2 flex">
+                    <div class="center-item-h fact-dashboard">
+                        <h2 class="fact-dashboard"><b>COVID-19 DASHBOARD</b></h2>
+                        <hr>
+                            <div>
+                                <div class="fact">
+                                    <h3 class="fact-dashboard">Current Active Cases:</h3>
+                                    <h2 class="fact-dashboard">22</h2>
+                                </div>
+                                <div class="fact">
+                                    <h3 class="fact-dashboard">Weekly Tests: 14000</h3>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="fact">Fact 3</div>
+                            </div>
+                    </div>
+                </div>
+
+                <div class="pure-u-1-2 flex">
+                    <div id="map"></div>
+                </div>
+            </div>
         </main>
 
         <footer>

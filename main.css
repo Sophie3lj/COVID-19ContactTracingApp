@@ -195,6 +195,20 @@ h4 {
     color: orange;
 }
 
+.fact-dashboard {
+    text-align:center;
+    color: #193046;
+}
+
+.fact {
+    text-align:center;
+    color: #175873;
+    background-color: #EEF5FF;
+    border: 1px solid #4189A8;
+    padding: 5%;
+    margin: 2%;
+}
+
 #table-no-border {
     border: 0;
 }
