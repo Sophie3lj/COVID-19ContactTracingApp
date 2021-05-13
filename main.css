@@ -153,6 +153,27 @@ h4{
     display: inline;
 }
 
+.vl {
+  border-left: 2px solid grey;
+  float: left;
+  height: 60vh;
+
+}
+
+.center-item-h {
+  margin: 0 auto;
+  width: 50%;
+}
+.venue {
+  display: none;
+}
+.user {
+  display: all;
+}
+.shared {
+  display: all;
+}
+
 #app {
     height: 100%;
 }
@@ -220,4 +241,11 @@ h4{
     width: 100%;
     height: 87.5%;
     overflow: scroll;
+}
+
+#sign-up-main {
+  margin-top: 10vh;
+}
+#log-in-main {
+  margin-top: 10vh;
 }
