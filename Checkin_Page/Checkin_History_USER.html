@@ -12,7 +12,6 @@
         <script src="../main.js" defer></script>
     </head>
 
-
     <body>
         <div id="app">
             <header>
@@ -63,15 +62,40 @@
                        <form class="pure-form">
                            <fieldset class="centered-text" id="checkin-form-no-vertical-padding">
                                <legend id="checkin-form-legend-no-top-padding">
-                                   <h1 class="centered-text no-vertical-margin">Check in</h1>
-                                   <div class="small-text">Check in using a venue's check-in code or your current location</div>
+                                   <h1 class="centered-text no-vertical-margin">Checkin History</h1>
+                                   <div class="small-text">Your recent checkins are displayed below</div>
                                </legend>
-                               <input type="text" class="pure-input" placeholder="Enter the checkin code" />
-                               <button type="submit" class="pure-button pure-button-primary rounded-button">Enter</button>
+                               <input type="text" class="pure-input-3-4" placeholder="Search" />
+                               <button type="submit" class="pure-button pure-button-primary rounded-button">Search</button>
                            </fieldset>
+                           <table class="pure-table" id="checkin-history-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Time</th>
+                                        <th>Venue</th>
+                                        <th>Hotspot Warning</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td id="table-no-border">{{Date1}}</td>
+                                        <td id="table-no-border">{{Time1}}</td>
+                                        <td id="table-no-border">{{Venue1}}</td>
+                                        <td id="table-no-border"><i class="fas fa-exclamation-triangle"></i></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="table-no-border">{{Date2}}</td>
+                                        <td id="table-no-border">{{Time2}}</td>
+                                        <td id="table-no-border">{{Venue2}}</td>
+                                        <td id="table-no-border"></td>
+                                    </tr>
+                                </tbody>
+                           </table>
                        </form>
-                       <p class="centered-text">Or</p>
-                       <button class="pure-button rounded-button" id="checkin-location-button">Check in using location</button>
+                       <div>
+
+                       </div>
                    </div>
                 </div>
             </main>

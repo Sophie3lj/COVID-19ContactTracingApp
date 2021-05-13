@@ -153,6 +153,14 @@ h4 {
     display: inline;
 }
 
+.fa-exclamation-triangle {
+    color: orange;
+}
+
+#table-no-border {
+    border: 0;
+}
+
 #app {
     height: 100%;
 }
@@ -166,7 +174,7 @@ h4 {
 }
 
 #checkin-location-button {
-    width: 98%;
+    width: 100%;
 }
 
 #checkin-form-no-vertical-padding {
@@ -176,6 +184,10 @@ h4 {
 
 #checkin-form-legend-no-top-padding {
     padding-top: 0;
+}
+
+#checkin-history-table {
+    margin-top: 1em;
 }
 
 #title {
