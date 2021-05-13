@@ -76,6 +76,11 @@ h4 {
     width: 100%;
 }
 
+.drop-down.pure-menu-link:focus {
+    color: #4189A8;
+    background-color: white;
+}
+
 .drop-down:hover {
     background-color: white;
 }
