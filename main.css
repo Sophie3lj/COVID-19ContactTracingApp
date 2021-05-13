@@ -148,9 +148,42 @@ h4 {
     height: 100%;
 }
 
-.fa-dna {
-    font-size: 2em;
-    display: inline;
+.fa-dna{
+    font-size: 2.7em;
+    margin-right: 0.5em;
+    margin-left: 0.2em;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    height:100%;
+}
+
+.logo-text {
+    margin: 0;
+    font-size: 1em;
+}
+
+.vl {
+  border-left: 2px solid grey;
+  float: left;
+  height: 60vh;
+
+}
+
+.center-item-h {
+  margin: 0 auto;
+  width: 50%;
+}
+.venue {
+  display: none;
+}
+.user {
+  display: all;
+}
+.shared {
+  display: all;
 }
 
 .fa-exclamation-triangle {
@@ -232,4 +265,11 @@ h4 {
     width: 100%;
     height: 87.5%;
     overflow: scroll;
+}
+
+#sign-up-main {
+  padding-top: 10vh;
+}
+#log-in-main {
+  padding-top: 10vh;
 }
