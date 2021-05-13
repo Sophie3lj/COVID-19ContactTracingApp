@@ -149,8 +149,20 @@ h4{
 }
 
 .fa-dna{
-    font-size: 2em;
-    display: inline;
+    font-size: 2.7em;
+    margin-right: 0.5em;
+    margin-left: 0.2em;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    height:100%;
+}
+
+.logo-text {
+    margin: 0;
+    font-size: 1em;
 }
 
 #app {
