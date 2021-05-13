@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='UTF-8'>
+        <title>COVID-19 Contact Tracing</title>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Mukta&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+        <link rel="stylesheet" type="text/css" href="../main.css">
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+        <script src="../main.js" defer></script>
+    </head>
+
+
+    <body>
+        <div id="app">
+            <header>
+                <div class="pure-menu pure-menu-horizontal">
+                    <ul class="pure-menu-list">
+                        <li class="pure-menu-item">
+                            <a href="#" class="pure-menu-link">Map</a>
+                        </li>
+                        <li class="pure-menu-item">
+                            <a href="#" class="pure-menu-link">Check-In History</a>
+                        </li>
+                        <li class="pure-menu-item">
+                            <a href="#" class="pure-menu-link">Check-In</a>
+                        </li>
+                    </ul>
+                    <ul class="pure-menu-list" id="right">
+                        <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+                            <a href="#" id="menuLink1" class="pure-menu-link">"Username"</a>
+                            <ul class="pure-menu-children">
+                                <li class="pure-menu-item">
+                                    <a href="#" class="pure-menu-link drop-down">Edit Details</a>
+                                </li>
+                                <li class="pure-menu-item">
+                                    <a href="#" class="pure-menu-link drop-down">Sign Out</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </header>
+
+            <main>
+                <div class="centering-flex-container full-height">
+                    <div class="centering-flex-container negative-top-margin">
+                       <!--In-line form for checkin code, from Pure CSS-->
+                       <form class="pure-form">
+                           <fieldset class="centered-text" id="checkin-form-no-vertical-padding">
+                               <legend id="checkin-form-legend-no-top-padding">
+                                   <h1 class="centered-text no-vertical-margin">Check in</h1>
+                                   <div class="small-text">Check in using a venue's check-in code or your current location</div>
+                               </legend>
+                               <input type="text" class="pure-input-3-4" placeholder="Enter the checkin code" />
+                               <button type="submit" class="pure-button pure-button-primary rounded-button">Enter</button>
+                           </fieldset>
+                       </form>
+                       <p class="centered-text">Or</p>
+                       <button class="pure-button rounded-button" id="checkin-location-button">Check in using location</button>
+                   </div>
+                </div>
+            </main>
+
+            <footer>
+
+            </footer>
+        </div>
+    </body>
+
+</html>
