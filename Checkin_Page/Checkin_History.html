@@ -9,11 +9,8 @@
         <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
         <link rel="stylesheet" type="text/css" href="../main.css">
         <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
-        <script src='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js'></script>
-        <link href='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css' rel='stylesheet' />
-        <script src="map.js"defer></script>
+        <script src="../main.js" defer></script>
     </head>
-
 
     <body>
         <div id="app">
@@ -59,55 +56,52 @@
             </header>
 
             <main>
+                <div class="centering-flex-container full-height">
+                    <div class="centering-flex-container negative-top-margin">
+                       <!--In-line form for checkin code, from Pure CSS-->
+                       <form class="pure-form">
+                           <fieldset class="centered-text" id="checkin-form-no-vertical-padding">
+                               <legend id="checkin-form-legend-no-top-padding">
+                                   <h1 class="centered-text no-vertical-margin">Checkin History</h1>
+                                   <div class="small-text">Your recent checkins are displayed below</div>
+                               </legend>
+                               <input type="text" class="pure-input" placeholder="Search" />
+                               <button type="submit" class="pure-button pure-button-primary rounded-button">Search</button>
+                           </fieldset>
+                           <table class="pure-table" id="checkin-history-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Time</th>
+                                        <th>Venue</th>
+                                        <th>Hotspot Warning</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td id="table-no-border">{{Date1}}</td>
+                                        <td id="table-no-border">{{Time1}}</td>
+                                        <td id="table-no-border">{{Venue1}}</td>
+                                        <td id="table-no-border"><i class="fas fa-exclamation-triangle"></i></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="table-no-border">{{Date2}}</td>
+                                        <td id="table-no-border">{{Time2}}</td>
+                                        <td id="table-no-border">{{Venue2}}</td>
+                                        <td id="table-no-border"></td>
+                                    </tr>
+                                </tbody>
+                           </table>
+                       </form>
+                       <div>
 
-                <div class="pure-g">
-                    <div class="pure-u-1-4">
-                        <div id="choices">
-                            <form class="pure-form">
-                                <label for="checkbox-option-two" id="CI-box" class="pure-checkbox">
-                                    <input type="checkbox" v-model="checkins" on-change="addOrRemCheckin()"/> Check-ins</label>
-                                <label for="checkbox-option-one" id="HS-box" class="pure-checkbox">
-                                    <input type="checkbox" v-model="hotspots" /> Hotspots</label>
-                            </form>
-                        </div>
-
-                        <div id="info">
-                            <div id="checkin-info" v-if="checkins">
-                                <h4>Check-ins</h3>
-                                <div class="checkin">
-                                    <p>checkin 1 info</p>
-                                </div>
-                                <div class="checkin">
-                                    <p>checkin 2 info</p>
-                                </div>
-                                <div class="checkin">
-                                    <p>checkin 3 info</p>
-                                </div>
-                            </div>
-                            <div id="hotspot-info" v-if="hotspots">
-                                <h4>Hotspots</h3>
-                                <div class="hotspot">
-                                    <p>hotspot 1 info</p>
-                                </div>
-                                <div class="hotspot">
-                                    <p>hotspot 2 info</p>
-                                </div>
-                                <div class="hotspot">
-                                    <p>hotspot 3 info</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="pure-u-3-4">
-                        <div id="map"></div>
-                    </div>
+                       </div>
+                   </div>
                 </div>
-
             </main>
 
             <footer>
-                <div class="pure-g footer">
-                </div>
+
             </footer>
         </div>
     </body>

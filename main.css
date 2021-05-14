@@ -65,6 +65,12 @@ h4 {
     align-items: center;
 }
 
+.flex2{
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
 .flex:hover, .flex:hover > .pure-menu-link {
     color: #4189A8;
     background-color: #EEF5FF;
@@ -74,6 +80,11 @@ h4 {
     color:  #4189A8;
     background-color: #EEF5FF;
     width: 100%;
+}
+
+.drop-down.pure-menu-link:focus {
+    color: #4189A8;
+    background-color: white;
 }
 
 .drop-down:hover {
@@ -165,6 +176,91 @@ h4 {
     font-size: 1em;
 }
 
+.vl {
+  border-left: 2px solid grey;
+  float: left;
+  height: 60vh;
+
+}
+
+.center-item-h {
+  margin: 0 auto;
+  width: 50%;
+}
+.venue {
+  display: none;
+}
+.user {
+  display: all;
+}
+.shared {
+  display: all;
+}
+
+.fa-exclamation-triangle {
+    color: orange;
+}
+
+
+.bottom-border {
+    border-bottom: 1px solid black;
+}
+
+.fact-dashboard {
+    text-align:center;
+    color: #175873;
+}
+
+.fact-text {
+    text-align:center;
+    color: #FFFFFF;
+    padding: 0em 1em;
+}
+
+.fact-text1 {
+    text-align:center;
+    color: #FFFFFF;
+    padding: 0em 1em;
+}
+
+.fact1 {
+    background-color: #8CB89F;
+    border: 1px solid #4189A8;
+    padding: 3%;
+    margin: 2%;
+}
+
+.fact2 {
+    background-color: #175873;
+    border: 1px solid #4189A8;
+    padding: 3%;
+    margin: 2%;
+}
+
+.fact3 {
+    background-color: #193046;
+    border: 1px solid #4189A8;
+    padding: 3%;
+    margin: 2%;
+}
+
+.fact4 {
+    background-color: #4189A8;
+    border: 1px solid #4189A8;
+    padding: 3%;
+    margin: 2%;
+}
+
+.footer-link {
+    color: #FFFFFF;
+    text-decoration: none;
+    padding: 1em;
+}
+
+#table-no-border {
+    border: 0;
+}
+
 #app {
     height: 100%;
 }
@@ -178,7 +274,7 @@ h4 {
 }
 
 #checkin-location-button {
-    width: 98%;
+    width: 100%;
 }
 
 #checkin-form-no-vertical-padding {
@@ -188,6 +284,10 @@ h4 {
 
 #checkin-form-legend-no-top-padding {
     padding-top: 0;
+}
+
+#checkin-history-table {
+    margin-top: 1em;
 }
 
 #title {
@@ -201,6 +301,12 @@ h4 {
 #map {
     width: 100%;
     height: 100%;
+}
+
+#minimap {
+    width: 80%;
+    height: 80%;
+    margin: auto;
 }
 
 #choices {
@@ -232,4 +338,16 @@ h4 {
     width: 100%;
     height: 87.5%;
     overflow: scroll;
+}
+
+#sign-up-main {
+  padding-top: 10vh;
+}
+
+#log-in-main {
+  padding-top: 10vh;
+}
+
+#account-details-grid-elements {
+    margin: 0.5em;
 }
