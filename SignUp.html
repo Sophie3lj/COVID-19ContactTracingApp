@@ -9,6 +9,7 @@
         <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
         <link rel="stylesheet" type="text/css" href="main.css">
         <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+        <script src="main.js" defer></script>
     </head>
 
     <body>
@@ -55,40 +56,42 @@
         </header>
 
 		<main>
-			<div class="centering-flex-container full-height">
-                <div class="centering-flex-container">
-                    <h1>Account Details</h1>
-                    <div class="pure-g">
-                        <div class="pure-u-4-24">
-                            <div id="account-details-grid-elements">First Name:</div>
-                        </div>
-                        <div class="pure-u-8-24">
-                            <div class="bottom-border" id="account-details-grid-elements">{{First Name}}</div>
-                        </div>
-                        <div class="pure-u-4-24">
-                            <div id="account-details-grid-elements">Last Name:</div>
-                        </div>
-                        <div class="pure-u-8-24">
-                            <div class="bottom-border" id="account-details-grid-elements">{{Last Name}}</div>
-                        </div>
-                        <div class="pure-u-4-24">
-                            <div id="account-details-grid-elements">Email:</div>
-                        </div>
-                        <div class="pure-u-20-24">
-                            <div class="bottom-border" id="account-details-grid-elements">{{e-mail}}</div>
-                        </div>
-                        <div class="pure-u-4-24">
-                            <div id="account-details-grid-elements">Phone Number:</div>
-                        </div>
-                        <div class="pure-u-20-24">
-                            <div class="bottom-border" id="account-details-grid-elements">{{Phone Number}}</div>
-                        </div>
-                    </div>
-                    <a href="EditAccountDetails.html">
-                        <button type="button" class="pure-button pure-button-primary rounded-button">Edit</button>
-                    </a>
-                </div>
-            </div>
+			<div id="sign-up-main" class="centered-text">
+
+				<form class=" pure-inline pure-form pure-form-stacked center-item-h">
+					<legend>Enter Account Details</legend>
+
+					<select id="user_type" class="pure-input-1">
+						<option><i>Select A User Type</i></option>
+						<option>User</option>
+						<option>Venue Owner</option>
+					</select>
+						<div class="pure-g user">
+							<input class="pure-input-1-2" type="text" id="first_name" placeholder="First Name"/>
+							<input class="pure-input-1-2" type="text" id="last_name" placeholder="Last Name"/>
+						</div>
+						<span class="venue"><input class="pure-input-1" type="text" id="venue_name" placeholder="Venue Name"/></span>
+						<div class="shared">
+							<input class="pure-input-1" type="email" id="email" placeholder="Email"/>
+							<input class="pure-input-1" type="text" id="phone_number" placeholder="Phone Number"/>
+						</div>
+						<div class="pure-g venue">
+							<input class="pure-input-1-2" type="text" id="suburb" placeholder="Suburb"/>
+							<input class="pure-input-1-4" type="text" id="post_code" placeholder="Post Code"/>
+							<input class="pure-input-1-4" type="text" id="state" placeholder="State"/>
+						</div>
+						<div class="shared">
+							<input class="pure-input-1" type="password" id="password" placeholder="Password"/>
+							<input class="pure-input-1" type="password" id="password_confirm" placeholder="Confirm Password"/>
+							<button type="submit" class="pure-button pure-button-primary rounded-button">Sign Up</button>
+						</div>
+
+
+
+
+				</form>
+
+			</div>
 
 		</main>
 
