@@ -65,6 +65,12 @@ h4 {
     align-items: center;
 }
 
+.flex2{
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
 .flex:hover, .flex:hover > .pure-menu-link {
     color: #4189A8;
     background-color: #EEF5FF;
@@ -195,8 +201,60 @@ h4 {
     color: orange;
 }
 
+
 .bottom-border {
     border-bottom: 1px solid black;
+}
+
+.fact-dashboard {
+    text-align:center;
+    color: #175873;
+}
+
+.fact-text {
+    text-align:center;
+    color: #FFFFFF;
+    padding: 0em 1em;
+}
+
+.fact-text1 {
+    text-align:center;
+    color: #FFFFFF;
+    padding: 0em 1em;
+}
+
+.fact1 {
+    background-color: #8CB89F;
+    border: 1px solid #4189A8;
+    padding: 3%;
+    margin: 2%;
+}
+
+.fact2 {
+    background-color: #175873;
+    border: 1px solid #4189A8;
+    padding: 3%;
+    margin: 2%;
+}
+
+.fact3 {
+    background-color: #193046;
+    border: 1px solid #4189A8;
+    padding: 3%;
+    margin: 2%;
+}
+
+.fact4 {
+    background-color: #4189A8;
+    border: 1px solid #4189A8;
+    padding: 3%;
+    margin: 2%;
+}
+
+.footer-link {
+    color: #FFFFFF;
+    text-decoration: none;
+    padding: 1em;
 }
 
 #table-no-border {
@@ -243,6 +301,12 @@ h4 {
 #map {
     width: 100%;
     height: 100%;
+}
+
+#minimap {
+    width: 80%;
+    height: 80%;
+    margin: auto;
 }
 
 #choices {
