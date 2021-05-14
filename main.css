@@ -194,10 +194,6 @@ h4 {
     border-bottom: 1px solid black;
 }
 
-.margin-half-em {
-    margin: 0.5em;
-}
-
 #table-no-border {
     border: 0;
 }
@@ -281,4 +277,8 @@ h4 {
 
 #log-in-main {
   padding-top: 10vh;
+}
+
+#account-details-grid-elements {
+    margin: 0.5em;
 }
