@@ -4,12 +4,16 @@
         <meta charset='UTF-8'>
         <title>COVID-19 Contact Tracing</title>
         <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Mukta&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;700&display=swap" rel="stylesheet">
         <script src="https://kit.fontawesome.com/a6624d86e5.js" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
         <link rel="stylesheet" type="text/css" href="main.css">
         <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+        <script src="main.js" defer></script>
+        <script src='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js'></script>
+        <link href='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css' rel='stylesheet' />
     </head>
+
 
     <body>
         <div id="app">
@@ -54,46 +58,39 @@
                 </div>
         </header>
 
-		<main>
-			<div class="centering-flex-container full-height">
-                <div class="centering-flex-container">
-                    <h1>Account Details</h1>
-                    <div class="pure-g">
-                        <div class="pure-u-4-24">
-                            <div id="account-details-grid-elements">First Name:</div>
-                        </div>
-                        <div class="pure-u-8-24">
-                            <div class="bottom-border" id="account-details-grid-elements">{{First Name}}</div>
-                        </div>
-                        <div class="pure-u-4-24">
-                            <div id="account-details-grid-elements">Last Name:</div>
-                        </div>
-                        <div class="pure-u-8-24">
-                            <div class="bottom-border" id="account-details-grid-elements">{{Last Name}}</div>
-                        </div>
-                        <div class="pure-u-4-24">
-                            <div id="account-details-grid-elements">Email:</div>
-                        </div>
-                        <div class="pure-u-20-24">
-                            <div class="bottom-border" id="account-details-grid-elements">{{e-mail}}</div>
-                        </div>
-                        <div class="pure-u-4-24">
-                            <div id="account-details-grid-elements">Phone Number:</div>
-                        </div>
-                        <div class="pure-u-20-24">
-                            <div class="bottom-border" id="account-details-grid-elements">{{Phone Number}}</div>
-                        </div>
+        <main>
+
+            <div class="pure-g">
+                <div class="pure-u-3-5 flex2">
+                    <div class="center-item-h fact-dashboard">
+                        <h1 class="fact-dashboard"><b>COVID-19 DASHBOARD</b></h1>
                     </div>
-                    <a href="EditAccountDetails.html">
-                        <button type="button" class="pure-button pure-button-primary rounded-button">Edit</button>
-                    </a>
+                    <div class="center-item-h">
+                                <div class="fact1">
+                                    <p class="fact-text">Current Active Cases</p>
+                                    <h2 class="fact-text">22</h2>
+                                </div>
+                                <div class="fact2">
+                                    <h2 class="fact-text">14000</h2>
+                                    <p class="fact-text">Tests conducted nationally this week</p>
+                                </div>
+                    </div>
+                    <div class="center-item-h">
+                        <div class="fact3"><h2 class="fact-text">Fact:</h2><p class="fact-text">you dont have covid...(yet)</p></div>
+                        <div class="fact4"><h2 class="fact-text">Current Deaths:</h2><p class="fact-text">too many or too few - you be the judge</p></div>
+                    </div>
+                </div>
+
+                <div class="pure-u-2-5 flex2">
+                    <div id="minimap"></div>
                 </div>
             </div>
-
-		</main>
+        </main>
 
         <footer>
-
+                <div class="centering-flex-container">
+                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="footer-link">Contact Us (more links to come)</a>
+                </div>
         </footer>
     </div>
     </body>

@@ -9,12 +9,16 @@
         <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
         <link rel="stylesheet" type="text/css" href="main.css">
         <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+        <script src='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js'></script>
+        <link href='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css' rel='stylesheet' />
+        <script src="map.js"defer></script>
     </head>
+
 
     <body>
         <div id="app">
-        <header>
-            <div class="pure-menu pure-menu-horizontal">
+            <header>
+                <div class="pure-menu pure-menu-horizontal">
                     <ul class="pure-menu-list">
                         <li class="pure-menu-item">
                             <div class="flex"><a href="Homepage.html" class="pure-menu-link" style="padding:0;border-right:1px solid white;">
@@ -52,50 +56,60 @@
                         </li>
                     </ul>
                 </div>
-        </header>
+            </header>
 
-		<main>
-			<div class="centering-flex-container full-height">
-                <div class="centering-flex-container">
-                    <h1>Account Details</h1>
-                    <div class="pure-g">
-                        <div class="pure-u-4-24">
-                            <div id="account-details-grid-elements">First Name:</div>
+            <main>
+
+                <div class="pure-g">
+                    <div class="pure-u-1-4">
+                        <div id="choices">
+                            <form class="pure-form">
+                                <label for="checkbox-option-two" id="CI-box" class="pure-checkbox">
+                                    <input type="checkbox" v-model="checkins" on-change="addOrRemCheckin()"/> Check-ins</label>
+                                <label for="checkbox-option-one" id="HS-box" class="pure-checkbox">
+                                    <input type="checkbox" v-model="hotspots" /> Hotspots</label>
+                            </form>
                         </div>
-                        <div class="pure-u-8-24">
-                            <div class="bottom-border" id="account-details-grid-elements">{{First Name}}</div>
-                        </div>
-                        <div class="pure-u-4-24">
-                            <div id="account-details-grid-elements">Last Name:</div>
-                        </div>
-                        <div class="pure-u-8-24">
-                            <div class="bottom-border" id="account-details-grid-elements">{{Last Name}}</div>
-                        </div>
-                        <div class="pure-u-4-24">
-                            <div id="account-details-grid-elements">Email:</div>
-                        </div>
-                        <div class="pure-u-20-24">
-                            <div class="bottom-border" id="account-details-grid-elements">{{e-mail}}</div>
-                        </div>
-                        <div class="pure-u-4-24">
-                            <div id="account-details-grid-elements">Phone Number:</div>
-                        </div>
-                        <div class="pure-u-20-24">
-                            <div class="bottom-border" id="account-details-grid-elements">{{Phone Number}}</div>
+
+                        <div id="info">
+                            <div id="checkin-info" v-if="checkins">
+                                <h4>Check-ins</h3>
+                                <div class="checkin">
+                                    <p>checkin 1 info</p>
+                                </div>
+                                <div class="checkin">
+                                    <p>checkin 2 info</p>
+                                </div>
+                                <div class="checkin">
+                                    <p>checkin 3 info</p>
+                                </div>
+                            </div>
+                            <div id="hotspot-info" v-if="hotspots">
+                                <h4>Hotspots</h3>
+                                <div class="hotspot">
+                                    <p>hotspot 1 info</p>
+                                </div>
+                                <div class="hotspot">
+                                    <p>hotspot 2 info</p>
+                                </div>
+                                <div class="hotspot">
+                                    <p>hotspot 3 info</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <a href="EditAccountDetails.html">
-                        <button type="button" class="pure-button pure-button-primary rounded-button">Edit</button>
-                    </a>
+                    <div class="pure-u-3-4">
+                        <div id="map"></div>
+                    </div>
                 </div>
-            </div>
 
-		</main>
+            </main>
 
-        <footer>
-
-        </footer>
-    </div>
+            <footer>
+                <div class="pure-g footer">
+                </div>
+            </footer>
+        </div>
     </body>
 
 </html>
