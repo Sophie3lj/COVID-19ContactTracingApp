@@ -1,5 +1,3 @@
-
-
 var vueinst1 = new Vue({
     el: "#home",
     data: {

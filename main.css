@@ -201,6 +201,11 @@ h4 {
     color: orange;
 }
 
+
+.bottom-border {
+    border-bottom: 1px solid black;
+}
+
 .fact-dashboard {
     text-align:center;
     color: #175873;
@@ -338,6 +343,11 @@ h4 {
 #sign-up-main {
   padding-top: 10vh;
 }
+
 #log-in-main {
   padding-top: 10vh;
+}
+
+#account-details-grid-elements {
+    margin: 0.5em;
 }
