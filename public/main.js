@@ -1,3 +1,8 @@
+/* AccountDetails.html variables */
+var accountDetails = [];
+
+
+/* Vue */
 var vueinst1 = new Vue({
     el: "#home",
     data: {
@@ -13,7 +18,11 @@ var vueinst = new Vue({
     el: '#app',
     data: {
         checkins: false,
-        hotspots: false
+        hotspots: false,
+        AccountDetails_firstName: accountDetails[0].first_name,
+        AccountDetails_lastName: accountDetails[0].last_name,
+        AccountDetails_email: accountDetails[0].email,
+        AccountDetails_phoneNumber: accountDetails[0].phone_number
     }
 });
 
@@ -29,4 +38,17 @@ var map = new mapboxgl.Map({
 var marker1 = new mapboxgl.Marker({color: "#8CB89F",draggable: true}).setLngLat([138.60414, -34.919159]).addTo(map);
 var marker2 = new mapboxgl.Marker({color: "#8CB89F",draggable: true}).setLngLat([138.6107, -34.9753]).addTo(map);
 var marker3 = new mapboxgl.Marker({color: "#8CB89F",draggable: true}).setLngLat([138.688497246, -34.825330032]).addTo(map);
+
+/* AccountDetails.html AJAX script */
+function GetAccountDetails() {
+  var xhttp = new XMLHTTPRequest();
+  xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+          accountDetails=JSON.parse(this.responseText);
+      }
+  };
+}
+xhttp.open("GET", "/getAccountDetails");
+xhttp.send();
+
 

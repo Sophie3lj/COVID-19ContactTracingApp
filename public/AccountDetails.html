@@ -9,9 +9,10 @@
         <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
         <link rel="stylesheet" type="text/css" href="main.css">
         <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+        <script src="main.js"></script>
     </head>
 
-    <body>
+    <body onload="GetAccountDetails()">
         <div id="app">
         <header>
             <div class="pure-menu pure-menu-horizontal">
@@ -63,25 +64,25 @@
                             <div id="account-details-grid-elements">First Name:</div>
                         </div>
                         <div class="pure-u-8-24">
-                            <div class="bottom-border" id="account-details-grid-elements">{{First Name}}</div>
+                            <div class="bottom-border" id="account-details-grid-elements">{{AccountDetails_firstName}}</div>
                         </div>
                         <div class="pure-u-4-24">
                             <div id="account-details-grid-elements">Last Name:</div>
                         </div>
                         <div class="pure-u-8-24">
-                            <div class="bottom-border" id="account-details-grid-elements">{{Last Name}}</div>
+                            <div class="bottom-border" id="account-details-grid-elements">{{AccountDetails_lastName}}</div>
                         </div>
                         <div class="pure-u-4-24">
                             <div id="account-details-grid-elements">Email:</div>
                         </div>
                         <div class="pure-u-20-24">
-                            <div class="bottom-border" id="account-details-grid-elements">{{e-mail}}</div>
+                            <div class="bottom-border" id="account-details-grid-elements">{{AccountDetails_email}}</div>
                         </div>
                         <div class="pure-u-4-24">
                             <div id="account-details-grid-elements">Phone Number:</div>
                         </div>
                         <div class="pure-u-20-24">
-                            <div class="bottom-border" id="account-details-grid-elements">{{Phone Number}}</div>
+                            <div class="bottom-border" id="account-details-grid-elements">{{AccountDetails_phoneNumber}}</div>
                         </div>
                     </div>
                     <a href="EditAccountDetails.html">
