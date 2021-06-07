@@ -46,4 +46,45 @@ router.get('/mapHotspots', function(req, res) {
 });
 
 
+router.post('/SignUp.html', function (req, res, next){
+    req.pool.getConnection(function(err,connection){
+        if(err){
+            //res.sendStatus(500);
+            return;
+        }
+
+        var reqBody = req.body;
+        const first_name = reqBody.first_name;
+		const last_name = reqBody.last_name;
+		const email = reqBody.email;
+		const phone_number = reqBody.phone_number;
+		const street_number = reqBody.street_number;
+		const stret_address = reqBody.street_address;
+		const suburb = reqBody.suburb;
+		const post_code = reqBody.post_code;
+		const state = reqBody.state;
+		const password = reqBody.password;
+		var type = "";
+		var id = 2;
+
+		var queryString = '';
+		if(suburb !== ""){
+			type = "USER";
+			queryString = `INSERT INTO accounts ( user_type, email, first_name, last_name, password_hash, phone_number) VALUES ('"+type+"', '"+email+"', '"+first_name+"', '"+last_name+"', '"+password+"', '"+phone_number+"')`;
+		}
+		connection.query(queryString, function(err, result){
+			if(err){
+				console.log("An error has occurred whilst posting new user information");
+				console.log(err);
+			}else {
+				console.log("New user added to database");
+			}
+		});
+
+
+    });
+    res.redirect("/");
+});
+
+
 module.exports = router;

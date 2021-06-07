@@ -187,15 +187,7 @@ h4 {
   margin: 0 auto;
   width: 50%;
 }
-.venue {
-  display: none;
-}
-.user {
-  display: all;
-}
-.shared {
-  display: all;
-}
+
 
 .fa-exclamation-triangle {
     color: orange;
