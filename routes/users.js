@@ -46,13 +46,16 @@ router.post('/login', function(req,res,next){
                 }
 
                 if(password_result == true){
-                    console.log(result[0].pasword_hash);
+                    console.log('password matches');
                     req.session.email = result[0].email;
                     req.session.user_type = result[0].user_type;
+                    console.log('session set');
+                    console.log(req.session.email + ', ' + req.session.user_type);
 
-                    res.redirect("/");
+                    res.end();
+                    console.log('redirected');
                 }else{
-                    res.redirect("/Login.html#login_failed");
+                    res.sendStatus(401);
                 }
             });
         });
