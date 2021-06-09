@@ -30,7 +30,6 @@ router.get('/mapCheckins', function(req, res) {
     });
 });
 
-
 router.get('/mapHotspots', function(req, res) {
     req.pool.getConnection(function(err,connection) {
         if (err) {
@@ -188,48 +187,6 @@ router.post('/GoogleLogin.html', function(req,res,next){
             res.redirect("/");
         });
     });
-});
-
-router.post('/Login.html', function(req,res,next){
-
-    //get connection
-    console.log("new user");
-    req.pool.getConnection(function(err, connection){
-        if(err){
-            console.log(err);
-            return;
-        }
-
-        var body = req.body;
-        var email = body.email;
-        var password = body.password;
-
-
-        connection.query("select id, email, password_hash FROM accounts WHERE email='"+email+"'", function(err, result){
-            if(err) console.log(err);
-            //Email is incorrect
-            if(result[0] === undefined){
-                res.redirect("/Login.html#login_failed");
-                return;
-            }
-            sess = req.session;
-            sess.email = result[0].email;
-
-
-            bcrypt.compare(password, result[0].password_hash, function(err, password_result){
-                if(err) console.log(err);
-
-                if(password_result == true){
-                    res.redirect("/");
-                }else{
-                    res.redirect("/Login.html#login_failed");
-                }
-            });
-
-        });
-
-    });
-
 });
 
 

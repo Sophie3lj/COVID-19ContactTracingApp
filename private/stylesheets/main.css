@@ -257,10 +257,8 @@ h4 {
 }
 
 .fact-dashboard {
-    display: block;
-    text-align: center;
+    text-align:center;
     color: #175873;
-    width: auto;
 }
 
 .fact-text {
@@ -275,64 +273,32 @@ h4 {
     padding: 0em 1em;
 }
 
-.fact-container1 {
-    display: flex;
-    flex-direction: column;
-}
-
-.fact-container2 {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    margin-left: 2%;
-    padding: 0% 1% 0% 3%;
-}
-
-.fact-header {
-     color: black;
-     margin: -1% 0% 1% 0%;
-}
-
 .fact1 {
-    display: inline-block;
     background-color: #8CB89F;
     border: 1px solid #4189A8;
     padding: 3%;
-
-    flex-grow: 3;
+    margin: 2%;
 }
 
 .fact2 {
-    display: inline-block;
     background-color: #175873;
     border: 1px solid #4189A8;
     padding: 3%;
-
-    flex-grow: 1;
+    margin: 2%;
 }
 
 .fact3 {
-    display: inline-block;
     background-color: #193046;
     border: 1px solid #4189A8;
     padding: 3%;
-
-    flex-grow: 3;
+    margin: 2%;
 }
 
 .fact4 {
-    display: inline-block;
     background-color: #4189A8;
     border: 1px solid #4189A8;
     padding: 3%;
-    flex-grow: 2;
-}
-
-.footer-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+    margin: 2%;
 }
 
 .footer-link {

@@ -2,14 +2,9 @@ var vueinst = new Vue({
     el: '#app',
     data: {
         checkins: false,
-        hotspots: false,
-        loggedin: false
+        hotspots: false
     }
 });
-
-function loggedIn(){
-    vueinst.loggedin = true;
-}
 
 function change_signin_options(){
 	var i;
@@ -75,9 +70,9 @@ function login(){
 		}
 	};
 
-	xhttp.open('POST', '/users/login', true) ;
-	xhttp.setRequestHeader("Content-type", "application/json");
-    xhttp.send(JSON.stringify(login_details));
+	xhttp.open('POST', '/login', true) ;
+	xmlhttp.setRequestHeader("Content-type", "application/json");
+    xmlhttp.send(JSON.stringify(login_details));
 }
 
 /*
