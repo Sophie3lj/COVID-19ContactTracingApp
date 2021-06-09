@@ -7,9 +7,9 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/login', function(req,res,next){
-    
-    
 
+
+    var bcrypt = require('bcrypt');
     //get connection
     console.log("new user");
     console.log(req.body.email) ;
@@ -46,7 +46,7 @@ router.post('/login', function(req,res,next){
                 }
 
                 if(password_result == true){
-                    console.log(result[0].pasword_hash)
+                    console.log(result[0].pasword_hash);
                     req.session.email = result[0].email;
                     req.session.user_type = result[0].user_type;
 
