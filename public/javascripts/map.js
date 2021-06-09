@@ -36,11 +36,21 @@ function addOrRemCheckin(){
                         limit: 1
                     }).send().then(function (response) {
                         var feature = response.body.features[0];
-                        var new_marker = new mapboxgl.Marker({color: "#8CB89F"}).setLngLat(feature.center).addTo(map);
+                        if (row.hotspot == null){
+                            var new_marker = new mapboxgl.Marker({color: "#8CB89F"}).setLngLat(feature.center).addTo(map);
+                        }
+                        else{
+                            var new_marker = new mapboxgl.Marker({color: "orange"}).setLngLat(feature.center).addTo(map);
+                        }
                         checkin_markers.push(new_marker) ;
                     });
 
-                    document.getElementById('addCheckins').innerHTML = document.getElementById('addCheckins').innerHTML + '<div class="checkin"><p>' + 'Venue: ' + row.venue_name + '</p><p>Date: ' + row.date_time + '</p></div>';
+                    if (row.hotspot == null){
+                        document.getElementById('addCheckins').innerHTML = document.getElementById('addCheckins').innerHTML + '<div class="checkin"><p>' + 'Venue: ' + row.venue_name + '</p><p>Date: ' + row.date_time + '</p></div>';
+                    }
+                    else{
+                        document.getElementById('addCheckins').innerHTML = document.getElementById('addCheckins').innerHTML + '<div class="checkin"><p>' + 'Venue: ' + row.venue_name + '</p><p>Date: ' + row.date_time + '</p><i class="fas fa-exclamation-triangle"></i></div>';
+                    }
                 }
             }
         } ;

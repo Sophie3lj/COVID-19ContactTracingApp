@@ -10,6 +10,10 @@
         <link rel="stylesheet" type="text/css" href="stylesheets/main.css">
         <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
         <script src="javascripts/main.js" defer></script>
+        <meta name="google-signin-scope" content="profile email">
+        <meta name="google-signin-client_id" content="617746824391-35ao68u05cvnsj6s4hfedlp0m72ejn4s.apps.googleusercontent.com">
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
+
     </head>
 
     <body>
@@ -58,18 +62,20 @@
 		<main>
 			<div id="log-in-main" class="pure-g centered-text">
 				<div class="pure-u-1-2">
-					<form class="centering-flex-container full-height pure-inline pure-form pure-form-stacked center-item-h">
+					<form class="centering-flex-container full-height pure-inline pure-form pure-form-stacked center-item-h" method="post">
 						<legend>Log-in</legend>
 						<label for="email">Email</label>
-						<input style="display: inline-block" type="email" id="email" placeholder="Email"/>
-						<input style="display: inline-block" type="password" id="password" placeholder="Password"/>
+						<input style="display: inline-block" type="email" id="email" name="email" placeholder="Email"/>
+						<input style="display: inline-block" type="password" id="password" name="password" placeholder="Password"/>
 						<label for="remember" class="pure-checkbox">
-						<input type="checkbox" id="remember"/>Remember me</label>
+						<!--<input type="checkbox" id="remember" name="remember"/>Remember me</label>-->
 						<button type="submit" class="pure-button pure-button-primary rounded-button">Log in</button>
 						<p>or</p>
-						<button type="submit" class="pure-button rounded-button">Login with Google</button>
+                        <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+
+						<!--<button type="submit" class="pure-button rounded-button">Login with Google</button>
 						<p></p>
-						<button type="submit" class="pure-button rounded-button">Login with Facebook</button>
+						<button type="submit" class="pure-button rounded-button">Login with Facebook</button>-->
 
 					</form>
 
@@ -79,21 +85,30 @@
 					<div class="vl"></div>
 
 
-					<form class="centering-flex-container full-height pure-inline pure-form pure-form-stacked center-item-h">
+					<div class="centering-flex-container full-height pure-inline pure-form pure-form-stacked center-item-h">
 						<legend>No Account?</legend>
 
-						<button type="submit" class="pure-button pure-button-primary rounded-button">Sign up</button>
-						<p>or</p>
+						<button type="submit" onclick="location.href='/SignUp.html'" class="pure-button pure-button-primary rounded-button">Sign up</button>
+						<!--<p>or</p>
 						<button type="submit" class="pure-button rounded-button">Sign up with Google</button>
 						<p></p>
-						<button type="submit" class="pure-button rounded-button">Sign up with Facebook</button>
+						<button type="submit" class="pure-button rounded-button">Sign up with Facebook</button>-->
 
-					</form>
+					</div>
 				</div>
 
 
 			</div>
 
+
+            <div id="login_failed" class="overlay">
+            	<div class="popup">
+            		<a class="close" href="#">&times;</a>
+            		<div class="content">
+            			Incorrect email/password.
+            		</div>
+            	</div>
+            </div>
 		</main>
 
         <footer>

@@ -61,30 +61,30 @@
 				<form class="pure-inline pure-form pure-form-stacked center-item-h" method="post">
 					<legend>Enter Account Details</legend>
 
-					<select id="user_type" onchange="change_signin_options()" class="pure-input-1">
+					<select id="user_type" name="user_type" onchange="change_signin_options()" class="pure-input-1">
 						<option><i>Select A User Type</i></option>
 						<option>User</option>
 						<option>Venue Owner</option>
 					</select>
 						<div class="pure-g user" style="display:none;" >
-							<input class="pure-input-1-2" type="text" id="first_name" placeholder="First Name"/>
-							<input class="pure-input-1-2" type="text" id="last_name" placeholder="Last Name"/>
+							<input class="pure-input-1-2" type="text" name="first_name" id="first_name" placeholder="First Name"/>
+							<input class="pure-input-1-2" type="text" name="last_name" id="first_name" placeholder="Last Name"/>
 						</div>
-						<span class="venue" style="display:none;"><input class="pure-input-1" type="text" id="venue_name" placeholder="Venue Name"/></span>
+						<span class="venue" style="display:none;"><input class="pure-input-1" type="text" name="venue_name" placeholder="Venue Name"/></span>
 						<div class="shared">
-							<input class="pure-input-1" type="email" id="email" placeholder="Email" required/>
-							<input class="pure-input-1" type="text" id="phone_number" placeholder="Phone Number" required/>
+							<input class="pure-input-1" type="email" name="email" id="email" placeholder="Email" required/>
+							<input class="pure-input-1" type="text" name="phone_number" id="phone_number" placeholder="Phone Number" required/>
 						</div>
 						<div class="pure-g venue" style="display:none;" >
-						    <input class="pure-input-1-4" type="text" id="street_number" placeholder="Street Number"/>
-						    <input class="pure-input-3-4" type="text" id="street_address" placeholder="Street Address"/>
-							<input class="pure-input-1-2" type="text" id="suburb" placeholder="Suburb"/>
-							<input class="pure-input-1-4" type="text" id="post_code" placeholder="Post Code"/>
-							<input class="pure-input-1-4" type="text" id="state" placeholder="State"/>
+						    <input class="pure-input-1-4" type="text" name="street_number" id="street_number" placeholder="Street Number"/>
+						    <input class="pure-input-3-4" type="text" name="street_address" id="street_address" placeholder="Street Address"/>
+							<input class="pure-input-1-2" type="text" name="suburb" id="suburb" placeholder="Suburb"/>
+							<input class="pure-input-1-4" type="text" name="post_code" id="post_code" placeholder="Post Code"/>
+							<input class="pure-input-1-4" type="text" name="state" id="state" placeholder="State"/>
 						</div>
 						<div class="shared">
-							<input class="pure-input-1" type="password" id="password" placeholder="Password"/>
-							<input class="pure-input-1" type="password" id="confirm_password" placeholder="Confirm Password"/>
+							<input class="pure-input-1" type="password" name="password" id="password" placeholder="Password"/>
+							<input class="pure-input-1" type="password" name="confirm_password" id="confirm_password" placeholder="Confirm Password"/>
 							<button type="submit" class="pure-button pure-button-primary rounded-button">Sign Up</button>
 						</div>
 
