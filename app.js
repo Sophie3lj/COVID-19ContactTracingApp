@@ -41,6 +41,6 @@ app.use(express.static(path.join(__dirname, 'public'),{extensions:['html']}));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-app.use(express.static('/users', path.join(__dirname, 'private'),{extensions:['html']}));
+app.use('/users', express.static(path.join(__dirname, 'private'),{extensions:['html']}));
 
 module.exports = app;
