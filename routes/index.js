@@ -11,15 +11,34 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/mapCheckins', function(req, res) {
-    console.log("Logged in user: " + req.session.email);
+
     req.pool.getConnection(function(err,connection) {
         if (err) {
             res.sendStatus(500);
             return;
         }
 
-        var query = "SELECT checkins.date_time, venues.venue_name, venues.street_number, venues.street_name, suburbs.suburb_name, venues.postcode, venues.state, hotspots.id AS hotspot FROM checkins INNER JOIN venues ON checkins.venue_id = venues.id INNER JOIN suburbs ON suburbs.id = venues.suburb LEFT JOIN hotspots ON suburbs.id = hotspots.suburb_id" ;
-        connection.query(query, function(err, rows, fields) {
+        var query = "";
+        var param = [];
+
+        // check user type and change the query
+        if('user_type' in req.session){
+            if(req.session.user_type === "USER"){
+                query = "SELECT checkins.date_time, venues.venue_name, venues.street_number, venues.street_name, suburbs.suburb_name, venues.postcode, venues.state, hotspots.id AS hotspot FROM checkins INNER JOIN venues ON checkins.venue_id = venues.id INNER JOIN suburbs ON suburbs.id = venues.suburb LEFT JOIN hotspots ON suburbs.id = hotspots.suburb_id WHERE checkins.user_id = ?"
+                param.push(req.session.user_id);
+            }
+            else if(req.session.user_type === "ADMIN"){
+                query = "SELECT checkins.date_time, venues.venue_name, venues.street_number, venues.street_name, suburbs.suburb_name, venues.postcode, venues.state, hotspots.id AS hotspot FROM checkins INNER JOIN venues ON checkins.venue_id = venues.id INNER JOIN suburbs ON suburbs.id = venues.suburb LEFT JOIN hotspots ON suburbs.id = hotspots.suburb_id" ;
+            }
+            else {
+                res.sendStatus(404);
+            }
+        }
+        else {
+            res.sendStatus(404);
+        }
+
+        connection.query(query, param, function(err, rows, fields) {
             connection.release();
             if (err) {
                 res.sendStatus(500);
@@ -37,7 +56,24 @@ router.get('/mapHotspots', function(req, res) {
             return;
         }
 
-        var query = "SELECT suburbs.suburb_name FROM hotspots INNER JOIN suburbs ON hotspots.suburb_id=suburbs.id" ;
+        var query = "" ;
+
+        // check user type and change the query
+        if('user_type' in req.session){
+            if(req.session.user_type === "USER"){
+                query = "SELECT suburbs.suburb_name FROM hotspots INNER JOIN suburbs ON hotspots.suburb_id=suburbs.id" ;
+            }
+            else if(req.session.user_type === "ADMIN"){
+                query = "SELECT 'ADMIN', hotspots.id, suburbs.suburb_name FROM hotspots INNER JOIN suburbs ON hotspots.suburb_id=suburbs.id" ;
+                }
+            else {
+                res.sendStatus(404);
+            }
+        }
+        else {
+            res.sendStatus(404);
+        }
+
         connection.query(query, function(err, rows, fields) {
             connection.release();
             if (err) {

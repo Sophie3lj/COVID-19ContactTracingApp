@@ -2,9 +2,15 @@ var vueinst = new Vue({
     el: '#app',
     data: {
         checkins: false,
-        hotspots: false
+        hotspots: false,
+        loggedin: false
     }
 });
+
+
+function loggedIn(){
+    vueinst.loggedin = true;
+}
 
 mapboxgl.accessToken = 'pk.eyJ1Ijoic29waGllM2xqIiwiYSI6ImNrb2R5YXNoazA2MHMybm80cHVsdzRzY3oifQ.BlVnpNJHCi01_yqgo7ZexA';
 var mapboxClient = mapboxSdk({ accessToken: mapboxgl.accessToken });
@@ -88,7 +94,16 @@ function addOrRemHotspot(){
                         hotspot_markers.push(new_marker) ;
                     });
 
-                    document.getElementById('addHotspots').innerHTML = document.getElementById('addHotspots').innerHTML + '<div class="checkin"><p>' + 'Suburb: ' + row.suburb_name + '</p></div>';
+                    if ( 'ADMIN' in row ){
+                        document.getElementById('addHotspots').innerHTML = document.getElementById('addHotspots').innerHTML + '<div class="checkin"><p>' + 'Suburb: ' + row.suburb_name + '</p><button class="pure-button pure-button-primary rounded-button" style="margin-bottom: 1em;" onclick="deleteHotspot('+ row.id +')">Remove</button></div>';
+                    }
+                    else{
+                        document.getElementById('addHotspots').innerHTML = document.getElementById('addHotspots').innerHTML + '<div class="checkin"><p>' + 'Suburb: ' + row.suburb_name + '</p></div>';
+                    }
+                }
+
+                if ( 'ADMIN' in hotspots[0] ){
+                    document.getElementById('addHotspots').innerHTML = document.getElementById('addHotspots').innerHTML + '<input style="margin: 1em auto; display: block; width: 90%;" type="text" id="newHotspot" name="newHotspot" placeholder="New Hotspot"/><button class="pure-button pure-button-primary rounded-button" style="margin: 1em auto; display: block;" onclick="createHotspot()">Add</button>' ;
                 }
             }
         } ;
@@ -106,6 +121,31 @@ function addOrRemHotspot(){
 
     hotspots_visible = !hotspots_visible ;
 }
+
+function deleteHotspot(id){
+
+
+}
+
+function createHotspot(){
+
+}
+
+function logout(){
+
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if ( this.readyState == 4 && this.status == 200 ) {
+			window.location.pathname="/";
+		}
+	};
+
+	xhttp.open('POST', '/users/logout', true) ;
+    xhttp.send();
+}
+
+
+
 
 
 /*

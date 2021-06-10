@@ -2,9 +2,15 @@ var vueinst = new Vue({
     el: '#app',
     data: {
         checkins: false,
-        hotspots: false
+        hotspots: false,
+        loggedin: false
     }
 });
+
+
+function loggedIn(){
+    vueinst.loggedin = true;
+}
 
 mapboxgl.accessToken = 'pk.eyJ1Ijoic29waGllM2xqIiwiYSI6ImNrb2R5YXNoazA2MHMybm80cHVsdzRzY3oifQ.BlVnpNJHCi01_yqgo7ZexA';
 var mapboxClient = mapboxSdk({ accessToken: mapboxgl.accessToken });
@@ -105,6 +111,19 @@ function addOrRemHotspot(){
     }
 
     hotspots_visible = !hotspots_visible ;
+}
+
+function logout(){
+
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if ( this.readyState == 4 && this.status == 200 ) {
+			window.location.pathname="/";
+		}
+	};
+
+	xhttp.open('POST', '/users/logout', true) ;
+    xhttp.send();
 }
 
 

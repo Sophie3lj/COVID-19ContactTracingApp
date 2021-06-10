@@ -44,6 +44,7 @@ router.post('/login', function(req,res,next){
                     console.log('password matches');
                     req.session.email = result[0].email;
                     req.session.user_type = result[0].user_type;
+                    req.session.user_id = result[0].id;
                     console.log('session set');
                     console.log(req.session.email + ', ' + req.session.user_type);
 
@@ -100,6 +101,7 @@ router.get('/MapCheck', function(req, res){
 router.post('/logout', function(req, res, next) {
     delete req.session.email;
     delete req.session.user_type;
+    delete req.session.user_id;
     res.end();
 });
 
