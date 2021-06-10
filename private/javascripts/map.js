@@ -123,12 +123,51 @@ function addOrRemHotspot(){
 }
 
 function deleteHotspot(id){
+    let old_hotspot = {
+		hotspot_id: id
+	};
 
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if ( this.readyState == 4 && this.status == 200 ) {
+            hotspots_visible = true;
+            addOrRemHotspot();
+            addOrRemHotspot();
+             if (checkins_visible){
+                 addOrRemCheckin();
+                 addOrRemCheckin();
+             }
+		}
+	};
+
+	xhttp.open('POST', '/deleteHotspot', true) ;
+	xhttp.setRequestHeader("Content-type", "application/json");
+    xhttp.send(JSON.stringify(old_hotspot));
 
 }
 
 function createHotspot(){
 
+    let new_hotspot = {
+		suburb: document.getElementById('newHotspot').value
+	};
+
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if ( this.readyState == 4 && this.status == 200 ) {
+            hotspots_visible = true;
+            addOrRemHotspot();
+            addOrRemHotspot();
+             if (checkins_visible){
+                 addOrRemCheckin();
+                 addOrRemCheckin();
+             }
+		}
+	};
+
+	xhttp.open('POST', '/createHotspot', true) ;
+	xhttp.setRequestHeader("Content-type", "application/json");
+    xhttp.send(JSON.stringify(new_hotspot));
 }
 
 function logout(){

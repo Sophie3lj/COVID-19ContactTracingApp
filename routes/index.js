@@ -85,6 +85,73 @@ router.get('/mapHotspots', function(req, res) {
     });
 });
 
+router.post('/createHotspot', function(req, res){
+    req.pool.getConnection(function(err,connection){
+        if (err) {
+            res.sendStatus(500);
+            return;
+        }
+
+        var query1 = "SELECT id FROM suburbs WHERE suburbs.suburb_name = ?";
+        connection.query(query1, [req.body.suburb], function(err, rows, fields) {
+            if (err) {
+                res.sendStatus(500);
+                return;
+            }
+
+            var suburb_id;
+
+            if(rows[0] !== undefined){
+                suburb_id = rows[0].id;
+    		}
+    		else{
+    		    var query2 = "INSERT INTO suburbs (suburb_name) VALUES (?)";
+    		    connection.query(query2, [req.body.suburb], function(err, rows, fields) {
+                    if (err) {
+                        res.sendStatus(500);
+                        return;
+                    }
+                });
+
+    		}
+
+    		var query3 = "INSERT INTO hotspots (suburb_id) VALUES (?)";
+            connection.query(query3, [suburb_id], function(err, rows, fields) {
+                connection.release();
+                if (err) {
+                    res.sendStatus(500);
+                    return;
+                }
+
+                res.end();
+
+            });
+        });
+
+    });
+});
+
+router.post('/deleteHotspot', function(req, res){
+    req.pool.getConnection(function(err,connection){
+        if (err) {
+            res.sendStatus(500);
+            return;
+        }
+
+        var query1 = "DELETE FROM hotspots WHERE id = ?";
+        connection.query(query1, [req.body.hotspot_id], function(err, rows, fields) {
+            if (err) {
+                res.sendStatus(500);
+                return;
+            }
+
+            res.end();
+
+        });
+
+    });
+});
+
 router.post('/SignUp.html', function (req, res, next){
     req.pool.getConnection(function(err,connection){
         if(err){
