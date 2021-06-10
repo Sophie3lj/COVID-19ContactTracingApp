@@ -8,7 +8,6 @@ router.get('/', function(req, res, next) {
 
 router.post('/login', function(req,res,next){
 
-
     var bcrypt = require('bcrypt');
     //get connection
     console.log("new user");
@@ -19,10 +18,6 @@ router.post('/login', function(req,res,next){
             res.sendStatus(500);
             return;
         }
-
-        //var body = req.body;
-        //var email = body.email;
-        //var password = body.password;
 
         connection.query("SELECT id, email, password_hash, user_type FROM accounts WHERE email = ?", [req.body.email], function(err, result){
             connection.release();
@@ -71,9 +66,41 @@ router.use(function(req, res, next) {
     }
 });
 
+router.get('/CheckinCheck', function(req, res){
+    if('user_type' in req.session){
+        if(req.session.user_type === "USER"){
+            res.redirect('/users/Checkin');
+        }
+        else {
+            res.sendStatus(401);
+        }
+    }
+    else {
+        res.sendStatus(401);
+    }
+});
+
+router.get('/MapCheck', function(req, res){
+    if('user_type' in req.session){
+        if(req.session.user_type === "USER"){
+            res.redirect('/users/Map');
+        }
+        else if(req.session.user_type === "ADMIN"){
+            res.redirect('/users/Map');
+        }
+        else {
+            res.sendStatus(401);
+        }
+    }
+    else {
+        res.sendStatus(401);
+    }
+});
+
 router.post('/logout', function(req, res, next) {
     delete req.session.email;
-    res.send();
+    delete req.session.user_type;
+    res.end();
 });
 
 module.exports = router;

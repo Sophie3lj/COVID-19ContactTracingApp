@@ -7,6 +7,7 @@ var vueinst = new Vue({
     }
 });
 
+
 function loggedIn(){
     vueinst.loggedin = true;
 }
@@ -70,6 +71,7 @@ function login(){
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
 		if ( this.readyState == 4 && this.status == 200 ) {
+			loggedIn();
 			window.location.pathname="/";
 		}
 		else if ( this.readyState == 4 && this.status == 401 ) {
@@ -80,6 +82,19 @@ function login(){
 	xhttp.open('POST', '/users/login', true) ;
 	xhttp.setRequestHeader("Content-type", "application/json");
     xhttp.send(JSON.stringify(login_details));
+}
+
+function logout(){
+
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if ( this.readyState == 4 && this.status == 200 ) {
+			window.location.pathname="/";
+		}
+	};
+
+	xhttp.open('POST', '/users/logout', true) ;
+    xhttp.send();
 }
 
 /*

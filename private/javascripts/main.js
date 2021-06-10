@@ -2,9 +2,15 @@ var vueinst = new Vue({
     el: '#app',
     data: {
         checkins: false,
-        hotspots: false
+        hotspots: false,
+        loggedin: false
     }
 });
+
+
+function loggedIn(){
+    vueinst.loggedin = true;
+}
 
 function change_signin_options(){
 	var i;
@@ -65,14 +71,30 @@ function login(){
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
 		if ( this.readyState == 4 && this.status == 200 ) {
-			// filler
-			let a = 1 ;
+			loggedIn();
+			window.location.pathname="/";
+		}
+		else if ( this.readyState == 4 && this.status == 401 ) {
+			alert("unsuccessful");
 		}
 	};
 
-	xhttp.open('POST', '/login', true) ;
-	xmlhttp.setRequestHeader("Content-type", "application/json");
-    xmlhttp.send(JSON.stringify(login_details));
+	xhttp.open('POST', '/users/login', true) ;
+	xhttp.setRequestHeader("Content-type", "application/json");
+    xhttp.send(JSON.stringify(login_details));
+}
+
+function logout(){
+
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if ( this.readyState == 4 && this.status == 200 ) {
+			window.location.pathname="/";
+		}
+	};
+
+	xhttp.open('POST', '/users/logout', true) ;
+    xhttp.send();
 }
 
 /*

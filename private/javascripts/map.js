@@ -108,9 +108,6 @@ function addOrRemHotspot(){
 }
 
 
-
-
-
 /*
 mapboxClient.geocoding.forwardGeocode({
     query: '147 King William Rd, Unley SA 5061',
