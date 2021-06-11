@@ -4,13 +4,13 @@ var vueinst = new Vue({
         checkins: false,
         hotspots: false,
         loggedin: false
+    },
+    methods: {
+		update: function () {
+			this.loggedin = true;
+		}
     }
 });
-
-
-function loggedIn(){
-    vueinst.loggedin = true;
-}
 
 function change_signin_options(){
 	var i;
@@ -61,6 +61,9 @@ function onSignIn(googleUser) {
     console.log("ID Token: " + id_token);
 }
 
+function loginRedirect(){
+	window.location.pathname="/";
+}
 
 function login(){
 	let login_details = {
@@ -71,8 +74,8 @@ function login(){
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
 		if ( this.readyState == 4 && this.status == 200 ) {
-			loggedIn();
-			window.location.pathname="/";
+			vueinst.update;
+			loginRedirect();
 		}
 		else if ( this.readyState == 4 && this.status == 401 ) {
 			alert("unsuccessful");
