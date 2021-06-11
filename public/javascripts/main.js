@@ -1,14 +1,19 @@
+var loggedin =  "NO";
+
 var vueinst = new Vue({
     el: '#app',
     data: {
         checkins: false,
         hotspots: false,
+        user_log: " "
     }
 });
 
-var loggedin =  "NO";
 
+// when i tried to do it using normal stuff
 function updateMenu(){
+	vueinst.user_log = loggedin;
+	/*
 	if(loggedin == "USER"){
 		document.getElementById("user_menu").classList.remove("hide-menu");
 		document.getElementById("default_menu").classList.add("hide-menu");
@@ -28,7 +33,7 @@ function updateMenu(){
 		} else {
 			document.getElementById("default_menu").classList.remove("hide-menu");
 		}
-	}
+	}*/
 }
 
 

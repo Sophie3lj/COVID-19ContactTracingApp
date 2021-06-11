@@ -16,10 +16,10 @@
     </head>
 
 
-     <body>
+     <body onload="updateMenu()">
         <div id="app">
-        <header onload="updateMenu()">
-            <div class="pure-menu pure-menu-horizontal hide-menu" id="user_menu">
+        <header>
+            <div class="pure-menu pure-menu-horizontal" v-if="user_log === 'USER'">
                 <ul class="pure-menu-list">
                     <li class="pure-menu-item">
                         <div class="flex"><a href="/" class="pure-menu-link" style="padding:0;border-right:1px solid white;">
@@ -58,7 +58,7 @@
                 </ul>
             </div>
 
-            <div class="pure-menu pure-menu-horizontal hide-menu" id="venue_menu">
+            <div class="pure-menu pure-menu-horizontal" v-else-if="user_log === 'VENUE'">
                 <ul class="pure-menu-list">
                     <li class="pure-menu-item">
                         <div class="flex"><a href="/" class="pure-menu-link" style="padding:0;border-right:1px solid white;">
@@ -91,7 +91,7 @@
                 </ul>
             </div>
 
-            <div class="pure-menu pure-menu-horizontal hide-menu" id="admin_menu">
+            <div class="pure-menu pure-menu-horizontal" v-if="user_log === 'ADMIN'">
                 <ul class="pure-menu-list">
                     <li class="pure-menu-item">
                         <div class="flex"><a href="/" class="pure-menu-link" style="padding:0;border-right:1px solid white;">
@@ -127,7 +127,7 @@
                 </ul>
             </div>
 
-            <div class="pure-menu pure-menu-horizontal" id="default_menu">
+            <div class="pure-menu pure-menu-horizontal" v-else>
                 <ul class="pure-menu-list">
                     <li class="pure-menu-item">
                         <div class="flex">
