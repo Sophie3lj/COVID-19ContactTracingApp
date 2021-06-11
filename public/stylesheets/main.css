@@ -341,6 +341,11 @@ h4 {
     padding: 1em;
 }
 
+/*
+.hide-menu {
+    display: none;
+}*/
+
 #table-no-border {
     border: 0;
 }

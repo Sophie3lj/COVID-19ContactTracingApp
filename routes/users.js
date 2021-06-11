@@ -47,9 +47,8 @@ router.post('/login', function(req,res,next){
                     req.session.user_id = result[0].id;
                     console.log('session set');
                     console.log(req.session.email + ', ' + req.session.user_type);
-
-                    res.end();
                     console.log('redirected');
+                    res.send(result[0].user_type);
                 }else{
                     res.sendStatus(401);
                 }
