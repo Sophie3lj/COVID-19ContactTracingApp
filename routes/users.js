@@ -58,6 +58,15 @@ router.post('/login', function(req,res,next){
     });
 });
 
+router.get('/publicLoginCheck', function(req, res){
+    if('email' in req.session){
+        res.send(true);
+    }
+    else {
+        res.send(false);
+    }
+});
+
 router.use(function(req, res, next) {
     if('email' in req.session){
         next();

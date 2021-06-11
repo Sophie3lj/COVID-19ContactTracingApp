@@ -12,6 +12,22 @@ function loggedIn(){
     vueinst.loggedin = true;
 }
 
+function loginCheck(){
+
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if ( this.readyState == 4 && this.status == 200 && this.responseText == 'true') {
+			vueinst.loggedin = true;
+		}
+		else if ( this.readyState == 4 && this.status == 200 && this.responseText == 'false') {
+			vueinst.loggedin = false;
+		}
+	};
+
+	xhttp.open('GET', '/users/publicLoginCheck', true) ;
+    xhttp.send();
+}
+
 function change_signin_options(){
 	var i;
 	var user_type = document.getElementsByClassName("user");
