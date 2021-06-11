@@ -33,6 +33,7 @@ function addOrRemCheckin(){
         xhttp.onreadystatechange = function() {
             if ( this.readyState == 4 && this.status == 200 ) {
                 var checkins = JSON.parse(this.responseText) ;
+                var date ;
 
                 for ( let row of checkins){
                     address = row.street_number.toString() + ' ' + row.street_name + ', ' + row.suburb_name + ' ' + row.state + ' ' + row.postcode.toString() ;
@@ -51,11 +52,23 @@ function addOrRemCheckin(){
                         checkin_markers.push(new_marker) ;
                     });
 
-                    if (row.hotspot == null){
-                        document.getElementById('addCheckins').innerHTML = document.getElementById('addCheckins').innerHTML + '<div class="checkin"><p>' + 'Venue: ' + row.venue_name + '</p><p>Date: ' + row.date_time + '</p></div>';
+                    date = new Date(row.date_time);
+
+                    if ( 'ADMIN' in row ){
+                        if (row.hotspot == null){
+                            document.getElementById('addCheckins').innerHTML = document.getElementById('addCheckins').innerHTML + '<div class="checkin"><p>Venue: ' + row.venue_name + ' (' + row.suburb_name + ') ' + '</p><p>User: ' + row.first_name + ' ' + row.last_name + '</p><p>Date: ' + date.toLocaleDateString() + '</p></div>';
+                        }
+                        else{
+                            document.getElementById('addCheckins').innerHTML = document.getElementById('addCheckins').innerHTML + '<div class="checkin"><p>Venue: ' + row.venue_name + ' (' + row.suburb_name + ') ' + '</p><p>User: ' + row.first_name + ' ' + row.last_name + '</p><p>Date: ' + date.toLocaleDateString() + '</p><p><i class="fas fa-exclamation-triangle"></i></p></div>';
+                        }
                     }
                     else{
-                        document.getElementById('addCheckins').innerHTML = document.getElementById('addCheckins').innerHTML + '<div class="checkin"><p>' + 'Venue: ' + row.venue_name + '</p><p>Date: ' + row.date_time + '</p><i class="fas fa-exclamation-triangle"></i></div>';
+                        if (row.hotspot == null){
+                            document.getElementById('addCheckins').innerHTML = document.getElementById('addCheckins').innerHTML + '<div class="checkin"><p>Venue: ' + row.venue_name + ' (' + row.suburb_name + ') ' + '</p><p>Date: ' + date.toLocaleDateString() + '</p></div>';
+                        }
+                        else{
+                            document.getElementById('addCheckins').innerHTML = document.getElementById('addCheckins').innerHTML + '<div class="checkin"><p>Venue: ' + row.venue_name + ' (' + row.suburb_name + ') ' + '</p><p>Date: ' + date.toLocaleDateString() + '</p><p><i class="fas fa-exclamation-triangle"></i></p></div>';
+                        }
                     }
                 }
             }
@@ -95,10 +108,10 @@ function addOrRemHotspot(){
                     });
 
                     if ( 'ADMIN' in row ){
-                        document.getElementById('addHotspots').innerHTML = document.getElementById('addHotspots').innerHTML + '<div class="checkin"><p>' + 'Suburb: ' + row.suburb_name + '</p><button class="pure-button pure-button-primary rounded-button" style="margin-bottom: 1em;" onclick="deleteHotspot('+ row.id +')">Remove</button></div>';
+                        document.getElementById('addHotspots').innerHTML = document.getElementById('addHotspots').innerHTML + '<div class="checkin"><p>Suburb: ' + row.suburb_name + '</p><button class="pure-button pure-button-primary rounded-button" style="margin-bottom: 1em;" onclick="deleteHotspot('+ row.id +')">Remove</button></div>';
                     }
                     else{
-                        document.getElementById('addHotspots').innerHTML = document.getElementById('addHotspots').innerHTML + '<div class="checkin"><p>' + 'Suburb: ' + row.suburb_name + '</p></div>';
+                        document.getElementById('addHotspots').innerHTML = document.getElementById('addHotspots').innerHTML + '<div class="checkin"><p>Suburb: ' + row.suburb_name + '</p></div>';
                     }
                 }
 
