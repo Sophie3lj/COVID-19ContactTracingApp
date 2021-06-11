@@ -3,14 +3,34 @@ var vueinst = new Vue({
     data: {
         checkins: false,
         hotspots: false,
-        loggedin: false
-    },
-    methods: {
-		update: function () {
-			this.loggedin = true;
-		}
     }
 });
+
+var loggedin =  "NO";
+
+function updateMenu(){
+	if(loggedin == "USER"){
+		document.getElementById("user_menu").classList.remove("hide-menu");
+		document.getElementById("default_menu").classList.add("hide-menu");
+	} else if(loggedin == "VENUE"){
+		document.getElementById("venue_menu").classList.remove("hide-menu");
+		document.getElementById("default_menu").classList.add("hide-menu");
+	} else if(loggedin == "ADMIN"){
+		document.getElementById("venue_menu").classList.remove("hide-menu");
+		document.getElementById("default_menu").classList.add("hide-menu");
+	} else {
+		if (!document.getElementById("user_menu").classList.contains("hide-menu")){
+			document.getElementById("user_menu").classList.add("hide-menu");
+		} else if(!document.getElementById("venue_menu").classList.contains("hide-menu")) {
+			document.getElementById("venue_menu").classList.add("hide-menu");
+		} else if(!document.getElementById("admin_menu").classList.contains("hide-menu")){
+			document.getElementById("admin_menu").classList.add("hide-menu");
+		} else {
+			document.getElementById("default_menu").classList.remove("hide-menu");
+		}
+	}
+}
+
 
 function change_signin_options(){
 	var i;
@@ -61,10 +81,6 @@ function onSignIn(googleUser) {
     console.log("ID Token: " + id_token);
 }
 
-function loginRedirect(){
-	window.location.pathname="/";
-}
-
 function login(){
 	let login_details = {
 		email: document.getElementById('email').value,
@@ -74,8 +90,9 @@ function login(){
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
 		if ( this.readyState == 4 && this.status == 200 ) {
-			vueinst.update;
-			loginRedirect();
+			// ok so, the loggedin variable DOES UPDATE. now its just my shit code above which doesnt :(((
+			loggedin = this.responseText;
+			window.location.pathname="/";
 		}
 		else if ( this.readyState == 4 && this.status == 401 ) {
 			alert("unsuccessful");
@@ -92,6 +109,7 @@ function logout(){
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
 		if ( this.readyState == 4 && this.status == 200 ) {
+			loggedin = "NO";
 			window.location.pathname="/";
 		}
 	};
