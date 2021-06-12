@@ -152,7 +152,8 @@
     			<div class="centering-flex-container full-height">
                     <div class="centering-flex-container">
                         <h1>Account Details</h1>
-                        <div class="pure-g">
+                        <!--First set of data displayed for USER or ADMIN type clients-->
+                        <div class="pure-g" v-if="user_log === 'USER' || user_log === 'ADMIN'">
                             <div class="pure-u-4-24">
                                 <div id="account-details-grid-elements">First Name:</div>
                             </div>
@@ -178,9 +179,8 @@
                                 <div class="bottom-border" id="account-details-grid-elements">AccountDetails_phoneNumber</div>
                             </div>
                         </div>
-                        <!--Second set of data displayed for VENUE-->
-                        <!--
-                        <div class="pure-g">
+                        <!--Second set of data displayed for VENUE type clients-->
+                        <div class="pure-g" v-else-if:"user-log === 'VENUE'">
                             <div class="pure-u-4-24">
                                 <div id="account-details-grid-elements">Venue Name:</div>
                             </div>
@@ -224,7 +224,6 @@
                                 <div class="bottom-border" id="account-details-grid-elements">AccountDetails_state</div>
                             </div>
                         </div>
-                        -->
                         <a href="EditAccountDetails">
                             <button type="button" class="pure-button pure-button-primary rounded-button">Edit</button>
                         </a>
