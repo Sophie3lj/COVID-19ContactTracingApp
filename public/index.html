@@ -17,7 +17,7 @@
 
 
 
-     <body onload="updateMenu();loginCheck();">
+     <body onload="loginCheck();">
         <div id="app">
         <header>
             <div class="pure-menu pure-menu-horizontal" v-if="user_log === 'USER'">
@@ -46,7 +46,7 @@
                 </ul>
                 <ul class="pure-menu-list" id="right">
                     <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
-                        <div class="flex"><a href="#" id="menuLink1" class="pure-menu-link">Username<i class="fas fa-user"></i></a></div>
+                        <div class="flex"><a href="#" id="menuLink1" class="pure-menu-link">{{user_name}}<i class="fas fa-user"></i></a></div>
                         <ul class="pure-menu-children">
                             <li class="pure-menu-item">
                                 <a href="/users/AccountDetails" class="pure-menu-link drop-down">Account Info</a>
@@ -79,7 +79,7 @@
                 </ul>
                 <ul class="pure-menu-list" id="right">
                     <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
-                        <div class="flex"><a href="#" id="menuLink1" class="pure-menu-link">Username<i class="fas fa-user"></i></a></div>
+                        <div class="flex"><a href="#" id="menuLink1" class="pure-menu-link">{{user_name}}<i class="fas fa-user"></i></a></div>
                         <ul class="pure-menu-children">
                             <li class="pure-menu-item">
                                 <a href="/users/AccountDetails" class="pure-menu-link drop-down">Account Info</a>
@@ -92,7 +92,7 @@
                 </ul>
             </div>
 
-            <div class="pure-menu pure-menu-horizontal" v-if="user_log === 'ADMIN'">
+            <div class="pure-menu pure-menu-horizontal" v-else-if="user_log === 'ADMIN'">
                 <ul class="pure-menu-list">
                     <li class="pure-menu-item">
                         <div class="flex"><a href="/" class="pure-menu-link" style="padding:0;border-right:1px solid white;">
@@ -115,7 +115,7 @@
                 </ul>
                 <ul class="pure-menu-list" id="right">
                     <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
-                        <div class="flex"><a href="#" id="menuLink1" class="pure-menu-link">Username<i class="fas fa-user"></i></a></div>
+                        <div class="flex"><a href="#" id="menuLink1" class="pure-menu-link">{{user_name}}<i class="fas fa-user"></i></a></div>
                         <ul class="pure-menu-children">
                             <li class="pure-menu-item">
                                 <a href="/users/AccountDetails" class="pure-menu-link drop-down">Account Info</a>

@@ -296,7 +296,7 @@ h4 {
 .fact1 {
     display: inline-block;
     background-color: #8CB89F;
-    border: 1px solid #4189A8;
+    border: 1px solid #8CB89F;
     padding: 3%;
 
     flex-grow: 3;
@@ -305,7 +305,7 @@ h4 {
 .fact2 {
     display: inline-block;
     background-color: #175873;
-    border: 1px solid #4189A8;
+    border: 1px solid #175873;
     padding: 3%;
 
     flex-grow: 1;
@@ -314,7 +314,7 @@ h4 {
 .fact3 {
     display: inline-block;
     background-color: #193046;
-    border: 1px solid #4189A8;
+    border: 1px solid #193046;
     padding: 3%;
 
     flex-grow: 3;

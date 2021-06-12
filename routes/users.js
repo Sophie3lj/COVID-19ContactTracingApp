@@ -19,7 +19,7 @@ router.post('/login', function(req,res,next){
             return;
         }
 
-        connection.query("SELECT id, email, password_hash, user_type FROM accounts WHERE email = ?", [req.body.email], function(err, result){
+        connection.query("SELECT id, email, password_hash, user_type, first_name, last_name FROM accounts WHERE email = ?", [req.body.email], function(err, result){
             connection.release();
             if(err) {
                 console.log(err);
@@ -45,6 +45,7 @@ router.post('/login', function(req,res,next){
                     req.session.email = result[0].email;
                     req.session.user_type = result[0].user_type;
                     req.session.user_id = result[0].id;
+                    req.session.user_name = result[0].first_name + ' ' + result[0].last_name;
                     console.log('session set');
                     console.log(req.session.email + ', ' + req.session.user_type);
                     console.log('redirected');
@@ -57,13 +58,18 @@ router.post('/login', function(req,res,next){
     });
 });
 
-router.get('/publicLoginCheck', function(req, res){
-    if('email' in req.session){
-        res.send(true);
+router.get('/LoginCheck', function(req, res){
+    let login = {
+		user_type: '',
+		user_name: ''
+	};
+
+    if('user_type' in req.session){
+        login.user_type = req.session.user_type;
+        login.user_name = req.session.user_name;
     }
-    else {
-        res.send(false);
-    }
+
+    res.json(login);
 });
 
 router.use(function(req, res, next) {

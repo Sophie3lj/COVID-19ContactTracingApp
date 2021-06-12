@@ -5,7 +5,8 @@ var vueinst = new Vue({
     data: {
         checkins: false,
         hotspots: false,
-        user_log: " "
+        user_log: "",
+        user_name: ""
     }
 });
 
@@ -40,15 +41,14 @@ function loginCheck(){
 
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
-		if ( this.readyState == 4 && this.status == 200 && this.responseText == 'true') {
-			vueinst.loggedin = true;
-		}
-		else if ( this.readyState == 4 && this.status == 200 && this.responseText == 'false') {
-			vueinst.loggedin = false;
+		if ( this.readyState == 4 && this.status == 200 ) {
+			var login_info = JSON.parse(this.responseText) ;
+			vueinst.user_log = login_info.user_type;
+			vueinst.user_name = login_info.user_name;
 		}
 	};
 
-	xhttp.open('GET', '/users/publicLoginCheck', true) ;
+	xhttp.open('GET', '/users/LoginCheck', true) ;
     xhttp.send();
 }
 
