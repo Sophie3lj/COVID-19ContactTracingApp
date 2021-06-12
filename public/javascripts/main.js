@@ -110,8 +110,6 @@ function login(){
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
 		if ( this.readyState == 4 && this.status == 200 ) {
-			// ok so, the loggedin variable DOES UPDATE. now its just my shit code above which doesnt :(((
-			loggedin = this.responseText;
 			window.location.pathname="/";
 		}
 		else if ( this.readyState == 4 && this.status == 401 ) {
@@ -129,7 +127,6 @@ function logout(){
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
 		if ( this.readyState == 4 && this.status == 200 ) {
-			loggedin = "NO";
 			window.location.pathname="/";
 		}
 	};

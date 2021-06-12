@@ -1,3 +1,5 @@
+var loggedin =  "NO";
+
 /* AccountDetails.html variables */
 var accountDetails = [];
 
@@ -6,6 +8,8 @@ var vueinst = new Vue({
     data: {
         checkins: false,
         hotspots: false,
+        user_log: "",
+        user_name: "",
         loggedin: false,
         AccountDetails_firstName: accountDetails[0].first_name,
         AccountDetails_lastName: accountDetails[0].last_name,
@@ -15,8 +19,45 @@ var vueinst = new Vue({
 });
 
 
-function loggedIn(){
-    vueinst.loggedin = true;
+// when i tried to do it using normal stuff
+function updateMenu(){
+	vueinst.user_log = loggedin;
+	/*
+	if(loggedin == "USER"){
+		document.getElementById("user_menu").classList.remove("hide-menu");
+		document.getElementById("default_menu").classList.add("hide-menu");
+	} else if(loggedin == "VENUE"){
+		document.getElementById("venue_menu").classList.remove("hide-menu");
+		document.getElementById("default_menu").classList.add("hide-menu");
+	} else if(loggedin == "ADMIN"){
+		document.getElementById("venue_menu").classList.remove("hide-menu");
+		document.getElementById("default_menu").classList.add("hide-menu");
+	} else {
+		if (!document.getElementById("user_menu").classList.contains("hide-menu")){
+			document.getElementById("user_menu").classList.add("hide-menu");
+		} else if(!document.getElementById("venue_menu").classList.contains("hide-menu")) {
+			document.getElementById("venue_menu").classList.add("hide-menu");
+		} else if(!document.getElementById("admin_menu").classList.contains("hide-menu")){
+			document.getElementById("admin_menu").classList.add("hide-menu");
+		} else {
+			document.getElementById("default_menu").classList.remove("hide-menu");
+		}
+	}*/
+}
+
+function loginCheck(){
+
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if ( this.readyState == 4 && this.status == 200 ) {
+			var login_info = JSON.parse(this.responseText) ;
+			vueinst.user_log = login_info.user_type;
+			vueinst.user_name = login_info.user_name;
+		}
+	};
+
+	xhttp.open('GET', '/users/LoginCheck', true) ;
+    xhttp.send();
 }
 
 function change_signin_options(){
@@ -68,7 +109,6 @@ function onSignIn(googleUser) {
     console.log("ID Token: " + id_token);
 }
 
-
 function login(){
 	let login_details = {
 		email: document.getElementById('email').value,
@@ -78,7 +118,6 @@ function login(){
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
 		if ( this.readyState == 4 && this.status == 200 ) {
-			loggedIn();
 			window.location.pathname="/";
 		}
 		else if ( this.readyState == 4 && this.status == 401 ) {
