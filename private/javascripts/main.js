@@ -11,10 +11,15 @@ var vueinst = new Vue({
         user_log: "",
         user_name: "",
         loggedin: false,
+        /*AccountDetails_firstName: 'first_name',
+        AccountDetails_lastName: 'last_name',
+        AccountDetails_email: 'email',
+        AccountDetails_phoneNumber: 'phone_number'
+
         AccountDetails_firstName: accountDetails[0].first_name,
         AccountDetails_lastName: accountDetails[0].last_name,
         AccountDetails_email: accountDetails[0].email,
-        AccountDetails_phoneNumber: accountDetails[0].phone_number
+        AccountDetails_phoneNumber: accountDetails[0].phone_number*/
     }
 });
 
