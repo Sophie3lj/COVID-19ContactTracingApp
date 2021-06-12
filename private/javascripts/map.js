@@ -1,16 +1,57 @@
+var loggedin =  "NO";
+
 var vueinst = new Vue({
     el: '#app',
     data: {
         checkins: false,
         hotspots: false,
-        loggedin: false
+        user_log: "",
+        user_name: ""
     }
 });
 
 
-function loggedIn(){
-    vueinst.loggedin = true;
+// when i tried to do it using normal stuff
+function updateMenu(){
+	vueinst.user_log = loggedin;
+	/*
+	if(loggedin == "USER"){
+		document.getElementById("user_menu").classList.remove("hide-menu");
+		document.getElementById("default_menu").classList.add("hide-menu");
+	} else if(loggedin == "VENUE"){
+		document.getElementById("venue_menu").classList.remove("hide-menu");
+		document.getElementById("default_menu").classList.add("hide-menu");
+	} else if(loggedin == "ADMIN"){
+		document.getElementById("venue_menu").classList.remove("hide-menu");
+		document.getElementById("default_menu").classList.add("hide-menu");
+	} else {
+		if (!document.getElementById("user_menu").classList.contains("hide-menu")){
+			document.getElementById("user_menu").classList.add("hide-menu");
+		} else if(!document.getElementById("venue_menu").classList.contains("hide-menu")) {
+			document.getElementById("venue_menu").classList.add("hide-menu");
+		} else if(!document.getElementById("admin_menu").classList.contains("hide-menu")){
+			document.getElementById("admin_menu").classList.add("hide-menu");
+		} else {
+			document.getElementById("default_menu").classList.remove("hide-menu");
+		}
+	}*/
 }
+
+function loginCheck(){
+
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if ( this.readyState == 4 && this.status == 200 ) {
+			var login_info = JSON.parse(this.responseText) ;
+			vueinst.user_log = login_info.user_type;
+			vueinst.user_name = login_info.user_name;
+		}
+	};
+
+	xhttp.open('GET', '/users/LoginCheck', true) ;
+    xhttp.send();
+}
+
 
 mapboxgl.accessToken = 'pk.eyJ1Ijoic29waGllM2xqIiwiYSI6ImNrb2R5YXNoazA2MHMybm80cHVsdzRzY3oifQ.BlVnpNJHCi01_yqgo7ZexA';
 var mapboxClient = mapboxSdk({ accessToken: mapboxgl.accessToken });
@@ -196,31 +237,3 @@ function logout(){
     xhttp.send();
 }
 
-
-
-
-
-/*
-mapboxClient.geocoding.forwardGeocode({
-    query: '147 King William Rd, Unley SA 5061',
-    autocomplete: false,
-    limit: 1
-}).send().then(function (response) {
-    var feature = response.body.features[0];
-    new mapboxgl.Marker().setLngLat(feature.center).addTo(map);
-});
-
-
-
-
-
-
-
-
-
-
-var marker1 = new mapboxgl.Marker({color: "#8CB89F",draggable: true}).setLngLat([138.60414, -34.919159]).addTo(map);
-var marker2 = new mapboxgl.Marker({color: "#8CB89F",draggable: true}).setLngLat([138.6107, -34.9753]).addTo(map);
-var marker3 = new mapboxgl.Marker({color: "#8CB89F",draggable: true}).setLngLat([138.688497246, -34.825330032]).addTo(map);
-
-*/

@@ -9,12 +9,13 @@
         <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
         <link rel="stylesheet" type="text/css" href="stylesheets/main.css">
         <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+        <script src="javascripts/main.js" defer></script>
     </head>
 
-    <body>
+    <body onload="loginCheck();">
         <div id="app">
             <header>
-                <div class="pure-menu pure-menu-horizontal">
+                <div class="pure-menu pure-menu-horizontal" v-if="user_log === 'USER'">
                     <ul class="pure-menu-list">
                         <li class="pure-menu-item">
                             <div class="flex"><a href="/" class="pure-menu-link" style="padding:0;border-right:1px solid white;">
@@ -40,7 +41,7 @@
                     </ul>
                     <ul class="pure-menu-list" id="right">
                         <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
-                            <div class="flex"><a href="#" id="menuLink1" class="pure-menu-link">Username<i class="fas fa-user"></i></a></div>
+                            <div class="flex"><a href="#" id="menuLink1" class="pure-menu-link">{{user_name}}<i class="fas fa-user"></i></a></div>
                             <ul class="pure-menu-children">
                                 <li class="pure-menu-item">
                                     <a href="/users/AccountDetails" class="pure-menu-link drop-down">Account Info</a>
@@ -49,6 +50,99 @@
                                     <a href="" class="pure-menu-link drop-down" onclick="logout()">Sign Out</a>
                                 </li>
                             </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="pure-menu pure-menu-horizontal" v-else-if="user_log === 'VENUE'">
+                    <ul class="pure-menu-list">
+                        <li class="pure-menu-item">
+                            <div class="flex"><a href="/" class="pure-menu-link" style="padding:0;border-right:1px solid white;">
+                                <div class="pure-g logo">
+                                    <div class="pure-u-1-3">
+                                        <i class="fas fa-dna"></i>
+                                    </div>
+                                    <div class="pure-u-2-3">
+                                        <p class="logo-text">COVID COUNCIL<br/>OF AUSTRALIA</p>
+                                    </div>
+                                </div>
+                            </a></div>
+                        </li>
+                        <li class="pure-menu-item">
+                            <div class="flex"><a href="/users/CheckinHistory" class="pure-menu-link">Check-In History</a></div>
+                        </li>
+                    </ul>
+                    <ul class="pure-menu-list" id="right">
+                        <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+                            <div class="flex"><a href="#" id="menuLink1" class="pure-menu-link">{{user_name}}<i class="fas fa-user"></i></a></div>
+                            <ul class="pure-menu-children">
+                                <li class="pure-menu-item">
+                                    <a href="/users/AccountDetails" class="pure-menu-link drop-down">Account Info</a>
+                                </li>
+                                <li class="pure-menu-item">
+                                    <a href="" class="pure-menu-link drop-down" onclick="logout()">Sign Out</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="pure-menu pure-menu-horizontal" v-else-if="user_log === 'ADMIN'">
+                    <ul class="pure-menu-list">
+                        <li class="pure-menu-item">
+                            <div class="flex"><a href="/" class="pure-menu-link" style="padding:0;border-right:1px solid white;">
+                                <div class="pure-g logo">
+                                    <div class="pure-u-1-3">
+                                        <i class="fas fa-dna"></i>
+                                    </div>
+                                    <div class="pure-u-2-3">
+                                        <p class="logo-text">COVID COUNCIL<br/>OF AUSTRALIA</p>
+                                    </div>
+                                </div>
+                            </a></div>
+                        </li>
+                        <li class="pure-menu-item">
+                            <div class="flex"><a href="/users/MapCheck" class="pure-menu-link">Map</a></div>
+                        </li>
+                        <li class="pure-menu-item">
+                            <div class="flex"><a href="/users/CheckinHistory" class="pure-menu-link">Check-In History</a></div>
+                        </li>
+                    </ul>
+                    <ul class="pure-menu-list" id="right">
+                        <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+                            <div class="flex"><a href="#" id="menuLink1" class="pure-menu-link">{{user_name}}<i class="fas fa-user"></i></a></div>
+                            <ul class="pure-menu-children">
+                                <li class="pure-menu-item">
+                                    <a href="/users/AccountDetails" class="pure-menu-link drop-down">Account Info</a>
+                                </li>
+                                <li class="pure-menu-item">
+                                    <a href="" class="pure-menu-link drop-down" onclick="logout()">Sign Out</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="pure-menu pure-menu-horizontal" v-else>
+                    <ul class="pure-menu-list">
+                        <li class="pure-menu-item">
+                            <div class="flex">
+                                <a href="/" class="pure-menu-link" style="padding:0;border-right:1px solid white;">
+                                    <div class="pure-g logo">
+                                        <div class="pure-u-1-3">
+                                            <i class="fas fa-dna"></i>
+                                        </div>
+                                        <div class="pure-u-2-3">
+                                            <p class="logo-text">COVID COUNCIL<br/>OF AUSTRALIA</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="pure-menu-list" id="right">
+                        <li class="pure-menu-item">
+                            <div class="flex"><a href="Login" class="pure-menu-link">Login</a></div>
                         </li>
                     </ul>
                 </div>
@@ -78,15 +172,15 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td id="table-no-border">{{Date1}}</td>
-                                        <td id="table-no-border">{{Time1}}</td>
-                                        <td id="table-no-border">{{Venue1}}</td>
+                                        <td id="table-no-border">{Date1}</td>
+                                        <td id="table-no-border">{Time1}</td>
+                                        <td id="table-no-border">{Venue1}</td>
                                         <td id="table-no-border"><i class="fas fa-exclamation-triangle"></i></td>
                                     </tr>
                                     <tr>
-                                        <td id="table-no-border">{{Date2}}</td>
-                                        <td id="table-no-border">{{Time2}}</td>
-                                        <td id="table-no-border">{{Venue2}}</td>
+                                        <td id="table-no-border">{Date2}</td>
+                                        <td id="table-no-border">{Time2}</td>
+                                        <td id="table-no-border">{Venue2}</td>
                                         <td id="table-no-border"></td>
                                     </tr>
                                 </tbody>
