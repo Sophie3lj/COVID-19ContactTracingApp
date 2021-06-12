@@ -11,15 +11,15 @@ var vueinst = new Vue({
         user_log: "",
         user_name: "",
         loggedin: false,
-        /*AccountDetails_firstName: 'first_name',
+        AccountDetails_firstName: 'first_name',
         AccountDetails_lastName: 'last_name',
         AccountDetails_email: 'email',
-        AccountDetails_phoneNumber: 'phone_number'
-
-        AccountDetails_firstName: accountDetails[0].first_name,
-        AccountDetails_lastName: accountDetails[0].last_name,
-        AccountDetails_email: accountDetails[0].email,
-        AccountDetails_phoneNumber: accountDetails[0].phone_number*/
+        AccountDetails_phoneNumber: 'phone_number',
+		AccountDetails_venueName: 'venue_name',
+		AccountDetails_streetAddress: 'street_address',
+		AccountDetails_suburb: 'suburb',
+		AccountDetails_postcode: 'postcode',
+		AccountDetails_state: 'state'
     }
 });
 
@@ -173,9 +173,18 @@ function GetAccountDetails() {
   var xhttp = new XMLHTTPRequest();
   xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
-          accountDetails=JSON.parse(this.responseText);
-      }
-  };
-}
-xhttp.open("GET", "/getAccountDetails");
+        var accountDetails=JSON.parse(this.responseText);
+        vueinst.AccountDetails_firstName = accountDetails.first_name;
+        vueinst.AccountDetails_lastName = accountDetails.last_name;
+        vueinst.AccountDetails_email = accountDetails.email;
+        vueinst.AccountDetails_phoneNumber = accountDetails.phone_number;
+		vueinst.AccountDetails_venueName = accountDetails.venue_name;
+		vueinst.AccountDetails_streetAddress = accountDetails.street_number + accountDetails.street_name;
+		vueinst.AccountDetails_suburb = accountDetails.suburb_name;
+		vueinst.AccountDetails_postcode = accountDetails.postcode;
+		vueinst.AccountDetails_state = accountDetails.state;
+    }
+      };
+  }
+xhttp.open("GET", "users/getAccountDetails", true);
 xhttp.send();
