@@ -126,9 +126,9 @@ router.get('/getAccountDetails', function(req, res, next) {
            res.sendStatus(500);
            return;
        }
-       var userID = req.session.userID;
-       /* Query for USER. Will need to check user type and adjust */
-       var query = "SELECT first_name, last_name, email, phone_number FROM Accounts WHERE Accounts.id = ?";
+       var user_id = req.session.user_id;
+       /* Query to get all neccessary data */
+       var query = "SELECT accounts.first_name, accounts.last_name, accounts.email, accounts.phone_number, venues.venue_name, venues.street_number, venues.street_name,  venues.postcode, venues.state, suburbs.suburb_name FROM ((accounts INNER JOIN venues ON accounts.id = venues.venue_owner) INNER JOIN suburbs ON venues.suburb = suburbs.id) WHERE accounts.id = ?";
        connection.query(query, [userID], function(err, rows, fields) {
            connection.release();
            if (err) {
