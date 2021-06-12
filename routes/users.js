@@ -13,7 +13,7 @@ router.get('/getAccountDetails', function(req, res, next) {
            res.sendStatus(500);
            return;
        }
-       var userID = req.query.userID;
+       var userID = req.session.userID;
        /* Query for USER. Will need to check user type and adjust */
        var query = "SELECT first_name, last_name, email, phone_number FROM Accounts WHERE Accounts.id = ?";
        connection.query(query, [userID], function(err, rows, fields) {
