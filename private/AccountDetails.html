@@ -152,30 +152,102 @@
     			<div class="centering-flex-container full-height">
                     <div class="centering-flex-container">
                         <h1>Account Details</h1>
-                        <div class="pure-g">
+                        <!--First set of data displayed for USER or ADMIN type clients-->
+                        <div class="pure-g" v-if="user_log === 'USER'">
                             <div class="pure-u-4-24">
                                 <div id="account-details-grid-elements">First Name:</div>
                             </div>
                             <div class="pure-u-8-24">
-                                <div class="bottom-border" id="account-details-grid-elements">{First Name}</div>
+                                <div class="bottom-border" id="account-details-grid-elements">AccountDetails_firstName</div>
                             </div>
                             <div class="pure-u-4-24">
                                 <div id="account-details-grid-elements">Last Name:</div>
                             </div>
                             <div class="pure-u-8-24">
-                                <div class="bottom-border" id="account-details-grid-elements">{Last Name}</div>
+                                <div class="bottom-border" id="account-details-grid-elements">AccountDetails_lastName</div>
                             </div>
                             <div class="pure-u-4-24">
                                 <div id="account-details-grid-elements">Email:</div>
                             </div>
                             <div class="pure-u-20-24">
-                                <div class="bottom-border" id="account-details-grid-elements">{e-mail}</div>
+                                <div class="bottom-border" id="account-details-grid-elements">AccountDetails_email</div>
                             </div>
                             <div class="pure-u-4-24">
                                 <div id="account-details-grid-elements">Phone Number:</div>
                             </div>
                             <div class="pure-u-20-24">
-                                <div class="bottom-border" id="account-details-grid-elements">{Phone Number}</div>
+                                <div class="bottom-border" id="account-details-grid-elements">AccountDetails_phoneNumber</div>
+                            </div>
+                        </div>
+                        <div class="pure-g" v-else-if="user_log === 'ADMIN'">
+                            <div class="pure-u-4-24">
+                                <div id="account-details-grid-elements">First Name:</div>
+                            </div>
+                            <div class="pure-u-8-24">
+                                <div class="bottom-border" id="account-details-grid-elements">AccountDetails_firstName</div>
+                            </div>
+                            <div class="pure-u-4-24">
+                                <div id="account-details-grid-elements">Last Name:</div>
+                            </div>
+                            <div class="pure-u-8-24">
+                                <div class="bottom-border" id="account-details-grid-elements">AccountDetails_lastName</div>
+                            </div>
+                            <div class="pure-u-4-24">
+                                <div id="account-details-grid-elements">Email:</div>
+                            </div>
+                            <div class="pure-u-20-24">
+                                <div class="bottom-border" id="account-details-grid-elements">AccountDetails_email</div>
+                            </div>
+                            <div class="pure-u-4-24">
+                                <div id="account-details-grid-elements">Phone Number:</div>
+                            </div>
+                            <div class="pure-u-20-24">
+                                <div class="bottom-border" id="account-details-grid-elements">AccountDetails_phoneNumber</div>
+                            </div>
+                        </div>
+                        <!--Second set of data displayed for VENUE type clients-->
+                        <div class="pure-g" v-else-if="user_log === 'VENUE'">
+                            <div class="pure-u-4-24">
+                                <div id="account-details-grid-elements">Venue Name:</div>
+                            </div>
+                            <div class="pure-u-20-24">
+                                <div class="bottom-border" id="account-details-grid-elements">AccountDetails_venueName</div>
+                            </div>
+                            <div class="pure-u-4-24">
+                                <div id="account-details-grid-elements">Email:</div>
+                            </div>
+                            <div class="pure-u-20-24">
+                                <div class="bottom-border" id="account-details-grid-elements">AccountDetails_email</div>
+                            </div>
+                            <div class="pure-u-4-24">
+                                <div id="account-details-grid-elements">Phone Number:</div>
+                            </div>
+                            <div class="pure-u-20-24">
+                                <div class="bottom-border" id="account-details-grid-elements">AccountDetails_phoneNumber</div>
+                            </div>
+                            <div class="pure-u-4-24">
+                                <div id="account-details-grid-elements">Street Address:</div>
+                            </div>
+                            <div class="pure-u-20-24">
+                                <div class="bottom-border" id="account-details-grid-elements">AccountDetails_streetAddress</div>
+                            </div>
+                            <div class="pure-u-3-24">
+                                <div id="account-details-grid-elements">Suburb:</div>
+                            </div>
+                            <div class="pure-u-5-24">
+                                <div class="bottom-border" id="account-details-grid-elements">AccountDetails_suburb</div>
+                            </div>
+                            <div class="pure-u-3-24">
+                                <div id="account-details-grid-elements">Postcode:</div>
+                            </div>
+                            <div class="pure-u-5-24">
+                                <div class="bottom-border" id="account-details-grid-elements">AccountDetails_postcode</div>
+                            </div>
+                            <div class="pure-u-3-24">
+                                <div id="account-details-grid-elements">State:</div>
+                            </div>
+                            <div class="pure-u-5-24">
+                                <div class="bottom-border" id="account-details-grid-elements">AccountDetails_state</div>
                             </div>
                         </div>
                         <a href="EditAccountDetails">
@@ -183,13 +255,9 @@
                         </a>
                     </div>
                 </div>
-
-    		</main>
-
+		    </main>
             <footer>
-
             </footer>
         </div>
     </body>
-
 </html>
