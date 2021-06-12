@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='UTF-8'>
+        <title>COVID-19 Contact Tracing</title>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Mukta&display=swap" rel="stylesheet">
+        <script src="https://kit.fontawesome.com/a6624d86e5.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+        <link rel="stylesheet" type="text/css" href="stylesheets/main.css">
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+        <script src='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js'></script>
+        <link href='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css' rel='stylesheet' />
+        <script src="https://unpkg.com/@mapbox/mapbox-sdk/umd/mapbox-sdk.min.js"></script>
+        <script src="javascripts/map.js"defer></script>
+    </head>
+
+    <body onload="loginCheck();">
+        <div id="app">
+            <header>
+                <div class="pure-menu pure-menu-horizontal" v-if="user_log === 'USER'">
+                    <ul class="pure-menu-list">
+                        <li class="pure-menu-item">
+                            <div class="flex"><a href="/" class="pure-menu-link" style="padding:0;border-right:1px solid white;">
+                                <div class="pure-g logo">
+                                    <div class="pure-u-1-3">
+                                        <i class="fas fa-dna"></i>
+                                    </div>
+                                    <div class="pure-u-2-3">
+                                        <p class="logo-text">COVID COUNCIL<br/>OF AUSTRALIA</p>
+                                    </div>
+                                </div>
+                            </a></div>
+                        </li>
+                        <li class="pure-menu-item">
+                            <div class="flex"><a href="/users/MapCheck" class="pure-menu-link">Map</a></div>
+                        </li>
+                        <li class="pure-menu-item">
+                            <div class="flex"><a href="/users/CheckinHistory" class="pure-menu-link">Check-In History</a></div>
+                        </li>
+                        <li class="pure-menu-item">
+                            <div class="flex"><a href="/users/CheckinCheck" class="pure-menu-link">Check-In</a></div>
+                        </li>
+                    </ul>
+                    <ul class="pure-menu-list" id="right">
+                        <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+                            <div class="flex"><a href="#" id="menuLink1" class="pure-menu-link">{{user_name}}<i class="fas fa-user"></i></a></div>
+                            <ul class="pure-menu-children">
+                                <li class="pure-menu-item">
+                                    <a href="/users/AccountDetails" class="pure-menu-link drop-down">Account Info</a>
+                                </li>
+                                <li class="pure-menu-item">
+                                    <a href="" class="pure-menu-link drop-down" onclick="logout()">Sign Out</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="pure-menu pure-menu-horizontal" v-else-if="user_log === 'VENUE'">
+                    <ul class="pure-menu-list">
+                        <li class="pure-menu-item">
+                            <div class="flex"><a href="/" class="pure-menu-link" style="padding:0;border-right:1px solid white;">
+                                <div class="pure-g logo">
+                                    <div class="pure-u-1-3">
+                                        <i class="fas fa-dna"></i>
+                                    </div>
+                                    <div class="pure-u-2-3">
+                                        <p class="logo-text">COVID COUNCIL<br/>OF AUSTRALIA</p>
+                                    </div>
+                                </div>
+                            </a></div>
+                        </li>
+                        <li class="pure-menu-item">
+                            <div class="flex"><a href="/users/CheckinHistory" class="pure-menu-link">Check-In History</a></div>
+                        </li>
+                    </ul>
+                    <ul class="pure-menu-list" id="right">
+                        <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+                            <div class="flex"><a href="#" id="menuLink1" class="pure-menu-link">{{user_name}}<i class="fas fa-user"></i></a></div>
+                            <ul class="pure-menu-children">
+                                <li class="pure-menu-item">
+                                    <a href="/users/AccountDetails" class="pure-menu-link drop-down">Account Info</a>
+                                </li>
+                                <li class="pure-menu-item">
+                                    <a href="" class="pure-menu-link drop-down" onclick="logout()">Sign Out</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="pure-menu pure-menu-horizontal" v-else-if="user_log === 'ADMIN'">
+                    <ul class="pure-menu-list">
+                        <li class="pure-menu-item">
+                            <div class="flex"><a href="/" class="pure-menu-link" style="padding:0;border-right:1px solid white;">
+                                <div class="pure-g logo">
+                                    <div class="pure-u-1-3">
+                                        <i class="fas fa-dna"></i>
+                                    </div>
+                                    <div class="pure-u-2-3">
+                                        <p class="logo-text">COVID COUNCIL<br/>OF AUSTRALIA</p>
+                                    </div>
+                                </div>
+                            </a></div>
+                        </li>
+                        <li class="pure-menu-item">
+                            <div class="flex"><a href="/users/MapCheck" class="pure-menu-link">Map</a></div>
+                        </li>
+                        <li class="pure-menu-item">
+                            <div class="flex"><a href="/users/CheckinHistory" class="pure-menu-link">Check-In History</a></div>
+                        </li>
+                    </ul>
+                    <ul class="pure-menu-list" id="right">
+                        <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+                            <div class="flex"><a href="#" id="menuLink1" class="pure-menu-link">{{user_name}}<i class="fas fa-user"></i></a></div>
+                            <ul class="pure-menu-children">
+                                <li class="pure-menu-item">
+                                    <a href="/users/AccountDetails" class="pure-menu-link drop-down">Account Info</a>
+                                </li>
+                                <li class="pure-menu-item">
+                                    <a href="" class="pure-menu-link drop-down" onclick="logout()">Sign Out</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="pure-menu pure-menu-horizontal" v-else>
+                    <ul class="pure-menu-list">
+                        <li class="pure-menu-item">
+                            <div class="flex">
+                                <a href="/" class="pure-menu-link" style="padding:0;border-right:1px solid white;">
+                                    <div class="pure-g logo">
+                                        <div class="pure-u-1-3">
+                                            <i class="fas fa-dna"></i>
+                                        </div>
+                                        <div class="pure-u-2-3">
+                                            <p class="logo-text">COVID COUNCIL<br/>OF AUSTRALIA</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="pure-menu-list" id="right">
+                        <li class="pure-menu-item">
+                            <div class="flex"><a href="Login" class="pure-menu-link">Login</a></div>
+                        </li>
+                    </ul>
+                </div>
+            </header>
+
+            <main>
+
+                <div class="pure-g">
+                    <div class="pure-u-1-4">
+                        <div id="choices">
+                            <form class="pure-form">
+                                <label for="checkbox-option-two" id="CI-box" class="pure-checkbox">
+                                    <input type="checkbox" v-model="checkins" onchange="addOrRemCheckin()"/> Check-ins</label>
+                                <label for="checkbox-option-one" id="HS-box" class="pure-checkbox">
+                                    <input type="checkbox" v-model="hotspots" onchange="addOrRemHotspot()"/> Hotspots</label>
+                            </form>
+                        </div>
+
+                        <div id="info">
+                            <div id="checkin-info" v-if="checkins">
+                                <h4>Check-ins</h3>
+                                <div id="addCheckins">
+
+                                </div>
+                            </div>
+                            <div id="hotspot-info" v-if="hotspots">
+                                <h4>Hotspots</h3>
+                                <div id="addHotspots">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pure-u-3-4">
+                        <div id="map"></div>
+                    </div>
+                </div>
+
+            </main>
+
+            <footer class="footer-container">
+
+                    <div>
+                        <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="footer-link">Contact Us</a>
+                    </div>
+                    <div>
+                        <a href="https://cornhub.website" class="footer-link">Privacy Policy</a>
+                    </div>
+                    <div>
+                        <a href="https://adelaide.craigslist.org/d/jobs/search/jjj" class="footer-link">Careers</a>
+                    </div>
+        </footer>
+        </div>
+    </body>
+
+</html>
