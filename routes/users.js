@@ -10,7 +10,7 @@ router.post('/login', function(req,res,next){
 
     var bcrypt = require('bcrypt');
     //get connection
-    console.log("new user");
+    console.log("attempted login");
     console.log(req.body.email) ;
     req.pool.getConnection(function(err, connection){
         if(err){
@@ -29,7 +29,7 @@ router.post('/login', function(req,res,next){
 
             //Email is incorrect
             if(result[0] === undefined){
-                res.redirect("/Login.html#login_failed");
+                res.sendStatus(401);
                 return;
             }
 
@@ -51,9 +51,50 @@ router.post('/login', function(req,res,next){
                     console.log('redirected');
                     res.send(result[0].user_type);
                 }else{
+
                     res.sendStatus(401);
                 }
             });
+        });
+    });
+});
+
+router.post('/GoogleLogin', function(req,res,next){
+    req.pool.getConnection(function(err, connection){
+        if(err){
+            console.log(err);
+            return;
+        }
+        console.log("Google login");
+        var body = req.body;
+        var email = body.email;
+        var first_name = body.first_name;
+        var last_name = body.last_name;
+        if(first_name=="undefined"){
+            first_name = " ";
+        }
+        if(last_name=="undefined"){
+            last_name=" ";
+        }
+        connection.query("select id, email, password_hash FROM accounts WHERE email='"+email+"'", function(err, result){
+            if(err) console.log(err);
+            if(result[0]===undefined){
+                connection.query("INSERT INTO accounts ( user_type, email, first_name, last_name, password_hash, phone_number) VALUES ('USER', '"+email+"', '"+first_name+"', '"+last_name+"', '-', '-')", function(err, result){
+                    if(err) console.log(err);
+                    console.log("New google user created");
+                });
+            }else{
+                req.session.user_id = result[0].id;
+            }
+
+            req.session.email = email;
+            req.session.user_type = "USER";
+
+            req.session.user_name = first_name + ' ' + last_name;
+            console.log('session set');
+            console.log(req.session.email + ', ' + req.session.user_name);
+            res.send(result[0].user_type);
+
         });
     });
 });
@@ -127,17 +168,27 @@ router.get('/getAccountDetails', function(req, res, next) {
            return;
        }
        var user_id = req.session.user_id;
+       var query;
        /* Query to get all neccessary data */
-       var query = "SELECT accounts.first_name, accounts.last_name, accounts.email, accounts.phone_number, venues.venue_name, venues.street_number, venues.street_name,  venues.postcode, venues.state, suburbs.suburb_name FROM ((accounts INNER JOIN venues ON accounts.id = venues.venue_owner) INNER JOIN suburbs ON venues.suburb = suburbs.id) WHERE accounts.id = ?";
-       connection.query(query, [userID], function(err, rows, fields) {
+       if (req.session.user_type === "USER" || req.session.user.type === "ADMIN") {
+           query = "SELECT accounts.first_name, accounts.last_name, accounts.email, accounts.phone_number FROM accounts WHERE accounts.id = ?";
+       }
+       else if (req.session.user_type === "VENUE") {
+           query = "SELECT accounts.first_name, accounts.last_name, accounts.email, accounts.phone_number, venues.venue_name, venues.street_number, venues.street_name,  venues.postcode, venues.state, suburbs.suburb_name FROM ((accounts INNER JOIN venues ON accounts.id = venues.venue_owner) INNER JOIN suburbs ON venues.suburb = suburbs.id) WHERE accounts.id = ?";
+       }
+       connection.query(query, [user_id], function(err, rows, fields) {
            connection.release();
            if (err) {
                res.sendStatus(500);
                return;
            }
+           console.log(rows[0].first_name);
+           console.log('query successful');
            res.json(rows);
        });
    });
 });
+
+
 
 module.exports = router;

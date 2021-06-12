@@ -126,8 +126,12 @@ function login(){
 			window.location.pathname="/";
 		}
 		else if ( this.readyState == 4 && this.status == 401 ) {
-			alert("unsuccessful");
+			//window.location.pathname="/Login#login_failed";
+			console.log("/Login#login_failed")
+		}else if ( this.readyState == 4 && this.status == 402 ) {
+			//window.location.pathname="/Login#login_failed";
 		}
+
 	};
 
 	xhttp.open('POST', '/users/login', true) ;
@@ -170,21 +174,31 @@ function signup(){
 
 /* AccountDetails.html AJAX script */
 function GetAccountDetails() {
-  var xhttp = new XMLHTTPRequest();
-  xhttp.onreadystatechange = function() {
-      if (this.readyState == 4 && this.status == 200) {
-        var accountDetails=JSON.parse(this.responseText);
-        vueinst.AccountDetails_firstName = accountDetails.first_name;
-        vueinst.AccountDetails_lastName = accountDetails.last_name;
-        vueinst.AccountDetails_email = accountDetails.email;
-        vueinst.AccountDetails_phoneNumber = accountDetails.phone_number;
-		vueinst.AccountDetails_venueName = accountDetails.venue_name;
-		vueinst.AccountDetails_streetAddress = accountDetails.street_number + accountDetails.street_name;
-		vueinst.AccountDetails_suburb = accountDetails.suburb_name;
-		vueinst.AccountDetails_postcode = accountDetails.postcode;
-		vueinst.AccountDetails_state = accountDetails.state;
-    }
-      };
-  }
-xhttp.open("GET", "users/getAccountDetails", true);
-xhttp.send();
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+    	if (this.readyState == 4 && this.status == 200) {
+        	var accountDetails=JSON.parse(this.responseText);
+        	console.log('amongus');
+        	for (let key of accountDetails) {
+        		console.log('logging element');
+		    	console.log(`${key} : ${accountDetails[key]}`);
+			}
+
+	        vueinst.AccountDetails_firstName = accountDetails[0].first_name;
+	        //console.log(accountDetails[0].first_name);
+	        vueinst.AccountDetails_lastName = accountDetails[0].last_name;
+	        //console.log('past last name');
+	        vueinst.AccountDetails_email = accountDetails[0].email;
+	        //console.log('past email');
+	        vueinst.AccountDetails_phoneNumber = accountDetails[0].phone_number;
+			vueinst.AccountDetails_venueName = accountDetails[0].venue_name;
+			vueinst.AccountDetails_streetAddress = accountDetails[0].street_number + accountDetails[0].street_name;
+			vueinst.AccountDetails_suburb = accountDetails[0].suburb_name;
+			vueinst.AccountDetails_postcode = accountDetails[0].postcode;
+			vueinst.AccountDetails_state = accountDetails[0].state;
+    	}
+    };
+    xhttp.open("GET", "/users/getAccountDetails");
+	xhttp.send();
+
+}

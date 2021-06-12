@@ -12,7 +12,7 @@
         <script src="javascripts/main.js" defer></script>
     </head>
 
-    <body onload="loginCheck();">
+    <body onload="loginCheck();GetAccountDetails();">
         <div id="app">
             <header>
                 <div class="pure-menu pure-menu-horizontal" v-if="user_log === 'USER'">
@@ -154,28 +154,28 @@
                         <h1>Account Details</h1>
                         <!--First set of data displayed for USER or ADMIN type clients-->
                         <div class="pure-g" v-if="user_log === 'USER' || user_log === 'ADMIN'">
-                            <div class="pure-u-3-24">
+                            <div class="pure-u-4-24">
                                 <div id="account-details-grid-elements">First Name:</div>
                             </div>
-                            <div class="pure-u-9-24">
+                            <div class="pure-u-8-24">
                                 <div class="bottom-border" id="account-details-grid-elements">{{AccountDetails_firstName}}</div>
                             </div>
-                            <div class="pure-u-3-24">
+                            <div class="pure-u-4-24">
                                 <div id="account-details-grid-elements">Last Name:</div>
                             </div>
-                            <div class="pure-u-9-24">
+                            <div class="pure-u-8-24">
                                 <div class="bottom-border" id="account-details-grid-elements">{{AccountDetails_lastName}}</div>
                             </div>
-                            <div class="pure-u-3-24">
+                            <div class="pure-u-4-24">
                                 <div id="account-details-grid-elements">Email:</div>
                             </div>
-                            <div class="pure-u-21-24">
+                            <div class="pure-u-20-24">
                                 <div class="bottom-border" id="account-details-grid-elements">{{AccountDetails_email}}</div>
                             </div>
-                            <div class="pure-u-3-24">
+                            <div class="pure-u-4-24">
                                 <div id="account-details-grid-elements">Phone Number:</div>
                             </div>
-                            <div class="pure-u-21-24">
+                            <div class="pure-u-20-24">
                                 <div class="bottom-border" id="account-details-grid-elements">{{AccountDetails_phoneNumber}}</div>
                             </div>
                         </div>

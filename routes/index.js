@@ -263,31 +263,7 @@ router.post('/SignUp.html', function (req, res, next){
     res.redirect("/");
 });
 
-router.post('/GoogleLogin.html', function(req,res,next){
-    req.pool.getConnection(function(err, connection){
-        if(err){
-            console.log(err);
-            return;
-        }
 
-        var body = req.body;
-        var email = body.email;
-        var first_name = body.first_name;
-        var last_name = body.last_name;
-
-        connection.query("select id, email, password_hash FROM accounts WHERE email='"+email+"'", function(err, result){
-            if(err) console.log(err);
-            if(result[0]===undefined){
-                connection.query("INSERT INTO accounts ( user_type, email, first_name, last_name, password_hash, phone_number) VALUES ('USER', '"+email+"', '"+first_name+"', '"+last_name+"', '-', '-')", function(err, result){
-                    if(err) console.log(err);
-                    console.log("New google user created");
-                });
-            }
-            req.session.email = email;
-            res.redirect("/");
-        });
-    });
-});
 
 
 module.exports = router;
