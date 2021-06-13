@@ -343,4 +343,158 @@ router.post('/newadmin', function (req, res, next){
     res.redirect("/");
 });
 
+router.post('/editAccDetails', function (req, res, next){
+
+    req.pool.getConnection(function(err,connection){
+        if(err){
+            console.log(err);
+            return;
+        }
+
+        var reqBody = req.body;
+        var venue_name = reqBody.venue_name;
+        var first_name = reqBody.first_name;
+		var last_name = reqBody.last_name;
+		var email = reqBody.email;
+		var phone_number = reqBody.phone_number;
+		var street_number = reqBody.street_number;
+		var street_address = reqBody.street_address;
+		var suburb = reqBody.suburb;
+		var post_code = reqBody.post_code;
+		var state = reqBody.state;
+		var password = reqBody.password;
+		var id = req.session.user_id;
+		var type = req.session.user_type;
+
+		var queryString = '';
+
+        if (!(first_name === '')){
+            queryString = "UPDATE accounts SET first_name = ? WHERE id = ?";
+            connection.query(queryString, [first_name, id], function(err, result){
+                if(err){
+                    console.log(err);
+                }else {
+                    console.log("First Name Successfully Updated");
+                }
+            });
+        }
+
+        if (!(last_name === '')){
+            queryString = "UPDATE accounts SET last_name = ? WHERE id = ?";
+            connection.query(queryString, [last_name, id], function(err, result){
+                if(err){
+                    console.log(err);
+                }else {
+                    console.log("Last Name Successfully Updated");
+                }
+            });
+        }
+
+        if (!(email === '')){
+            queryString = "UPDATE accounts SET email = ? WHERE id = ?";
+            connection.query(queryString, [email, id], function(err, result){
+                if(err){
+                    console.log(err);
+                }else {
+                    console.log("Email Successfully Updated");
+                }
+            });
+        }
+
+        if (!(phone_number === '')){
+            queryString = "UPDATE accounts SET phone_number = ? WHERE id = ?";
+            connection.query(queryString, [phone_number, id], function(err, result){
+                if(err){
+                    console.log(err);
+                }else {
+                    console.log("Phone Number Successfully Updated");
+                }
+            });
+        }
+
+        if (!(password === '')){
+            bcrypt.genSalt(10, function(err, salt){
+                if(err){
+                    console.log(err);
+                }
+                bcrypt.hash(password, salt, function(err, hash){
+                    if(err){
+                        console.log(err);
+                    }
+                    password = hash;
+                    queryString = "UPDATE accounts SET password_hash = ? WHERE id = ?";
+                    connection.query(queryString, [password, id], function(err, result){
+                        if(err){
+                            console.log(err);
+                        }else {
+                            console.log("Password Successfully Updated");
+                        }
+                    });
+                    //console.log(password);
+                });
+            });
+        }
+
+        //street_number, street_address, suburb, post_code, state
+
+        if (type === "VENUE"){
+            if (!(street_number === '')){
+                queryString = "UPDATE venues SET street_number = ? WHERE venue_owner = ?";
+                connection.query(queryString, [street_number, id], function(err, result){
+                    if(err){
+                        console.log(err);
+                    }else {
+                        console.log("Street Number Successfully Updated");
+                    }
+                });
+            }
+
+            if (!(street_address === '')){
+                queryString = "UPDATE venues SET street_name = ? WHERE venue_owner = ?";
+                connection.query(queryString, [street_address, id], function(err, result){
+                    if(err){
+                        console.log(err);
+                    }else {
+                        console.log("Street Name Successfully Updated");
+                    }
+                });
+            }
+
+            if (!(suburb === '')){
+                queryString = "UPDATE venues SET suburb = ? WHERE venue_owner = ?";
+                connection.query(queryString, [suburb, id], function(err, result){
+                    if(err){
+                        console.log(err);
+                    }else {
+                        console.log("Suburb Successfully Updated");
+                    }
+                });
+            }
+
+            if (!(post_code === '')){
+                queryString = "UPDATE venues SET postcode = ? WHERE venue_owner = ?";
+                connection.query(queryString, [post_code, id], function(err, result){
+                    if(err){
+                        console.log(err);
+                    }else {
+                        console.log("Postcode Successfully Updated");
+                    }
+                });
+            }
+
+            if (!(state === '')){
+                queryString = "UPDATE venues SET state = ? WHERE venue_owner = ?";
+                connection.query(queryString, [state, id], function(err, result){
+                    if(err){
+                        console.log(err);
+                    }else {
+                        console.log("State Successfully Updated");
+                    }
+                });
+            }
+        }
+    });
+    res.redirect("/users/AccountDetails");
+});
+
 module.exports = router;

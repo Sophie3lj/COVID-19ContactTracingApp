@@ -176,24 +176,24 @@ function signup(){
 function GetAccountDetails() {
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
-    	if (this.readyState == 4 && this.status == 200) {
-        	var accountDetails=JSON.parse(this.responseText);
-        	console.log('amongus');
-        	for (let key of accountDetails) {
-        		console.log('logging element');
-		    	console.log(`${key} : ${accountDetails[key]}`);
+		if (this.readyState == 4 && this.status == 200) {
+			var accountDetails=JSON.parse(this.responseText);
+			//console.log('amongus');
+			for (let key of accountDetails) {
+				console.log('logging element');
+				//console.log(`${key} : ${accountDetails[key]}`);
 			}
 
-	        vueinst.AccountDetails_firstName = accountDetails[0].first_name;
-	        vueinst.AccountDetails_lastName = accountDetails[0].last_name;
-	        vueinst.AccountDetails_email = accountDetails[0].email;
-	        vueinst.AccountDetails_phoneNumber = accountDetails[0].phone_number;
+			vueinst.AccountDetails_firstName = accountDetails[0].first_name;
+			vueinst.AccountDetails_lastName = accountDetails[0].last_name;
+			vueinst.AccountDetails_email = accountDetails[0].email;
+			vueinst.AccountDetails_phoneNumber = accountDetails[0].phone_number;
 			vueinst.AccountDetails_venueName = accountDetails[0].venue_name;
 			vueinst.AccountDetails_streetAddress = accountDetails[0].street_number + accountDetails[0].street_name;
 			vueinst.AccountDetails_suburb = accountDetails[0].suburb_name;
 			vueinst.AccountDetails_postcode = accountDetails[0].postcode;
 			vueinst.AccountDetails_state = accountDetails[0].state;
-    	}
+		}
     };
     xhttp.open("GET", "/users/getAccountDetails");
 	xhttp.send();
@@ -202,7 +202,6 @@ function GetAccountDetails() {
 
 
 function GetCheckinHistory(){
-
 	var xhttp = new XMLHttpRequest() ;
 	xhttp.onreadystatechange = function() {
 		if ( this.readyState == 4 && this.status == 200 ) {
@@ -285,11 +284,9 @@ function GetCheckinHistory(){
 }
 
 function GetCheckinSearchHistory(){
-
 	let Search = {
 		search: document.getElementById('checkinSearch').value,
 	};
-
 	var xhttp = new XMLHttpRequest() ;
 	xhttp.onreadystatechange = function() {
 		if ( this.readyState == 4 && this.status == 200 ) {
