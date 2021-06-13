@@ -202,3 +202,177 @@ function GetAccountDetails() {
 	xhttp.send();
 
 }
+
+
+function GetCheckinHistory(){
+
+	var xhttp = new XMLHttpRequest() ;
+	xhttp.onreadystatechange = function() {
+		if ( this.readyState == 4 && this.status == 200 ) {
+			var checkins = JSON.parse(this.responseText) ;
+			var date ;
+
+			for ( let row of checkins){
+				date = new Date(row.date_time);
+
+				if ( 'ADMIN' in row ){
+					if (row.hotspot == null){
+						document.getElementById('addCheckinHistory').innerHTML = document.getElementById('addCheckinHistory').innerHTML +	`
+						<tr>
+							<td id="table-no-border">${date.toLocaleDateString()}</td>
+							<td id="table-no-border">${date.toLocaleTimeString()}</td>
+							<td id="table-no-border">${row.user_id}</td>
+							<td id="table-no-border">${row.venue_name} (${row.suburb_name})</td>
+							<td id="table-no-border"></td>
+						</tr>`;
+
+					}
+					else{
+						document.getElementById('addCheckinHistory').innerHTML = document.getElementById('addCheckinHistory').innerHTML +	`
+						<tr>
+							<td id="table-no-border">${date.toLocaleDateString()}</td>
+							<td id="table-no-border">${date.toLocaleTimeString()}</td>
+							<td id="table-no-border">${row.user_id}</td>
+							<td id="table-no-border">${row.venue_name} (${row.suburb_name})</td>
+							<td id="table-no-border"><i class="fas fa-exclamation-triangle"></i></td>
+						</tr>`;
+					}
+				}
+				else if ( 'USER' in row ){
+					if (row.hotspot == null){
+						document.getElementById('addCheckinHistory').innerHTML = document.getElementById('addCheckinHistory').innerHTML +	`
+						<tr>
+							<td id="table-no-border">${date.toLocaleDateString()}</td>
+							<td id="table-no-border">${date.toLocaleTimeString()}</td>
+							<td id="table-no-border">${row.venue_name} (${row.suburb_name})</td>
+							<td id="table-no-border"></td>
+						</tr>`;
+					}
+					else{
+						document.getElementById('addCheckinHistory').innerHTML = document.getElementById('addCheckinHistory').innerHTML +	`
+						<tr>
+							<td id="table-no-border">${date.toLocaleDateString()}</td>
+							<td id="table-no-border">${date.toLocaleTimeString()}</td>
+							<td id="table-no-border">${row.venue_name} (${row.suburb_name})</td>
+							<td id="table-no-border"><i class="fas fa-exclamation-triangle"></i></td>
+						</tr>`;
+					}
+				}
+				else if ( 'VENUE' in row ){
+					if (row.hotspot == null){
+						document.getElementById('addCheckinHistory').innerHTML = document.getElementById('addCheckinHistory').innerHTML +	`
+						<tr>
+							<td id="table-no-border">${date.toLocaleDateString()}</td>
+							<td id="table-no-border">${date.toLocaleTimeString()}</td>
+							<td id="table-no-border">${row.user_id}</td>
+							<td id="table-no-border"></td>
+						</tr>`;
+
+					}
+					else{
+						document.getElementById('addCheckinHistory').innerHTML = document.getElementById('addCheckinHistory').innerHTML +	`
+						<tr>
+							<td id="table-no-border">${date.toLocaleDateString()}</td>
+							<td id="table-no-border">${date.toLocaleTimeString()}</td>
+							<td id="table-no-border">${row.user_id}</td>
+							<td id="table-no-border"><i class="fas fa-exclamation-triangle"></i></td>
+						</tr>`;
+					}
+				}
+			}
+		}
+	};
+
+	xhttp.open('GET', '/users/getCheckinHistory', true) ;
+	xhttp.send() ;
+}
+
+function GetCheckinSearchHistory(){
+
+	let Search = {
+		search: document.getElementById('checkinSearch').value,
+	};
+
+	var xhttp = new XMLHttpRequest() ;
+	xhttp.onreadystatechange = function() {
+		if ( this.readyState == 4 && this.status == 200 ) {
+			var checkins = JSON.parse(this.responseText) ;
+			var date ;
+
+			document.getElementById('addCheckinHistory').innerHTML = " ";
+
+			for ( let row of checkins){
+				date = new Date(row.date_time);
+
+				if ( 'ADMIN' in row ){
+					if (row.hotspot == null){
+						document.getElementById('addCheckinHistory').innerHTML = document.getElementById('addCheckinHistory').innerHTML +	`
+						<tr>
+							<td id="table-no-border">${date.toLocaleDateString()}</td>
+							<td id="table-no-border">${date.toLocaleTimeString()}</td>
+							<td id="table-no-border">${row.user_id}</td>
+							<td id="table-no-border">${row.venue_name} (${row.suburb_name})</td>
+							<td id="table-no-border"></td>
+						</tr>`;
+
+					}
+					else{
+						document.getElementById('addCheckinHistory').innerHTML = document.getElementById('addCheckinHistory').innerHTML +	`
+						<tr>
+							<td id="table-no-border">${date.toLocaleDateString()}</td>
+							<td id="table-no-border">${date.toLocaleTimeString()}</td>
+							<td id="table-no-border">${row.user_id}</td>
+							<td id="table-no-border">${row.venue_name} (${row.suburb_name})</td>
+							<td id="table-no-border"><i class="fas fa-exclamation-triangle"></i></td>
+						</tr>`;
+					}
+				}
+				else if ( 'USER' in row ){
+					if (row.hotspot == null){
+						document.getElementById('addCheckinHistory').innerHTML = document.getElementById('addCheckinHistory').innerHTML +	`
+						<tr>
+							<td id="table-no-border">${date.toLocaleDateString()}</td>
+							<td id="table-no-border">${date.toLocaleTimeString()}</td>
+							<td id="table-no-border">${row.venue_name} (${row.suburb_name})</td>
+							<td id="table-no-border"></td>
+						</tr>`;
+					}
+					else{
+						document.getElementById('addCheckinHistory').innerHTML = document.getElementById('addCheckinHistory').innerHTML +	`
+						<tr>
+							<td id="table-no-border">${date.toLocaleDateString()}</td>
+							<td id="table-no-border">${date.toLocaleTimeString()}</td>
+							<td id="table-no-border">${row.venue_name} (${row.suburb_name})</td>
+							<td id="table-no-border"><i class="fas fa-exclamation-triangle"></i></td>
+						</tr>`;
+					}
+				}
+				else if ( 'VENUE' in row ){
+					if (row.hotspot == null){
+						document.getElementById('addCheckinHistory').innerHTML = document.getElementById('addCheckinHistory').innerHTML +	`
+						<tr>
+							<td id="table-no-border">${date.toLocaleDateString()}</td>
+							<td id="table-no-border">${date.toLocaleTimeString()}</td>
+							<td id="table-no-border">${row.user_id}</td>
+							<td id="table-no-border"></td>
+						</tr>`;
+
+					}
+					else{
+						document.getElementById('addCheckinHistory').innerHTML = document.getElementById('addCheckinHistory').innerHTML +	`
+						<tr>
+							<td id="table-no-border">${date.toLocaleDateString()}</td>
+							<td id="table-no-border">${date.toLocaleTimeString()}</td>
+							<td id="table-no-border">${row.user_id}</td>
+							<td id="table-no-border"><i class="fas fa-exclamation-triangle"></i></td>
+						</tr>`;
+					}
+				}
+			}
+		}
+	};
+
+	xhttp.open('POST', '/users/getCheckinSearchHistory', true) ;
+	xhttp.setRequestHeader("Content-type", "application/json");
+    xhttp.send(JSON.stringify(Search));
+}

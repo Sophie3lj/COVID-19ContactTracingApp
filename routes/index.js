@@ -85,6 +85,24 @@ router.get('/mapHotspots', function(req, res) {
     });
 });
 
+router.get('/MiniMapHotspots', function(req, res) {
+    req.pool.getConnection(function(err,connection) {
+        if (err) {
+            res.sendStatus(500);
+            return;
+        }
+        var query = "SELECT suburbs.suburb_name FROM hotspots INNER JOIN suburbs ON hotspots.suburb_id=suburbs.id" ;
+        connection.query(query, function(err, rows, fields) {
+            connection.release();
+            if (err) {
+                res.sendStatus(500);
+                return;
+            }
+            res.json(rows);
+        });
+    });
+});
+
 router.post('/createHotspot', function(req, res){
     req.pool.getConnection(function(err,connection){
         if (err) {
@@ -150,7 +168,7 @@ router.post('/deleteHotspot', function(req, res){
     });
 });
 
-router.post('/SignUp.html', function (req, res, next){
+router.post('/SignUp', function (req, res, next){
     req.pool.getConnection(function(err,connection){
         if(err){
             console.log(err);
@@ -169,10 +187,39 @@ router.post('/SignUp.html', function (req, res, next){
 		var post_code = reqBody.post_code;
 		var state = reqBody.state;
 		var password = reqBody.password;
-		var type = "";
+		var type = "USER";
 		var id = 2;
 
 		var queryString = '';
+
+			bcrypt.genSalt(10, function(err, salt){
+            if(err){
+                console.log(err);
+            }
+            bcrypt.hash(password, salt, function(err, hash){
+                if(err){
+                    console.log(err);
+                }
+                password = hash;
+                queryString = "INSERT INTO accounts ( user_type, email, first_name, last_name, password_hash, phone_number) VALUES (?, ?, ?, ?, ?, ?)";
+                connection.query(queryString,[type,email,first_name,last_name,password,phone_number], function(err, result){
+                    if(err){
+                        console.log(err);
+                    }else {
+                        console.log("New user created");
+                        connection.query("select id FROM accounts ORDER BY ID DESC LIMIT 1", function(err, last_account_result){
+                            if(err){
+                                console.log(err);
+                            }
+                            req.session.email = email;
+                            req.session.user_type = type;
+                            req.session.user_id = last_account_result[0].id;
+                            req.session.user_name = first_name + ' ' + last_name;
+                        });
+
+                    }
+
+
 		if(suburb === ""){
 			type = "USER";
 
@@ -193,7 +240,7 @@ router.post('/SignUp.html', function (req, res, next){
                     console.log("first query");
 
                     //Get suburb ID
-                    connection.query("select id from suburbs where suburbs.suburb_name = '"+suburb+"'", function(err, suburbs_result){
+                    connection.query("select id from suburbs where suburbs.suburb_name = ?",[suburb], function(err, suburbs_result){
                         if (err){
                             console.log(err);
                         }
@@ -205,7 +252,7 @@ router.post('/SignUp.html', function (req, res, next){
                             }
                             console.log("third query");
 
-                            venue_owner = last_account_result[0].id +1;
+                            venue_owner = last_account_result[0].id;
                             console.log("venue owner ID: " + venue_owner);
 
                             var suburb_id;
@@ -216,7 +263,7 @@ router.post('/SignUp.html', function (req, res, next){
                                 suburb_id = last_suburb_result[0].id + 1;
                                 console.log("new suburb ID: " + suburb_id);
                                 //Create new suburb
-                                connection.query("INSERT INTO suburbs (suburb_name) VALUES ('"+suburb+"')", function(err, result){
+                                connection.query("INSERT INTO suburbs (suburb_name) VALUES (?)",[suburb], function(err, result){
                                     if(err){
                                         console.log(err);
                                     }else{
@@ -225,9 +272,9 @@ router.post('/SignUp.html', function (req, res, next){
                                 });
                             }
 
-                            venueString = "INSERT INTO venues ( venue_name, venue_owner, street_number, street_name, suburb, postcode, state) VALUES ('"+venue_name+"', '"+venue_owner+"', '"+street_number+"', '"+street_address+"', '"+suburb_id+"', '"+post_code+"', '"+state+"')";
+                            venueString = "INSERT INTO venues ( venue_name, venue_owner, street_number, street_name, suburb, postcode, state) VALUES (?,?,?,?,?,?,?)";
                             console.log(venueString);
-                            connection.query(venueString, function(err, result){
+                            connection.query(venueString,[venue_name,venue_owner,street_number,street_address,suburb_id,post_code,state], function(err, result){
                                 if(err){
                                     console.log(err);
                                 }else{
@@ -235,31 +282,21 @@ router.post('/SignUp.html', function (req, res, next){
                                 }
                             });
                         });
-                    });
-                });
-            }
 
-		bcrypt.genSalt(10, function(err, salt){
-            if(err){
-                console.log(err);
-            }
-            bcrypt.hash(password, salt, function(err, hash){
-                if(err){
-                    console.log(err);
-                }
-                password = hash;
-                queryString = "INSERT INTO accounts ( user_type, email, first_name, last_name, password_hash, phone_number) VALUES ('"+type+"', '"+email+"', '"+first_name+"', '"+last_name+"', '"+password+"', '"+phone_number+"')";
-                connection.query(queryString, function(err, result){
-                    if(err){
-                        console.log(err);
-                    }else {
-                        console.log("New user created");
-                    }
-                });
+
+                    });
+
+
                 //console.log(password);
-            });
-        });
-    });
+                });
+		}
+                });
+                });
+			});
+
+		});
+
+
     res.redirect("/");
 });
 

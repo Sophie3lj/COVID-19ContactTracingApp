@@ -10,8 +10,8 @@ router.post('/login', function(req,res,next){
 
     var bcrypt = require('bcrypt');
     //get connection
-    console.log("attempted login");
-    console.log(req.body.email) ;
+    //console.log("attempted login");
+    //console.log(req.body.email) ;
     req.pool.getConnection(function(err, connection){
         if(err){
             console.log(err);
@@ -19,8 +19,7 @@ router.post('/login', function(req,res,next){
             return;
         }
 
-        connection.query("SELECT id, email, password_hash, user_type, first_name, last_name FROM accounts WHERE email = ?", [req.body.email], function(err, result){
-            connection.release();
+        connection.query("SELECT accounts.id, accounts.email, accounts.password_hash, accounts.user_type, accounts.first_name, accounts.last_name, venues.id AS venue_id, venues.venue_name FROM accounts LEFT JOIN venues ON accounts.id = venues.venue_owner WHERE email = ?", [req.body.email], function(err, result){
             if(err) {
                 console.log(err);
                 res.sendStatus(500);
@@ -41,22 +40,29 @@ router.post('/login', function(req,res,next){
                 }
 
                 if(password_result == true){
-                    console.log('password matches');
                     req.session.email = result[0].email;
                     req.session.user_type = result[0].user_type;
-                    req.session.user_id = result[0].id;
-                    req.session.user_name = result[0].first_name + ' ' + result[0].last_name;
-                    console.log('session set');
-                    console.log(req.session.email + ', ' + req.session.user_type);
-                    console.log('redirected');
+
+                    if(result[0].user_type !== 'VENUE'){
+                        req.session.user_id = result[0].id;
+                        req.session.user_name = result[0].first_name + ' ' + result[0].last_name;
+                    }
+                    else{
+                        req.session.user_id = result[0].id;
+                        req.session.venue_id = result[0].venue_id;
+                        req.session.user_name = result[0].venue_name;
+                    }
+
                     res.send(result[0].user_type);
                 }else{
 
                     res.sendStatus(401);
                 }
+
             });
         });
     });
+
 });
 
 router.post('/GoogleLogin', function(req,res,next){
@@ -76,10 +82,10 @@ router.post('/GoogleLogin', function(req,res,next){
         if(last_name=="undefined"){
             last_name=" ";
         }
-        connection.query("select id, email, password_hash FROM accounts WHERE email='"+email+"'", function(err, result){
+        connection.query("select id, email, password_hash FROM accounts WHERE email= ?",[email], function(err, result){
             if(err) console.log(err);
             if(result[0]===undefined){
-                connection.query("INSERT INTO accounts ( user_type, email, first_name, last_name, password_hash, phone_number) VALUES ('USER', '"+email+"', '"+first_name+"', '"+last_name+"', '-', '-')", function(err, result){
+                connection.query("INSERT INTO accounts ( user_type, email, first_name, last_name, password_hash, phone_number) VALUES ('USER', ?,?,?, '-', '-')",[email,first_name,last_name], function(err, result){
                     if(err) console.log(err);
                     console.log("New google user created");
                 });
@@ -157,6 +163,7 @@ router.post('/logout', function(req, res, next) {
     delete req.session.email;
     delete req.session.user_type;
     delete req.session.user_id;
+    delete req.session.user_name;
     res.end();
 });
 
@@ -187,6 +194,96 @@ router.get('/getAccountDetails', function(req, res, next) {
            res.json(rows);
        });
    });
+});
+
+router.get('/getCheckinHistory', function(req, res) {
+
+    req.pool.getConnection(function(err,connection) {
+        if (err) {
+            res.sendStatus(500);
+            return;
+        }
+
+        var query = "";
+        var param = [];
+
+        // check user type and change the query
+        if('user_type' in req.session){
+            if(req.session.user_type === "USER"){
+                query = "SELECT 'USER', checkins.date_time, venues.venue_name, suburbs.suburb_name, hotspots.id AS hotspot FROM checkins INNER JOIN venues ON checkins.venue_id = venues.id INNER JOIN suburbs ON suburbs.id = venues.suburb LEFT JOIN hotspots ON suburbs.id = hotspots.suburb_id WHERE checkins.user_id = ?";
+                param.push(req.session.user_id);
+            }
+            else if(req.session.user_type === "ADMIN"){
+                query = "SELECT 'ADMIN', checkins.date_time, checkins.user_id, venues.venue_name, suburbs.suburb_name, hotspots.id AS hotspot FROM checkins INNER JOIN venues ON checkins.venue_id = venues.id INNER JOIN suburbs ON suburbs.id = venues.suburb LEFT JOIN hotspots ON suburbs.id = hotspots.suburb_id" ;
+            }
+            else if(req.session.user_type === "VENUE"){
+                query = "SELECT 'VENUE', checkins.date_time, checkins.user_id, venues.venue_name, suburbs.suburb_name, hotspots.id AS hotspot FROM checkins INNER JOIN venues ON checkins.venue_id = venues.id INNER JOIN suburbs ON suburbs.id = venues.suburb LEFT JOIN hotspots ON suburbs.id = hotspots.suburb_id WHERE checkins.venue_id = ?" ;
+                param.push(req.session.venue_id);
+            }
+            else {
+                res.sendStatus(404);
+            }
+        }
+        else {
+            res.sendStatus(404);
+        }
+
+        connection.query(query, param, function(err, rows, fields) {
+            connection.release();
+            if (err) {
+                res.sendStatus(500);
+                return;
+            }
+            res.json(rows);
+        });
+    });
+});
+
+router.post('/getCheckinSearchHistory', function(req, res) {
+
+    req.pool.getConnection(function(err,connection) {
+        if (err) {
+            res.sendStatus(500);
+            return;
+        }
+
+        var query = "";
+        var param = [];
+
+        // check user type and change the query
+        if('user_type' in req.session){
+            if(req.session.user_type === "USER"){
+                query = "SELECT 'USER', checkins.date_time, venues.venue_name, suburbs.suburb_name, hotspots.id AS hotspot FROM checkins INNER JOIN venues ON checkins.venue_id = venues.id INNER JOIN suburbs ON suburbs.id = venues.suburb LEFT JOIN hotspots ON suburbs.id = hotspots.suburb_id WHERE checkins.user_id = ? AND (venues.venue_name = ?)";
+                param.push(req.session.user_id);
+                param.push(req.body.search);
+            }
+            else if(req.session.user_type === "ADMIN"){
+                query = "SELECT 'ADMIN', checkins.date_time, checkins.user_id, venues.venue_name, suburbs.suburb_name, hotspots.id AS hotspot FROM checkins INNER JOIN venues ON checkins.venue_id = venues.id INNER JOIN suburbs ON suburbs.id = venues.suburb LEFT JOIN hotspots ON suburbs.id = hotspots.suburb_id WHERE ((venues.venue_name = ?) OR (checkins.user_id = ?))" ;
+                param.push(req.body.search);
+                param.push(req.body.search);
+            }
+            else if(req.session.user_type === "VENUE"){
+                query = "SELECT 'VENUE', checkins.date_time, checkins.user_id, venues.venue_name, suburbs.suburb_name, hotspots.id AS hotspot FROM checkins INNER JOIN venues ON checkins.venue_id = venues.id INNER JOIN suburbs ON suburbs.id = venues.suburb LEFT JOIN hotspots ON suburbs.id = hotspots.suburb_id WHERE checkins.venue_id = ? AND (checkins.user_id = ?)" ;
+                param.push(req.session.venue_id);
+                param.push(req.body.search);
+            }
+            else {
+                res.sendStatus(404);
+            }
+        }
+        else {
+            res.sendStatus(404);
+        }
+
+        connection.query(query, param, function(err, rows, fields) {
+            connection.release();
+            if (err) {
+                res.sendStatus(500);
+                return;
+            }
+            res.json(rows);
+        });
+    });
 });
 
 
