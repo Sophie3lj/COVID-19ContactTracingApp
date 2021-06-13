@@ -302,5 +302,45 @@ router.post('/SignUp', function (req, res, next){
 
 
 
+router.post('/newadmin', function (req, res, next){
+    req.pool.getConnection(function(err,connection){
+        if(err){
+            console.log(err);
+            return;
+        }
+
+        var reqBody = req.body;
+        var first_name = reqBody.first_name;
+		var last_name = reqBody.last_name;
+		var email = reqBody.email;
+		var phone_number = reqBody.phone_number;
+		var password = reqBody.password;
+		var type = "ADMIN";
+
+		var queryString = '';
+
+		bcrypt.genSalt(10, function(err, salt){
+            if(err){
+                console.log(err);
+            }
+            bcrypt.hash(password, salt, function(err, hash){
+                if(err){
+                    console.log(err);
+                }
+                password = hash;
+                queryString = "INSERT INTO accounts ( user_type, email, first_name, last_name, password_hash, phone_number) VALUES (?, ?, ?, ?, ?, ?)";
+                connection.query(queryString, [type, email, first_name, last_name, password, phone_number], function(err, result){
+                    if(err){
+                        console.log(err);
+                    }else {
+                        console.log("New user created");
+                    }
+                });
+                //console.log(password);
+            });
+        });
+    });
+    res.redirect("/");
+});
 
 module.exports = router;
