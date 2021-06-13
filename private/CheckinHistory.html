@@ -12,7 +12,7 @@
         <script src="javascripts/main.js" defer></script>
     </head>
 
-    <body onload="loginCheck();">
+    <body onload="loginCheck();GetCheckinHistory();">
         <div id="app">
             <header>
                 <div class="pure-menu pure-menu-horizontal" v-if="user_log === 'USER'">
@@ -47,7 +47,7 @@
                                     <a href="/users/AccountDetails" class="pure-menu-link drop-down">Account Info</a>
                                 </li>
                                 <li class="pure-menu-item">
-                                    <a href="" class="pure-menu-link drop-down" onclick="logout()">Sign Out</a>
+                                    <a href="/" class="pure-menu-link drop-down" onclick="logout()">Sign Out</a>
                                 </li>
                             </ul>
                         </li>
@@ -80,7 +80,7 @@
                                     <a href="/users/AccountDetails" class="pure-menu-link drop-down">Account Info</a>
                                 </li>
                                 <li class="pure-menu-item">
-                                    <a href="" class="pure-menu-link drop-down" onclick="logout()">Sign Out</a>
+                                    <a href="/" class="pure-menu-link drop-down" onclick="logout()">Sign Out</a>
                                 </li>
                             </ul>
                         </li>
@@ -116,7 +116,7 @@
                                     <a href="/users/AccountDetails" class="pure-menu-link drop-down">Account Info</a>
                                 </li>
                                 <li class="pure-menu-item">
-                                    <a href="" class="pure-menu-link drop-down" onclick="logout()">Sign Out</a>
+                                    <a href="/" class="pure-menu-link drop-down" onclick="logout()">Sign Out</a>
                                 </li>
                             </ul>
                         </li>
@@ -158,20 +158,21 @@
                                    <h1 class="centered-text no-vertical-margin">Checkin History</h1>
                                    <div class="small-text">Your recent checkins are displayed below</div>
                                </legend>
-                               <input type="text" class="pure-input" placeholder="Search" />
-                               <button type="submit" class="pure-button pure-button-primary rounded-button">Search</button>
+                               <input type="text" class="pure-input" placeholder="Search" id="checkinSearch"/>
+                               <button type="button" class="pure-button pure-button-primary rounded-button" onclick="GetCheckinSearchHistory();">Search</button>
                            </fieldset>
                            <table class="pure-table" id="checkin-history-table">
                                 <thead>
                                     <tr>
                                         <th>Date</th>
                                         <th>Time</th>
-                                        <th>Venue</th>
+                                        <th v-if="user_log !== 'USER'">User</th>
+                                        <th v-if="user_log !== 'VENUE'">Venue</th>
                                         <th>Hotspot Warning</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
+                                <tbody id="addCheckinHistory">
+                                    <!--<tr>
                                         <td id="table-no-border">{Date1}</td>
                                         <td id="table-no-border">{Time1}</td>
                                         <td id="table-no-border">{Venue1}</td>
@@ -182,7 +183,7 @@
                                         <td id="table-no-border">{Time2}</td>
                                         <td id="table-no-border">{Venue2}</td>
                                         <td id="table-no-border"></td>
-                                    </tr>
+                                    </tr>-->
                                 </tbody>
                            </table>
                        </form>
