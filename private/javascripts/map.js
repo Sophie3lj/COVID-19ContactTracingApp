@@ -75,40 +75,55 @@ function addOrRemCheckin(){
             if ( this.readyState == 4 && this.status == 200 ) {
                 var checkins = JSON.parse(this.responseText) ;
                 var date ;
+                var venue ;
+                var new_marker;
 
                 for ( let row of checkins){
-                    address = row.street_number.toString() + ' ' + row.street_name + ', ' + row.suburb_name + ' ' + row.state + ' ' + row.postcode.toString() ;
-                    mapboxClient.geocoding.forwardGeocode({
-                        query: address,
-                        autocomplete: false,
-                        limit: 1
-                    }).send().then(function (response) {
-                        var feature = response.body.features[0];
+                    if (row.lat == null){
+                        address = row.street_number.toString() + ' ' + row.street_name + ', ' + row.suburb_name + ' ' + row.state + ' ' + row.postcode.toString() ;
+                        venue = 'Venue: ' + row.venue_name + ' (' + row.suburb_name + ') ' ;
+                        mapboxClient.geocoding.forwardGeocode({
+                            query: address,
+                            autocomplete: false,
+                            limit: 1
+                        }).send().then(function (response) {
+                            var feature = response.body.features[0];
+                            if (row.hotspot == null){
+                                var new_marker = new mapboxgl.Marker({color: "#8CB89F"}).setLngLat(feature.center).addTo(map);
+                            }
+                            else{
+                                var new_marker = new mapboxgl.Marker({color: "orange"}).setLngLat(feature.center).addTo(map);
+                            }
+                            checkin_markers.push(new_marker) ;
+                        });
+                    }
+                    else{
+                        venue = 'Location: lat(' + row.lat.toString() + ') lng(' + row.lng.toString() + ') ' ;
                         if (row.hotspot == null){
-                            var new_marker = new mapboxgl.Marker({color: "#8CB89F"}).setLngLat(feature.center).addTo(map);
+                            new_marker = new mapboxgl.Marker({color: "#8CB89F"}).setLngLat([row.lng,row.lat]).addTo(map);
                         }
                         else{
-                            var new_marker = new mapboxgl.Marker({color: "orange"}).setLngLat(feature.center).addTo(map);
+                            new_marker = new mapboxgl.Marker({color: "orange"}).setLngLat([row.lng,row.lat]).addTo(map);
                         }
                         checkin_markers.push(new_marker) ;
-                    });
+                    }
 
                     date = new Date(row.date_time);
 
                     if ( 'ADMIN' in row ){
                         if (row.hotspot == null){
-                            document.getElementById('addCheckins').innerHTML = document.getElementById('addCheckins').innerHTML + '<div class="checkin"><p>Venue: ' + row.venue_name + ' (' + row.suburb_name + ') ' + '</p><p>User: ' + row.first_name + ' ' + row.last_name + '</p><p>Date: ' + date.toLocaleDateString() + '</p></div>';
+                            document.getElementById('addCheckins').innerHTML = document.getElementById('addCheckins').innerHTML + '<div class="checkin"><p>' + venue + '</p><p>User: ' + row.first_name + ' ' + row.last_name + '</p><p>Date: ' + date.toLocaleDateString() + '</p></div>';
                         }
                         else{
-                            document.getElementById('addCheckins').innerHTML = document.getElementById('addCheckins').innerHTML + '<div class="checkin"><p>Venue: ' + row.venue_name + ' (' + row.suburb_name + ') ' + '</p><p>User: ' + row.first_name + ' ' + row.last_name + '</p><p>Date: ' + date.toLocaleDateString() + '</p><p><i class="fas fa-exclamation-triangle"></i></p></div>';
+                            document.getElementById('addCheckins').innerHTML = document.getElementById('addCheckins').innerHTML + '<div class="checkin"><p>' + venue + '</p><p>User: ' + row.first_name + ' ' + row.last_name + '</p><p>Date: ' + date.toLocaleDateString() + '</p><p><i class="fas fa-exclamation-triangle"></i></p></div>';
                         }
                     }
                     else{
                         if (row.hotspot == null){
-                            document.getElementById('addCheckins').innerHTML = document.getElementById('addCheckins').innerHTML + '<div class="checkin"><p>Venue: ' + row.venue_name + ' (' + row.suburb_name + ') ' + '</p><p>Date: ' + date.toLocaleDateString() + '</p></div>';
+                            document.getElementById('addCheckins').innerHTML = document.getElementById('addCheckins').innerHTML + '<div class="checkin"><p>' + venue + '</p><p>Date: ' + date.toLocaleDateString() + '</p></div>';
                         }
                         else{
-                            document.getElementById('addCheckins').innerHTML = document.getElementById('addCheckins').innerHTML + '<div class="checkin"><p>Venue: ' + row.venue_name + ' (' + row.suburb_name + ') ' + '</p><p>Date: ' + date.toLocaleDateString() + '</p><p><i class="fas fa-exclamation-triangle"></i></p></div>';
+                            document.getElementById('addCheckins').innerHTML = document.getElementById('addCheckins').innerHTML + '<div class="checkin"><p>' + venue + '</p><p>Date: ' + date.toLocaleDateString() + '</p><p><i class="fas fa-exclamation-triangle"></i></p></div>';
                         }
                     }
                 }

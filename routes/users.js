@@ -169,31 +169,40 @@ router.post('/logout', function(req, res, next) {
 
 /* Query database for AccountDetails.html !!NEED SESSION CODE!! */
 router.get('/getAccountDetails', function(req, res, next) {
-   req.pool.getConnection( function(err, connection) {
-       if (err) {
-           res.sendStatus(500);
-           return;
-       }
-       var user_id = req.session.user_id;
-       var query;
-       /* Query to get all neccessary data */
-       if (req.session.user_type === "USER" || req.session.user.type === "ADMIN") {
-           query = "SELECT accounts.first_name, accounts.last_name, accounts.email, accounts.phone_number FROM accounts WHERE accounts.id = ?";
-       }
-       else if (req.session.user_type === "VENUE") {
-           query = "SELECT accounts.first_name, accounts.last_name, accounts.email, accounts.phone_number, venues.venue_name, venues.street_number, venues.street_name,  venues.postcode, venues.state, suburbs.suburb_name FROM ((accounts INNER JOIN venues ON accounts.id = venues.venue_owner) INNER JOIN suburbs ON venues.suburb = suburbs.id) WHERE accounts.id = ?";
-       }
-       connection.query(query, [user_id], function(err, rows, fields) {
-           connection.release();
-           if (err) {
-               res.sendStatus(500);
-               return;
-           }
-           console.log(rows[0].first_name);
-           console.log('query successful');
-           res.json(rows);
-       });
-   });
+    req.pool.getConnection( function(err, connection) {
+        if (err) {
+            res.sendStatus(500);
+            return;
+
+        }
+        var user_id = req.session.user_id;
+        var query;
+        /* Query to get all neccessary data */
+        if (req.session.user_type === "USER") {
+            query = "SELECT accounts.first_name, accounts.last_name, accounts.email, accounts.phone_number FROM accounts WHERE accounts.id = ?";
+            console.log('type USER details');
+        }
+        else if (req.session.user_type === "ADMIN") {
+            query = "SELECT accounts.first_name, accounts.last_name, accounts.email, accounts.phone_number FROM accounts WHERE accounts.id = ?";
+            console.log('type ADMIN details');
+        }
+        else if (req.session.user_type === "VENUE") {
+            query = "SELECT accounts.first_name, accounts.last_name, accounts.email, accounts.phone_number, venues.venue_name, venues.street_number, venues.street_name,  venues.postcode, venues.state, suburbs.suburb_name FROM ((accounts INNER JOIN venues ON accounts.id = venues.venue_owner) INNER JOIN suburbs ON venues.suburb = suburbs.id) WHERE accounts.id = ?";
+            console.log('type VENUE details');
+        }
+        connection.query(query, [user_id], function(err, rows, fields) {
+            connection.release();
+            if (err) {
+                res.sendStatus(500);
+                return;
+
+            }
+            console.log(rows[0].first_name);
+            console.log('query successful');
+            res.json(rows);
+
+        });
+    });
 });
 
 router.get('/getCheckinHistory', function(req, res) {

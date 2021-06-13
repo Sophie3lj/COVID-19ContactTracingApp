@@ -24,11 +24,11 @@ router.get('/mapCheckins', function(req, res) {
         // check user type and change the query
         if('user_type' in req.session){
             if(req.session.user_type === "USER"){
-                query = "SELECT checkins.date_time, venues.venue_name, venues.street_number, venues.street_name, suburbs.suburb_name, venues.postcode, venues.state, hotspots.id AS hotspot FROM checkins INNER JOIN venues ON checkins.venue_id = venues.id INNER JOIN suburbs ON suburbs.id = venues.suburb LEFT JOIN hotspots ON suburbs.id = hotspots.suburb_id WHERE checkins.user_id = ?";
+                query = "SELECT 'USER', checkins.date_time, checkins.lat, checkins.lng, venues.venue_name, venues.street_number, venues.street_name, suburbs.suburb_name, venues.postcode, venues.state, hotspots.id AS hotspot FROM checkins LEFT JOIN venues ON checkins.venue_id = venues.id LEFT JOIN suburbs ON suburbs.id = venues.suburb LEFT JOIN hotspots ON suburbs.id = hotspots.suburb_id WHERE checkins.user_id = ?";
                 param.push(req.session.user_id);
             }
             else if(req.session.user_type === "ADMIN"){
-                query = "SELECT 'ADMIN', checkins.date_time, accounts.first_name, accounts.last_name, venues.venue_name, venues.street_number, venues.street_name, suburbs.suburb_name, venues.postcode, venues.state, hotspots.id AS hotspot FROM checkins INNER JOIN accounts ON checkins.user_id = accounts.id INNER JOIN venues ON checkins.venue_id = venues.id INNER JOIN suburbs ON suburbs.id = venues.suburb LEFT JOIN hotspots ON suburbs.id = hotspots.suburb_id" ;
+                query = "SELECT 'ADMIN', checkins.date_time, checkins.lat, checkins.lng, accounts.first_name, accounts.last_name, venues.venue_name, venues.street_number, venues.street_name, suburbs.suburb_name, venues.postcode, venues.state, hotspots.id AS hotspot FROM checkins INNER JOIN accounts ON checkins.user_id = accounts.id INNER JOIN venues ON checkins.venue_id = venues.id INNER JOIN suburbs ON suburbs.id = venues.suburb LEFT JOIN hotspots ON suburbs.id = hotspots.suburb_id" ;
             }
             else {
                 res.sendStatus(404);

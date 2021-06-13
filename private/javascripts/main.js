@@ -185,11 +185,8 @@ function GetAccountDetails() {
 			}
 
 	        vueinst.AccountDetails_firstName = accountDetails[0].first_name;
-	        //console.log(accountDetails[0].first_name);
 	        vueinst.AccountDetails_lastName = accountDetails[0].last_name;
-	        //console.log('past last name');
 	        vueinst.AccountDetails_email = accountDetails[0].email;
-	        //console.log('past email');
 	        vueinst.AccountDetails_phoneNumber = accountDetails[0].phone_number;
 			vueinst.AccountDetails_venueName = accountDetails[0].venue_name;
 			vueinst.AccountDetails_streetAddress = accountDetails[0].street_number + accountDetails[0].street_name;
