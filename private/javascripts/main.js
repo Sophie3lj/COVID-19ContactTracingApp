@@ -1,12 +1,25 @@
 var loggedin =  "NO";
 
+/* AccountDetails.html variables */
+var accountDetails = [];
+
 var vueinst = new Vue({
     el: '#app',
     data: {
         checkins: false,
         hotspots: false,
         user_log: "",
-        user_name: ""
+        user_name: "",
+        loggedin: false,
+        AccountDetails_firstName: 'first_name',
+        AccountDetails_lastName: 'last_name',
+        AccountDetails_email: 'email',
+        AccountDetails_phoneNumber: 'phone_number',
+		AccountDetails_venueName: 'venue_name',
+		AccountDetails_streetAddress: 'street_address',
+		AccountDetails_suburb: 'suburb',
+		AccountDetails_postcode: 'postcode',
+		AccountDetails_state: 'state'
     }
 });
 
@@ -113,8 +126,12 @@ function login(){
 			window.location.pathname="/";
 		}
 		else if ( this.readyState == 4 && this.status == 401 ) {
-			alert("unsuccessful");
+			//window.location.pathname="/Login#login_failed";
+			console.log("/Login#login_failed")
+		}else if ( this.readyState == 4 && this.status == 402 ) {
+			//window.location.pathname="/Login#login_failed";
 		}
+
 	};
 
 	xhttp.open('POST', '/users/login', true) ;
@@ -154,3 +171,205 @@ function signup(){
 	xmlhttp.setRequestHeader("Content-type", "application/json");
     xmlhttp.send(JSON.stringify(login_details));
 }*/
+
+/* AccountDetails.html AJAX script */
+function GetAccountDetails() {
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+    	if (this.readyState == 4 && this.status == 200) {
+        	var accountDetails=JSON.parse(this.responseText);
+        	console.log('amongus');
+        	for (let key of accountDetails) {
+        		console.log('logging element');
+		    	console.log(`${key} : ${accountDetails[key]}`);
+			}
+
+	        vueinst.AccountDetails_firstName = accountDetails[0].first_name;
+	        vueinst.AccountDetails_lastName = accountDetails[0].last_name;
+	        vueinst.AccountDetails_email = accountDetails[0].email;
+	        vueinst.AccountDetails_phoneNumber = accountDetails[0].phone_number;
+			vueinst.AccountDetails_venueName = accountDetails[0].venue_name;
+			vueinst.AccountDetails_streetAddress = accountDetails[0].street_number + accountDetails[0].street_name;
+			vueinst.AccountDetails_suburb = accountDetails[0].suburb_name;
+			vueinst.AccountDetails_postcode = accountDetails[0].postcode;
+			vueinst.AccountDetails_state = accountDetails[0].state;
+    	}
+    };
+    xhttp.open("GET", "/users/getAccountDetails");
+	xhttp.send();
+
+}
+
+
+function GetCheckinHistory(){
+
+	var xhttp = new XMLHttpRequest() ;
+	xhttp.onreadystatechange = function() {
+		if ( this.readyState == 4 && this.status == 200 ) {
+			var checkins = JSON.parse(this.responseText) ;
+			var date ;
+
+			for ( let row of checkins){
+				date = new Date(row.date_time);
+
+				if ( 'ADMIN' in row ){
+					if (row.hotspot == null){
+						document.getElementById('addCheckinHistory').innerHTML = document.getElementById('addCheckinHistory').innerHTML +	`
+						<tr>
+							<td id="table-no-border">${date.toLocaleDateString()}</td>
+							<td id="table-no-border">${date.toLocaleTimeString()}</td>
+							<td id="table-no-border">${row.user_id}</td>
+							<td id="table-no-border">${row.venue_name} (${row.suburb_name})</td>
+							<td id="table-no-border"></td>
+						</tr>`;
+
+					}
+					else{
+						document.getElementById('addCheckinHistory').innerHTML = document.getElementById('addCheckinHistory').innerHTML +	`
+						<tr>
+							<td id="table-no-border">${date.toLocaleDateString()}</td>
+							<td id="table-no-border">${date.toLocaleTimeString()}</td>
+							<td id="table-no-border">${row.user_id}</td>
+							<td id="table-no-border">${row.venue_name} (${row.suburb_name})</td>
+							<td id="table-no-border"><i class="fas fa-exclamation-triangle"></i></td>
+						</tr>`;
+					}
+				}
+				else if ( 'USER' in row ){
+					if (row.hotspot == null){
+						document.getElementById('addCheckinHistory').innerHTML = document.getElementById('addCheckinHistory').innerHTML +	`
+						<tr>
+							<td id="table-no-border">${date.toLocaleDateString()}</td>
+							<td id="table-no-border">${date.toLocaleTimeString()}</td>
+							<td id="table-no-border">${row.venue_name} (${row.suburb_name})</td>
+							<td id="table-no-border"></td>
+						</tr>`;
+					}
+					else{
+						document.getElementById('addCheckinHistory').innerHTML = document.getElementById('addCheckinHistory').innerHTML +	`
+						<tr>
+							<td id="table-no-border">${date.toLocaleDateString()}</td>
+							<td id="table-no-border">${date.toLocaleTimeString()}</td>
+							<td id="table-no-border">${row.venue_name} (${row.suburb_name})</td>
+							<td id="table-no-border"><i class="fas fa-exclamation-triangle"></i></td>
+						</tr>`;
+					}
+				}
+				else if ( 'VENUE' in row ){
+					if (row.hotspot == null){
+						document.getElementById('addCheckinHistory').innerHTML = document.getElementById('addCheckinHistory').innerHTML +	`
+						<tr>
+							<td id="table-no-border">${date.toLocaleDateString()}</td>
+							<td id="table-no-border">${date.toLocaleTimeString()}</td>
+							<td id="table-no-border">${row.user_id}</td>
+							<td id="table-no-border"></td>
+						</tr>`;
+
+					}
+					else{
+						document.getElementById('addCheckinHistory').innerHTML = document.getElementById('addCheckinHistory').innerHTML +	`
+						<tr>
+							<td id="table-no-border">${date.toLocaleDateString()}</td>
+							<td id="table-no-border">${date.toLocaleTimeString()}</td>
+							<td id="table-no-border">${row.user_id}</td>
+							<td id="table-no-border"><i class="fas fa-exclamation-triangle"></i></td>
+						</tr>`;
+					}
+				}
+			}
+		}
+	};
+
+	xhttp.open('GET', '/users/getCheckinHistory', true) ;
+	xhttp.send() ;
+}
+
+function GetCheckinSearchHistory(){
+
+	let Search = {
+		search: document.getElementById('checkinSearch').value,
+	};
+
+	var xhttp = new XMLHttpRequest() ;
+	xhttp.onreadystatechange = function() {
+		if ( this.readyState == 4 && this.status == 200 ) {
+			var checkins = JSON.parse(this.responseText) ;
+			var date ;
+
+			document.getElementById('addCheckinHistory').innerHTML = " ";
+
+			for ( let row of checkins){
+				date = new Date(row.date_time);
+
+				if ( 'ADMIN' in row ){
+					if (row.hotspot == null){
+						document.getElementById('addCheckinHistory').innerHTML = document.getElementById('addCheckinHistory').innerHTML +	`
+						<tr>
+							<td id="table-no-border">${date.toLocaleDateString()}</td>
+							<td id="table-no-border">${date.toLocaleTimeString()}</td>
+							<td id="table-no-border">${row.user_id}</td>
+							<td id="table-no-border">${row.venue_name} (${row.suburb_name})</td>
+							<td id="table-no-border"></td>
+						</tr>`;
+
+					}
+					else{
+						document.getElementById('addCheckinHistory').innerHTML = document.getElementById('addCheckinHistory').innerHTML +	`
+						<tr>
+							<td id="table-no-border">${date.toLocaleDateString()}</td>
+							<td id="table-no-border">${date.toLocaleTimeString()}</td>
+							<td id="table-no-border">${row.user_id}</td>
+							<td id="table-no-border">${row.venue_name} (${row.suburb_name})</td>
+							<td id="table-no-border"><i class="fas fa-exclamation-triangle"></i></td>
+						</tr>`;
+					}
+				}
+				else if ( 'USER' in row ){
+					if (row.hotspot == null){
+						document.getElementById('addCheckinHistory').innerHTML = document.getElementById('addCheckinHistory').innerHTML +	`
+						<tr>
+							<td id="table-no-border">${date.toLocaleDateString()}</td>
+							<td id="table-no-border">${date.toLocaleTimeString()}</td>
+							<td id="table-no-border">${row.venue_name} (${row.suburb_name})</td>
+							<td id="table-no-border"></td>
+						</tr>`;
+					}
+					else{
+						document.getElementById('addCheckinHistory').innerHTML = document.getElementById('addCheckinHistory').innerHTML +	`
+						<tr>
+							<td id="table-no-border">${date.toLocaleDateString()}</td>
+							<td id="table-no-border">${date.toLocaleTimeString()}</td>
+							<td id="table-no-border">${row.venue_name} (${row.suburb_name})</td>
+							<td id="table-no-border"><i class="fas fa-exclamation-triangle"></i></td>
+						</tr>`;
+					}
+				}
+				else if ( 'VENUE' in row ){
+					if (row.hotspot == null){
+						document.getElementById('addCheckinHistory').innerHTML = document.getElementById('addCheckinHistory').innerHTML +	`
+						<tr>
+							<td id="table-no-border">${date.toLocaleDateString()}</td>
+							<td id="table-no-border">${date.toLocaleTimeString()}</td>
+							<td id="table-no-border">${row.user_id}</td>
+							<td id="table-no-border"></td>
+						</tr>`;
+
+					}
+					else{
+						document.getElementById('addCheckinHistory').innerHTML = document.getElementById('addCheckinHistory').innerHTML +	`
+						<tr>
+							<td id="table-no-border">${date.toLocaleDateString()}</td>
+							<td id="table-no-border">${date.toLocaleTimeString()}</td>
+							<td id="table-no-border">${row.user_id}</td>
+							<td id="table-no-border"><i class="fas fa-exclamation-triangle"></i></td>
+						</tr>`;
+					}
+				}
+			}
+		}
+	};
+
+	xhttp.open('POST', '/users/getCheckinSearchHistory', true) ;
+	xhttp.setRequestHeader("Content-type", "application/json");
+    xhttp.send(JSON.stringify(Search));
+}
