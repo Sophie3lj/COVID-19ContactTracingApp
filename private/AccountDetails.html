@@ -72,9 +72,9 @@
 							<div class="flex"><a href="/users/CheckinHistory" class="pure-menu-link">Check-In History</a></div>
 						</li>
 					</ul>
-					<ul class="pure-menu-list right" id="right2">
+					<ul class="pure-menu-list" id="right">
 						<li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
-							<div class="flex"><a href="#" id="menuLink2" class="pure-menu-link">{{user_name}}<i class="fas fa-user"></i></a></div>
+							<div class="flex"><a href="#" id="menuLink1" class="pure-menu-link">{{user_name}}<i class="fas fa-user"></i></a></div>
 							<ul class="pure-menu-children">
 								<li class="pure-menu-item">
 									<a href="/users/AccountDetails" class="pure-menu-link drop-down">Account Info</a>
@@ -111,9 +111,9 @@
 							<div class="flex"><a href="/users/AdminCheck" class="pure-menu-link">Add New Admin</a></div>
 						</li>
 					</ul>
-					<ul class="pure-menu-list right" id="right3">
+					<ul class="pure-menu-list" id="right">
 						<li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
-							<div class="flex"><a href="#" id="menuLink3" class="pure-menu-link">{{user_name}}<i class="fas fa-user"></i></a></div>
+							<div class="flex"><a href="#" id="menuLink1" class="pure-menu-link">{{user_name}}<i class="fas fa-user"></i></a></div>
 							<ul class="pure-menu-children">
 								<li class="pure-menu-item">
 									<a href="/users/AccountDetails" class="pure-menu-link drop-down">Account Info</a>
@@ -143,7 +143,7 @@
 							</div>
 						</li>
 					</ul>
-					<ul class="pure-menu-list right" id="right4">
+					<ul class="pure-menu-list" id="right">
 						<li class="pure-menu-item">
 							<div class="flex"><a href="Login" class="pure-menu-link">Login</a></div>
 						</li>
@@ -186,46 +186,48 @@
 						</div>
 						<!--Second set of data displayed for VENUE type clients-->
 						<div class="pure-g" id="account-details-data" v-else-if="user_log === 'VENUE'">
-							<div class="pure-u-3-24">
+							<div class="pure-u-4-24">
 								<div class="account-details-grid-elements">Venue Name:</div>
 							</div>
-							<div class="pure-u-21-24">
+							<div class="pure-u-20-24">
 								<div class="bottom-border account-details-grid-elements" id="account-details-grid-elements5">{{AccountDetails_venueName}}</div>
 							</div>
-							<div class="pure-u-3-24">
+							<div class="pure-u-4-24">
 								<div class="account-details-grid-elements">Email:</div>
 							</div>
-							<div class="pure-u-21-24">
+							<div class="pure-u-20-24">
 								<div class="bottom-border account-details-grid-elements" id="account-details-grid-elements6">{{AccountDetails_email}}</div>
 							</div>
-							<div class="pure-u-3-24">
+							<div class="pure-u-4-24">
 								<div class="account-details-grid-elements">Phone Number:</div>
 							</div>
-							<div class="pure-u-21-24">
+							<div class="pure-u-20-24">
 								<div class="bottom-border account-details-grid-elements" id="account-details-grid-elements7">{{AccountDetails_phoneNumber}}</div>
 							</div>
-							<div class="pure-u-3-24">
+							<div class="pure-u-4-24">
 								<div class="account-details-grid-elements">Street Address:</div>
 							</div>
-							<div class="pure-u-21-24">
+							<div class="pure-u-20-24">
 								<div class="bottom-border account-details-grid-elements" id="account-details-grid-elements8">{{AccountDetails_streetAddress}}</div>
 							</div>
-							<div class="pure-u-3-24">
+							<div class="pure-u-4-24">
 								<div class="account-details-grid-elements">Suburb:</div>
 							</div>
-							<div class="pure-u-5-24">
+							<div class="pure-u-4-24">
 								<div class="bottom-border account-details-grid-elements" id="account-details-grid-elements9">{{AccountDetails_suburb}}</div>
 							</div>
-							<div class="pure-u-3-24">
+							<div class="pure-u-1-24"></div>
+							<div class="pure-u-4-24">
 								<div class="account-details-grid-elements">Postcode:</div>
 							</div>
-							<div class="pure-u-5-24">
+							<div class="pure-u-3-24">
 								<div class="bottom-border account-details-grid-elements" id="account-details-grid-elements10">{{AccountDetails_postcode}}</div>
 							</div>
-							<div class="pure-u-3-24">
+							<div class="pure-u-1-24"></div>
+							<div class="pure-u-4-24">
 								<div class="account-details-grid-elements">State:</div>
 							</div>
-							<div class="pure-u-5-24">
+							<div class="pure-u-3-24">
 								<div class="bottom-border account-details-grid-elements" id="account-details-grid-elements11">{{AccountDetails_state}}</div>
 							</div>
 						</div>

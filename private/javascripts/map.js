@@ -224,6 +224,38 @@ function createHotspot(){
     xhttp.send(JSON.stringify(new_hotspot));
 }
 
+function signUpAdmin() {
+	let signup_details = {
+		email: document.getElementById('email').value,
+		password: document.getElementById('password').value,
+		first_name: document.getElementById('first_name').value,
+		last_name: document.getElementById('last_name').value,
+		phone_number: document.getElementById('phone_number').value
+	};
+
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if ( this.readyState == 4 && this.status == 200 ) {
+			window.location.pathname="/";
+		}
+		else if ( this.readyState == 4 && this.status == 401 ) {
+			window.location.hash="#preexisting-user";
+			window.location.pathname="/SignUp";
+		}else if(this.status == 500){
+			window.location.hash="#signup_failed";
+			window.location.pathname="/SignUp";
+		} else if(this.readyState == 4 && this.status == 400){
+			window.location.hash="#value-error";
+			window.location.pathname="/SignUp";
+		}
+	};
+
+	xhttp.open('POST', '/newadmin', true) ;
+	xhttp.setRequestHeader("Content-type", "application/json");
+    xhttp.send(JSON.stringify(signup_details));
+}
+
+
 function logout(){
 
 	var xhttp = new XMLHttpRequest();
