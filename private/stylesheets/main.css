@@ -29,6 +29,10 @@ footer {
     background-color: #343434;
 }
 
+h1 {
+    color: #175873;
+}
+
 h4 {
     color: white;
     background-color: #193046;
@@ -456,4 +460,8 @@ h4 {
 
 #account-details-grid-elements {
     margin: 0.5em;
+}
+
+#account-details-data {
+    border-top: 1px solid #e5e5e5;
 }
