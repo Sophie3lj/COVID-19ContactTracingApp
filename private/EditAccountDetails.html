@@ -154,34 +154,35 @@
     	    <main>
     	        <div class="centering-flex-container full-height">
                     <div class="centering-flex-container">
-    			        <form class="pure-form pure-form-stacked centered-text">
-    				        <fieldset>
+    			        <form class="pure-form pure-form-stacked centered-text" action="/editAccDetails" method="post">
+                            <fieldset>
         					    <legend>
             					    <h1>Edit Account Details</h1>
         					    </legend>
         						<div class="pure-g user">
-        							<input class="pure-input-1-2" type="text" id="first_name" placeholder="First Name"/>
-        							<input class="pure-input-1-2" type="text" id="last_name" placeholder="Last Name"/>
+        							<input class="pure-input-1-2" type="text" name="first_name" id="first_name" placeholder="First Name"/>
+        							<input class="pure-input-1-2" type="text" name="last_name" id="last_name" placeholder="Last Name"/>
         						</div>
         						<div class="shared">
-        							<input class="pure-input-1" type="email" id="email" placeholder="Email"/>
-        							<input class="pure-input-1" type="text" id="phone_number" placeholder="Phone Number"/>
+        							<input class="pure-input-1" type="email" name="email" id="email" placeholder="Email"/>
+        							<input class="pure-input-1" type="text" name="phone_number" id="phone_number" placeholder="Phone Number"/>
         						</div>
         						<div v-if="user_log === 'VENUE'">
-        						    <span class="venue"><input class="pure-input-1" type="text" id="venue_name" placeholder="Venue Name"/></span>
+        						    <span class="venue"><input class="pure-input-1" type="text" name="venue_name" id="venue_name" placeholder="Venue Name"/></span>
         						    <div class="pure-g venue">
-            							<input class="pure-input-1-2" type="text" id="suburb" placeholder="Suburb"/>
-            							<input class="pure-input-1-4" type="text" id="post_code" placeholder="Post Code"/>
-            							<input class="pure-input-1-4" type="text" id="state" placeholder="State"/>
+        						        <input class="pure-input-1-4" type="text" name="street_number" id="street_number" placeholder="Street Number"/>
+    						            <input class="pure-input-3-4" type="text" name="street_address" id="street_address" placeholder="Street Name"/>
+            							<input class="pure-input-1-2" type="text" name="suburb" id="suburb" placeholder="Suburb"/>
+            							<input class="pure-input-1-4" type="text" name="post_code" id="post_code" placeholder="Post Code"/>
+            							<input class="pure-input-1-4" type="text" name="state" id="state" placeholder="State"/>
         						    </div>
         						</div>
         						<div class="shared">
-        							<input class="pure-input-1" type="password" id="password" placeholder="Password"/>
-        							<a href="AccountDetails.html">
-        							    <button type="button" class="pure-button pure-button-primary rounded-button">Save</button>
-        							</a>
+        							<input class="pure-input-1" type="password" name="password" id="password" placeholder="Password"/>
+        							<button type="submit" class="pure-button pure-button-primary rounded-button">Save</button>
     						    </div>
-    					    </fieldset>
+						   </fieldset>
+    					    <!-- </fieldset> -->
     			        </form>
     		        </div>
     	        </div>
