@@ -179,9 +179,9 @@ router.post('/SignUp', function (req, res, next){
 	var post_code = reqBody.post_code;
 	var state = reqBody.state;
 	var password = reqBody.password;
-	var type = "USER";
-	var id = 2;
-	var venueid = 1;
+	var type = reqBody.user_type;
+	var id ;
+	var venueid ;
 	var venue_owner;
     var venueString;
     var suburb_id;
@@ -192,121 +192,116 @@ router.post('/SignUp', function (req, res, next){
             return;
         }
 
-		var queryString = '';
-
-		bcrypt.genSalt(10, function(err, salt){
-        if(err){
-            console.log(err);
-        }
-        bcrypt.hash(password, salt, function(err, hash){
+        connection.query("SELECT * FROM accounts WHERE email = ?", [email], function(err, existing_user_check){
             if(err){
                 console.log(err);
             }
-            password = hash;
 
-            if(suburb === ""){
-                type = "USER";
-            }else{
-                type = "VENUE";
+            if (existing_user_check !== undefined){
+                res.redirect('/Signup#signup_failed');
             }
 
-            queryString = "INSERT INTO accounts ( user_type, email, first_name, last_name, password_hash, phone_number) VALUES (?, ?, ?, ?, ?, ?)";
-            connection.query(queryString,[type,email,first_name,last_name,password,phone_number], function(err, result){
+        });
+
+		var queryString = '';
+
+		bcrypt.genSalt(10, function(err, salt){
+            if(err){
+                console.log(err);
+            }
+            bcrypt.hash(password, salt, function(err, hash){
                 if(err){
                     console.log(err);
-                }else {
-                    console.log("New user created");
-                    connection.query("select id FROM accounts ORDER BY ID DESC LIMIT 1", function(err, last_account_result){
-                        if(err){
-                            console.log(err);
-                        }
-                        id = last_account_result[0].id;
-                    });
                 }
-                if(suburb === ""){
-                    type = "USER";
+                password = hash;
 
-                }else{
-                    type = "VENUE";
-                    first_name = "-";
-                    last_name = "-";
 
-                    //update venue type
-
-                    //Get venue owner ID from user database
-
-                    console.log("no query");
-                    //get last ID from accounts
-                    connection.query("select id FROM accounts ORDER BY ID DESC LIMIT 1", function(err, last_account_result){
-                        if(err){
-                            console.log(err);
-                        }
-                        console.log("first query");
-
-                        //Get suburb ID
-                        connection.query("select id from suburbs where suburbs.suburb_name = ?",[suburb], function(err, suburbs_result){
-                            if (err){
+                queryString = "INSERT INTO accounts ( user_type, email, first_name, last_name, password_hash, phone_number) VALUES (?, ?, ?, ?, ?, ?)";
+                connection.query(queryString,[type,email,first_name,last_name,password,phone_number], function(err, result){
+                    if(err){
+                        console.log(err);
+                    }
+                    else {
+                        console.log("New user created");
+                        connection.query("select id FROM accounts ORDER BY ID DESC LIMIT 1", function(err, last_account_result){
+                            if(err){
                                 console.log(err);
                             }
-                            console.log("second query");
-                            //Get last ID from suburbs
-                            connection.query("select id FROM suburbs ORDER BY ID DESC LIMIT 1", function(err, last_suburb_result){
+                            id = last_account_result[0].id;
+                            req.session.user_id = id ;
+                            req.session.email = email ;
+                            req.session.user_type = type ;
+                        });
+                    }
+
+                    if (type === 'VENUE'){
+                            //Get suburb ID
+                            connection.query("select id from suburbs where suburbs.suburb_name = ?",[suburb], function(err, suburbs_result){
                                 if (err){
                                     console.log(err);
                                 }
-                                console.log("third query");
+                                console.log("second query");
+                                //Get last ID from suburbs
+                                connection.query("select id FROM suburbs ORDER BY ID DESC LIMIT 1", function(err, last_suburb_result){
+                                    if (err){
+                                        console.log(err);
+                                    }
+                                    console.log("third query");
 
-                                venue_owner = last_account_result[0].id;
-                                console.log("venue owner ID: " + venue_owner);
-                                //Check if suburb is in database
-                                if(suburbs_result[0] !== undefined){
-                                    suburb_id = suburbs_result[0].id;
-                                }else{
-                                    suburb_id = last_suburb_result[0].id + 1;
-                                    console.log("new suburb ID: " + suburb_id);
-                                    //Create new suburb
-                                    connection.query("INSERT INTO suburbs (suburb_name) VALUES (?)",[suburb], function(err, result){
+                                    //Check if suburb is in database
+                                    if(suburbs_result[0] !== undefined){
+                                        suburb_id = suburbs_result[0].id;
+                                    }
+                                    else {
+                                        if (last_suburb_result[0] !== undefined){
+                                            suburb_id = last_suburb_result[0].id + 1;
+                                        }
+                                        else{
+                                            suburb_id = 1 ;
+                                        }
+                                            console.log("new suburb ID: " + suburb_id);
+                                        //Create new suburb
+                                        connection.query("INSERT INTO suburbs (suburb_name) VALUES (?)",[suburb], function(err, result){
+                                            if(err){
+                                                console.log(err);
+                                            }else{
+                                                console.log("New suburb created");
+                                            }
+                                        });
+                                    }
+
+                                    venueString = "INSERT INTO venues ( venue_name, venue_owner, street_number, street_name, suburb, postcode, state) VALUES (?,?,?,?,?,?,?)";
+                                    //console.log(venueString);
+                                    connection.query(venueString,[venue_name,req.session.user_id,street_number,street_address,suburb_id,post_code,state], function(err, result){
                                         if(err){
                                             console.log(err);
                                         }else{
-                                            console.log("New suburb created");
+                                            console.log("New venue created");
                                         }
                                     });
-                                }
+                                });
 
-                                venueString = "INSERT INTO venues ( venue_name, venue_owner, street_number, street_name, suburb, postcode, state) VALUES (?,?,?,?,?,?,?)";
-                                console.log(venueString);
-                                connection.query(venueString,[venue_name,venue_owner,street_number,street_address,suburb_id,post_code,state], function(err, result){
+                                connection.query("SELECT id FROM venues ORDER BY id DESC LIMIT 1", function(err, last_account_result){
                                     if(err){
                                         console.log(err);
                                     }else{
-                                        console.log("New venue created");
+                                        if (last_account_result[0] !== undefined){
+                                            venueid = last_account_result[0].id;
+                                        }
+                                        else{
+                                            venueid = 100000 ;
+                                        }
+                                        req.session.venue_id = venueid;
+                                        req.session.user_name = venue_name;
                                     }
                                 });
                             });
-                            connection.query("SELECT id FROM venues ORDER BY id DESC LIMIT 1", function(err, last_account_result){
-                                if(err){
-                                    console.log(err);
-                                }else{
-                                    venueid = last_account_result[0].id;
-                                }
-                            });
-                        });
-                    });
-                }
-                req.session.email = email;
-                req.session.user_type = type;
+                    }
+                    else {
+                        req.session.user_name = first_name + ' ' + last_name ;
+                    }
 
-                if(type !== 'VENUE'){
-                    req.session.user_id = id;
-                    req.session.user_name = first_name + ' ' + last_name;
-                }
-                else{
-                    req.session.user_id = id;
-                    req.session.venue_id = venueid;
-                    req.session.user_name = venue_name;
-                }
-                res.redirect("/");
+                    res.redirect("/");
                 });
             });
 		});

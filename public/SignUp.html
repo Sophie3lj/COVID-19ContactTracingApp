@@ -159,12 +159,12 @@
 
     					<select id="user_type" name="user_type" onchange="change_signin_options()" class="pure-input-1">
     						<option><i>Select A User Type</i></option>
-    						<option>User</option>
-    						<option>Venue Owner</option>
+    						<option value="USER">User</option>
+    						<option value="VENUE">Venue Owner</option>
     					</select>
     						<div class="pure-g user" style="display:none;" >
     							<input class="pure-input-1-2" type="text" maxlength="30" name="first_name" id="first_name" placeholder="First Name"/>
-    							<input class="pure-input-1-2" type="text" maxlength="30" name="last_name" id="first_name" placeholder="Last Name"/>
+    							<input class="pure-input-1-2" type="text" maxlength="30" name="last_name" id="last_name" placeholder="Last Name"/>
     						</div>
     						<span class="venue" style="display:none;"><input class="pure-input-1" type="text" maxlength="30" name="venue_name" placeholder="Venue Name"/></span>
     						<div class="shared">
@@ -185,6 +185,15 @@
     						</div>
     				</form>
     			</div>
+
+    			<div id="signup_failed" class="overlay">
+                	<div class="popup">
+                		<a class="close" href="#">&times;</a>
+                		<div class="content">
+                			email already in use.
+                		</div>
+                	</div>
+                </div>
 
     		</main>
 
