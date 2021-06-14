@@ -29,6 +29,10 @@ footer {
     background-color: #343434;
 }
 
+h1 {
+    color: #175873;
+}
+
 h4 {
     color: white;
     background-color: #193046;
@@ -350,8 +354,6 @@ h4 {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    margin-left: 2%;
-    margin-top:2%;
     margin-bottom:-2%;
     padding: 0% 1% 0% 3%;
 }
@@ -415,8 +417,11 @@ h4 {
 
 #minimap {
     width: 80%;
-    height: 80%;
-    margin: auto;
+    height: 90%;
+    margin-top: 3.7%;
+    margin-bottom: 0;
+    margin-left: auto;
+    margin-right: auto;
     border: 1px solid #193046;
 }
 
@@ -462,4 +467,8 @@ h4 {
 
 #account-details-grid-elements {
     margin: 0.5em;
+}
+
+#homepage-first-block {
+    margin-top: 1.2%;
 }
