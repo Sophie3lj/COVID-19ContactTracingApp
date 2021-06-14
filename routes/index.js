@@ -166,7 +166,7 @@ router.post('/deleteHotspot', function(req, res){
     });
 });
 
-router.post('/SignUp', function (req, res, next){
+router.post('/signup', function (req, res, next){
     var reqBody = req.body;
     var venue_name = reqBody.venue_name;
     var first_name = reqBody.first_name;
@@ -189,62 +189,55 @@ router.post('/SignUp', function (req, res, next){
     req.pool.getConnection(function(err,connection){
         if(err){
             console.log(err);
-            return;
+            res.sendStatus(500);
         }
 
         connection.query("SELECT * FROM accounts WHERE email = ?", [email], function(err, existing_user_check){
             if(err){
                 console.log(err);
+                res.sendStatus(500);
             }
 
-            if (existing_user_check !== undefined){
-                res.redirect('/Signup#signup_failed');
-            }
-
-        });
+           if ('id' in existing_user_check){
+                console.log(existing_user_check);
+                res.sendStatus(401);
+            } else {
 
 		var queryString = '';
 
 		bcrypt.genSalt(10, function(err, salt){
             if(err){
                 console.log(err);
+                res.sendStatus(500);
             }
             bcrypt.hash(password, salt, function(err, hash){
                 if(err){
                     console.log(err);
+                    res.sendStatus(500);
                 }
                 password = hash;
-
 
                 queryString = "INSERT INTO accounts ( user_type, email, first_name, last_name, password_hash, phone_number) VALUES (?, ?, ?, ?, ?, ?)";
                 connection.query(queryString,[type,email,first_name,last_name,password,phone_number], function(err, result){
                     if(err){
                         console.log(err);
+                        res.sendStatus(400);
                     }
                     else {
-                        console.log("New user created");
-                        connection.query("select id FROM accounts ORDER BY ID DESC LIMIT 1", function(err, last_account_result){
-                            if(err){
-                                console.log(err);
-                            }
-                            id = last_account_result[0].id;
-                            req.session.user_id = id ;
-                            req.session.email = email ;
-                            req.session.user_type = type ;
-                        });
-                    }
 
-                    if (type === 'VENUE'){
+                        if (type === 'VENUE'){
                             //Get suburb ID
                             connection.query("select id from suburbs where suburbs.suburb_name = ?",[suburb], function(err, suburbs_result){
                                 if (err){
                                     console.log(err);
+                                    res.sendStatus(500);
                                 }
                                 console.log("second query");
                                 //Get last ID from suburbs
                                 connection.query("select id FROM suburbs ORDER BY ID DESC LIMIT 1", function(err, last_suburb_result){
                                     if (err){
                                         console.log(err);
+                                        res.sendStatus(500);
                                     }
                                     console.log("third query");
 
@@ -264,6 +257,7 @@ router.post('/SignUp', function (req, res, next){
                                         connection.query("INSERT INTO suburbs (suburb_name) VALUES (?)",[suburb], function(err, result){
                                             if(err){
                                                 console.log(err);
+                                                res.sendStatus(500);
                                             }else{
                                                 console.log("New suburb created");
                                             }
@@ -275,6 +269,7 @@ router.post('/SignUp', function (req, res, next){
                                     connection.query(venueString,[venue_name,req.session.user_id,street_number,street_address,suburb_id,post_code,state], function(err, result){
                                         if(err){
                                             console.log(err);
+                                            res.sendStatus(400);
                                         }else{
                                             console.log("New venue created");
                                         }
@@ -284,6 +279,7 @@ router.post('/SignUp', function (req, res, next){
                                 connection.query("SELECT id FROM venues ORDER BY id DESC LIMIT 1", function(err, last_account_result){
                                     if(err){
                                         console.log(err);
+                                        res.sendStatus(500);
                                     }else{
                                         if (last_account_result[0] !== undefined){
                                             venueid = last_account_result[0].id;
@@ -291,20 +287,39 @@ router.post('/SignUp', function (req, res, next){
                                         else{
                                             venueid = 100000 ;
                                         }
-                                        req.session.venue_id = venueid;
-                                        req.session.user_name = venue_name;
                                     }
                                 });
                             });
-                    }
-                    else {
-                        req.session.user_name = first_name + ' ' + last_name ;
-                    }
+                        }
 
-                    res.redirect("/");
+                        console.log("New user created");
+                        connection.query("select id FROM accounts ORDER BY ID DESC LIMIT 1", function(err, last_account_result){
+                            if(err){
+                                console.log(err);
+                                res.sendStatus(500);
+                            }
+                            id = last_account_result[0].id;
+                        });
+                    }
                 });
             });
 		});
+                if (type === "VENUE"){
+                    req.session.venue_id = venueid;
+                    req.session.user_name = venue_name;
+                    req.session.user_id = id;
+                    req.session.email = email;
+                    req.session.user_type = type;
+                    res.redirect("/");
+                } else {
+                    req.session.user_id = id;
+                    req.session.email = email;
+                    req.session.user_type = type;
+                    req.session.user_name = first_name + ' ' + last_name;
+                    res.redirect("/");
+                }
+            }
+        });
 	});
 });
 

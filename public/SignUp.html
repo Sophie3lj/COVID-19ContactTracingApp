@@ -154,7 +154,7 @@
     		<main>
     			<div id="sign-up-main" class="centered-text">
 
-    				<form class="pure-inline pure-form pure-form-stacked center-item-h" method="post">
+    				<form class="pure-inline pure-form pure-form-stacked center-item-h">
     					<legend>Enter Account Details</legend>
 
     					<select id="user_type" name="user_type" onchange="change_signin_options()" class="pure-input-1">
@@ -166,7 +166,7 @@
     							<input class="pure-input-1-2" type="text" maxlength="30" name="first_name" id="first_name" placeholder="First Name"/>
     							<input class="pure-input-1-2" type="text" maxlength="30" name="last_name" id="last_name" placeholder="Last Name"/>
     						</div>
-    						<span class="venue" style="display:none;"><input class="pure-input-1" type="text" maxlength="30" name="venue_name" placeholder="Venue Name"/></span>
+    						<span class="venue" style="display:none;"><input class="pure-input-1" type="text" maxlength="30" name="venue_name" id ="venue_name" placeholder="Venue Name"/></span>
     						<div class="shared">
     							<input class="pure-input-1" type="email" name="email" id="email" placeholder="Email" required/>
     							<input class="pure-input-1" type="text" maxlength="10" name="phone_number" id="phone_number" placeholder="Phone Number" required/>
@@ -181,16 +181,34 @@
     						<div class="shared">
     							<input class="pure-input-1" type="password" name="password" id="password" placeholder="Password"/>
     							<input class="pure-input-1" type="password" name="confirm_password" id="confirm_password" placeholder="Confirm Password"/>
-    							<button type="submit" class="pure-button pure-button-primary rounded-button">Sign Up</button>
+    							<button type="button" class="pure-button pure-button-primary rounded-button" onclick="signUp()">Sign Up</button>
     						</div>
     				</form>
     			</div>
 
-    			<div id="signup_failed" class="overlay">
+    			<div id="preexisting-user" class="overlay">
                 	<div class="popup">
                 		<a class="close" href="#">&times;</a>
                 		<div class="content">
-                			email already in use.
+                			Email already in use.
+                		</div>
+                	</div>
+                </div>
+
+                <div id="value-error" class="overlay">
+                	<div class="popup">
+                		<a class="close" href="#">&times;</a>
+                		<div class="content">
+                			Invalid data entered, please try again.
+                		</div>
+                	</div>
+                </div>
+
+                <div id="signup_failed" class="overlay">
+                	<div class="popup">
+                		<a class="close" href="#">&times;</a>
+                		<div class="content">
+                			Internal Server Error, please try again.
                 		</div>
                 	</div>
                 </div>
