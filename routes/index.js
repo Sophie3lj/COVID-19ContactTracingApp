@@ -78,6 +78,15 @@ router.get('/mapHotspots', function(req, res) {
                 res.sendStatus(500);
                 return;
             }
+
+            if (rows[0] === undefined && req.session.user_type === "ADMIN"){
+                console.log('no row');
+                rows = {
+                    admin: true
+                };
+                console.log(rows.admin);
+            }
+
             res.json(rows);
         });
     });
