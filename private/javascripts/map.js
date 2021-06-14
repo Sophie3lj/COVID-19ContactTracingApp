@@ -79,7 +79,7 @@ function addOrRemCheckin(){
                 var new_marker;
 
                 for ( let row of checkins){
-                    if (row.lat == null){
+                    if (row.lat === null){
                         address = row.street_number.toString() + ' ' + row.street_name + ', ' + row.suburb_name + ' ' + row.state + ' ' + row.postcode.toString() ;
                         venue = 'Venue: ' + row.venue_name + ' (' + row.suburb_name + ') ' ;
                         mapboxClient.geocoding.forwardGeocode({
@@ -88,18 +88,18 @@ function addOrRemCheckin(){
                             limit: 1
                         }).send().then(function (response) {
                             var feature = response.body.features[0];
-                            if (row.hotspot == null){
-                                var new_marker = new mapboxgl.Marker({color: "#8CB89F"}).setLngLat(feature.center).addTo(map);
+                            if (row.hotspot === null){
+                                new_marker = new mapboxgl.Marker({color: "#8CB89F"}).setLngLat(feature.center).addTo(map);
                             }
                             else{
-                                var new_marker = new mapboxgl.Marker({color: "orange"}).setLngLat(feature.center).addTo(map);
+                                new_marker = new mapboxgl.Marker({color: "orange"}).setLngLat(feature.center).addTo(map);
                             }
                             checkin_markers.push(new_marker) ;
                         });
                     }
                     else{
                         venue = 'Location: lat(' + row.lat.toString() + ') lng(' + row.lng.toString() + ') ' ;
-                        if (row.hotspot == null){
+                        if (row.hotspot === null){
                             new_marker = new mapboxgl.Marker({color: "#8CB89F"}).setLngLat([row.lng,row.lat]).addTo(map);
                         }
                         else{
