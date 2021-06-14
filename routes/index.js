@@ -199,17 +199,20 @@ router.post('/signup', function (req, res, next){
         if(err){
             console.log(err);
             res.sendStatus(500);
+            return;
         }
 
         connection.query("SELECT * FROM accounts WHERE email = ?", [email], function(err, existing_user_check){
             if(err){
                 console.log(err);
                 res.sendStatus(500);
+                return;
             }
 
-           if ('id' in existing_user_check){
-                console.log(existing_user_check);
+           if (existing_user_check[0] !== undefined){
+                console.log('existing_user_check');
                 res.sendStatus(401);
+                return;
             } else {
 
 		var queryString = '';
@@ -218,11 +221,13 @@ router.post('/signup', function (req, res, next){
             if(err){
                 console.log(err);
                 res.sendStatus(500);
+                return;
             }
             bcrypt.hash(password, salt, function(err, hash){
                 if(err){
                     console.log(err);
                     res.sendStatus(500);
+                    return;
                 }
                 password = hash;
 
@@ -231,6 +236,7 @@ router.post('/signup', function (req, res, next){
                     if(err){
                         console.log(err);
                         res.sendStatus(400);
+                        return;
                     }
                     else {
 
@@ -240,6 +246,7 @@ router.post('/signup', function (req, res, next){
                                 if (err){
                                     console.log(err);
                                     res.sendStatus(500);
+                                    return;
                                 }
                                 console.log("second query");
                                 //Get last ID from suburbs
@@ -247,6 +254,7 @@ router.post('/signup', function (req, res, next){
                                     if (err){
                                         console.log(err);
                                         res.sendStatus(500);
+                                        return;
                                     }
                                     console.log("third query");
 
@@ -279,6 +287,7 @@ router.post('/signup', function (req, res, next){
                                         if(err){
                                             console.log(err);
                                             res.sendStatus(400);
+                                            return;
                                         }else{
                                             console.log("New venue created");
                                         }
@@ -289,6 +298,7 @@ router.post('/signup', function (req, res, next){
                                     if(err){
                                         console.log(err);
                                         res.sendStatus(500);
+                                        return;
                                     }else{
                                         if (last_account_result[0] !== undefined){
                                             venueid = last_account_result[0].id;
@@ -306,6 +316,7 @@ router.post('/signup', function (req, res, next){
                             if(err){
                                 console.log(err);
                                 res.sendStatus(500);
+                                return;
                             }
                             id = last_account_result[0].id;
                         });
