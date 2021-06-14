@@ -197,8 +197,6 @@ router.get('/getAccountDetails', function(req, res) {
                 return;
 
             }
-            console.log(rows[0].first_name);
-            console.log('query successful');
             res.json(rows);
 
         });

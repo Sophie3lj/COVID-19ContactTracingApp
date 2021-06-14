@@ -1,13 +1,13 @@
 var loggedin =  "NO";
 
 var vueinst = new Vue({
-    el: '#app',
-    data: {
-        checkins: false,
-        hotspots: false,
-        user_log: "",
-        user_name: ""
-    }
+	el: '#app',
+	data: {
+		checkins: false,
+		hotspots: false,
+		user_log: "",
+		user_name: ""
+	}
 });
 
 
@@ -49,7 +49,7 @@ function loginCheck(){
 	};
 
 	xhttp.open('GET', '/users/LoginCheck', true) ;
-    xhttp.send();
+	xhttp.send();
 }
 
 function change_signin_options(){
@@ -81,23 +81,23 @@ function change_signin_options(){
 }
 
 function onSignIn(googleUser) {
-    // Useful data for your client-side scripts:
-    var profile = googleUser.getBasicProfile();
-    var xhttp = new XMLHttpRequest();
+	// Useful data for your client-side scripts:
+	var profile = googleUser.getBasicProfile();
+	var xhttp = new XMLHttpRequest();
 
 	xhttp.onreadystatechange = function(){
 		if(this.readyState == 4 && this.status == 200){
 			window.location.pathname="/";
 		}
 	}
-    xhttp.open("POST", "users/GoogleLogin", true);
-    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send("first_name=" + profile.getGivenName() + "&last_name=" + profile.getFamilyName() + "&email=" + profile.getEmail());
+	xhttp.open("POST", "users/GoogleLogin", true);
+	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhttp.send("first_name=" + profile.getGivenName() + "&last_name=" + profile.getFamilyName() + "&email=" + profile.getEmail());
 
 
 
-    // The ID token you need to pass to your backend:
-    //var id_token = googleUser.getAuthResponse().id_token;
+	// The ID token you need to pass to your backend:
+	//var id_token = googleUser.getAuthResponse().id_token;
 
 }
 
@@ -123,7 +123,7 @@ function login(){
 
 	xhttp.open('POST', '/users/login', true) ;
 	xhttp.setRequestHeader("Content-type", "application/json");
-    xhttp.send(JSON.stringify(login_details));
+	xhttp.send(JSON.stringify(login_details));
 }
 
 function logout(){
@@ -136,7 +136,7 @@ function logout(){
 	};
 
 	xhttp.open('POST', '/users/logout', true) ;
-    xhttp.send();
+	xhttp.send();
 }
 
 /*
@@ -156,5 +156,5 @@ function signup(){
 
 	xhttp.open('POST', '/signup', true) ;
 	xmlhttp.setRequestHeader("Content-type", "application/json");
-    xmlhttp.send(JSON.stringify(login_details));
+	xmlhttp.send(JSON.stringify(login_details));
 }*/

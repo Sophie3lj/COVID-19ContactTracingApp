@@ -88,11 +88,12 @@ function addOrRemCheckin(){
                             limit: 1
                         }).send().then(function (response) {
                             var feature = response.body.features[0];
+                            var new_marker;
                             if (row.hotspot == null){
-                                var new_marker = new mapboxgl.Marker({color: "#8CB89F"}).setLngLat(feature.center).addTo(map);
+                                new_marker = new mapboxgl.Marker({color: "#8CB89F"}).setLngLat(feature.center).addTo(map);
                             }
                             else{
-                                var new_marker = new mapboxgl.Marker({color: "orange"}).setLngLat(feature.center).addTo(map);
+                                new_marker = new mapboxgl.Marker({color: "orange"}).setLngLat(feature.center).addTo(map);
                             }
                             checkin_markers.push(new_marker) ;
                         });

@@ -1,26 +1,26 @@
 var loggedin =  "NO";
 
 /* AccountDetails.html variables */
-var accountDetails = [];
+//var accountDetails = [];
 
 var vueinst = new Vue({
-    el: '#app',
-    data: {
-        checkins: false,
-        hotspots: false,
-        user_log: "",
-        user_name: "",
-        loggedin: false,
-        AccountDetails_firstName: 'first_name',
-        AccountDetails_lastName: 'last_name',
-        AccountDetails_email: 'email',
-        AccountDetails_phoneNumber: 'phone_number',
+	el: '#app',
+	data: {
+		checkins: false,
+		hotspots: false,
+		user_log: "",
+		user_name: "",
+		loggedin: false,
+		AccountDetails_firstName: 'first_name',
+		AccountDetails_lastName: 'last_name',
+		AccountDetails_email: 'email',
+		AccountDetails_phoneNumber: 'phone_number',
 		AccountDetails_venueName: 'venue_name',
 		AccountDetails_streetAddress: 'street_address',
 		AccountDetails_suburb: 'suburb',
 		AccountDetails_postcode: 'postcode',
 		AccountDetails_state: 'state'
-    }
+	}
 });
 
 
@@ -62,7 +62,7 @@ function loginCheck(){
 	};
 
 	xhttp.open('GET', '/users/LoginCheck', true) ;
-    xhttp.send();
+	xhttp.send();
 }
 
 function change_signin_options(){
@@ -94,24 +94,24 @@ function change_signin_options(){
 }
 
 function onSignIn(googleUser) {
-    // Useful data for your client-side scripts:
-    var profile = googleUser.getBasicProfile();
-    var xhttp = new XMLHttpRequest();
+	// Useful data for your client-side scripts:
+	var profile = googleUser.getBasicProfile();
+	var xhttp = new XMLHttpRequest();
 
-    xhttp.open("POST", "GoogleLogin.html", true);
-    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send("first_name=" + profile.getGivenName() + "&last_name=" + profile.getFamilyName() + "&email=" + profile.getEmail());
+	xhttp.open("POST", "GoogleLogin.html", true);
+	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhttp.send("first_name=" + profile.getGivenName() + "&last_name=" + profile.getFamilyName() + "&email=" + profile.getEmail());
 
-    console.log("ID: " + profile.getId()); // Don't send this directly to your server!
-    console.log('Full Name: ' + profile.getName());
-    console.log('Given Name: ' + profile.getGivenName());
-    console.log('Family Name: ' + profile.getFamilyName());
-    console.log("Image URL: " + profile.getImageUrl());
-    console.log("Email: " + profile.getEmail());
+	console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+	console.log('Full Name: ' + profile.getName());
+	console.log('Given Name: ' + profile.getGivenName());
+	console.log('Family Name: ' + profile.getFamilyName());
+	console.log("Image URL: " + profile.getImageUrl());
+	console.log("Email: " + profile.getEmail());
 
-    // The ID token you need to pass to your backend:
-    var id_token = googleUser.getAuthResponse().id_token;
-    console.log("ID Token: " + id_token);
+	// The ID token you need to pass to your backend:
+	var id_token = googleUser.getAuthResponse().id_token;
+	console.log("ID Token: " + id_token);
 }
 
 function login(){
@@ -136,7 +136,7 @@ function login(){
 
 	xhttp.open('POST', '/users/login', true) ;
 	xhttp.setRequestHeader("Content-type", "application/json");
-    xhttp.send(JSON.stringify(login_details));
+	xhttp.send(JSON.stringify(login_details));
 }
 
 function logout(){
@@ -149,7 +149,7 @@ function logout(){
 	};
 
 	xhttp.open('POST', '/users/logout', true) ;
-    xhttp.send();
+	xhttp.send();
 }
 
 /*
@@ -169,7 +169,7 @@ function signup(){
 
 	xhttp.open('POST', '/signup', true) ;
 	xmlhttp.setRequestHeader("Content-type", "application/json");
-    xmlhttp.send(JSON.stringify(login_details));
+	xmlhttp.send(JSON.stringify(login_details));
 }*/
 
 /* AccountDetails.html AJAX script */
@@ -179,23 +179,25 @@ function GetAccountDetails() {
 		if (this.readyState == 4 && this.status == 200) {
 			var accountDetails=JSON.parse(this.responseText);
 			//console.log('amongus');
-			for (let key of accountDetails) {
+			/*for (let key of accountDetails) {
 				console.log('logging element');
 				//console.log(`${key} : ${accountDetails[key]}`);
-			}
+			}*/
 
 			vueinst.AccountDetails_firstName = accountDetails[0].first_name;
 			vueinst.AccountDetails_lastName = accountDetails[0].last_name;
 			vueinst.AccountDetails_email = accountDetails[0].email;
 			vueinst.AccountDetails_phoneNumber = accountDetails[0].phone_number;
 			vueinst.AccountDetails_venueName = accountDetails[0].venue_name;
+			vueinst.AccountDetails_streetNumber = accountDetails[0].street_number;
+			vueinst.AccountDetails_streetName = accountDetails[0].street_name;
 			vueinst.AccountDetails_streetAddress = accountDetails[0].street_number + accountDetails[0].street_name;
 			vueinst.AccountDetails_suburb = accountDetails[0].suburb_name;
 			vueinst.AccountDetails_postcode = accountDetails[0].postcode;
 			vueinst.AccountDetails_state = accountDetails[0].state;
 		}
-    };
-    xhttp.open("GET", "/users/getAccountDetails");
+	};
+	xhttp.open("GET", "/users/getAccountDetails");
 	xhttp.send();
 
 }
@@ -494,7 +496,7 @@ function GetCheckinSearchHistory(){
 
 	xhttp.open('POST', '/users/getCheckinSearchHistory', true) ;
 	xhttp.setRequestHeader("Content-type", "application/json");
-    xhttp.send(JSON.stringify(Search));
+	xhttp.send(JSON.stringify(Search));
 }
 
 
@@ -506,14 +508,14 @@ function checkin() {
 
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
-    	if (this.readyState == 4 && this.status == 200) {
+		if (this.readyState == 4 && this.status == 200) {
 			alert('Checkin Successful');
-    	}
-    };
+		}
+	};
 
-    xhttp.open("POST", "/users/checkin");
+	xhttp.open("POST", "/users/checkin");
 	xhttp.setRequestHeader("Content-type", "application/json");
-    xhttp.send(JSON.stringify(CheckinCode));
+	xhttp.send(JSON.stringify(CheckinCode));
 }
 
 function checkinLocation() {
@@ -524,20 +526,20 @@ function checkinLocation() {
 	};
 
 	if (navigator.geolocation) {
-	    navigator.geolocation.getCurrentPosition( function (position) {
-	    	Checkin.lat = position.coords.latitude ;
-	    	Checkin.lng = position.coords.longitude ;
+		navigator.geolocation.getCurrentPosition( function (position) {
+			Checkin.lat = position.coords.latitude ;
+			Checkin.lng = position.coords.longitude ;
 
-	    	var xhttp = new XMLHttpRequest();
+			var xhttp = new XMLHttpRequest();
 			xhttp.onreadystatechange = function() {
-		    	if (this.readyState == 4 && this.status == 200) {
+				if (this.readyState == 4 && this.status == 200) {
 					alert('Checkin Successful');
-		    	}
-		    };
+				}
+			};
 
-		    xhttp.open("POST", "/users/checkinLocation");
+			xhttp.open("POST", "/users/checkinLocation");
 			xhttp.setRequestHeader("Content-type", "application/json");
-		    xhttp.send(JSON.stringify(Checkin));
+			xhttp.send(JSON.stringify(Checkin));
 
 		});
 	}
