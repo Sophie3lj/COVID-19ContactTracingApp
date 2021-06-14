@@ -2,10 +2,10 @@ var express = require('express');
 const bcrypt = require('bcrypt');
 var router = express.Router();
 
-var session;
+//var session;
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', function(req, res) {
     res.render('index', { title: 'Express', });
 });
 
@@ -36,7 +36,7 @@ router.get('/mapCheckins', function(req, res) {
             res.sendStatus(404);
         }
 
-        connection.query(query, param, function(err, rows, fields) {
+        connection.query(query, param, function(err, rows) {
             connection.release();
             if (err) {
                 res.sendStatus(500);
@@ -72,7 +72,7 @@ router.get('/mapHotspots', function(req, res) {
             res.sendStatus(404);
         }
 
-        connection.query(query, function(err, rows, fields) {
+        connection.query(query, function(err, rows) {
             connection.release();
             if (err) {
                 res.sendStatus(500);
@@ -99,7 +99,7 @@ router.get('/MiniMapHotspots', function(req, res) {
             return;
         }
         var query = "SELECT suburbs.suburb_name FROM hotspots INNER JOIN suburbs ON hotspots.suburb_id=suburbs.id" ;
-        connection.query(query, function(err, rows, fields) {
+        connection.query(query, function(err, rows) {
             connection.release();
             if (err) {
                 res.sendStatus(500);
@@ -118,7 +118,7 @@ router.post('/createHotspot', function(req, res){
         }
 
         var query1 = "SELECT id FROM suburbs WHERE suburbs.suburb_name = ?";
-        connection.query(query1, [req.body.suburb], function(err, rows, fields) {
+        connection.query(query1, [req.body.suburb], function(err, rows) {
             if (err) {
                 res.sendStatus(500);
                 return;
@@ -131,7 +131,7 @@ router.post('/createHotspot', function(req, res){
             }
             else{
                 var query2 = "INSERT INTO suburbs (suburb_name) VALUES (?)";
-                connection.query(query2, [req.body.suburb], function(err, rows, fields) {
+                connection.query(query2, [req.body.suburb], function(err) {
                     if (err) {
                         res.sendStatus(500);
                         return;
@@ -141,7 +141,7 @@ router.post('/createHotspot', function(req, res){
             }
 
             var query3 = "INSERT INTO hotspots (suburb_id) VALUES (?)";
-            connection.query(query3, [suburb_id], function(err, rows, fields) {
+            connection.query(query3, [suburb_id], function(err) {
                 connection.release();
                 if (err) {
                     res.sendStatus(500);
@@ -162,7 +162,7 @@ router.post('/deleteHotspot', function(req, res){
         }
 
         var query1 = "DELETE FROM hotspots WHERE id = ?";
-        connection.query(query1, [req.body.hotspot_id], function(err, rows, fields) {
+        connection.query(query1, [req.body.hotspot_id], function(err) {
             if (err) {
                 res.sendStatus(500);
                 return;
@@ -176,6 +176,7 @@ router.post('/deleteHotspot', function(req, res){
 });
 
 router.post('/signup', function (req, res, next){
+
     var reqBody = req.body;
     var venue_name = reqBody.venue_name;
     var first_name = reqBody.first_name;
@@ -188,6 +189,7 @@ router.post('/signup', function (req, res, next){
 	var post_code = reqBody.post_code;
 	var state = reqBody.state;
 	var password = reqBody.password;
+
 	var type = reqBody.user_type;
 	var id ;
 	var venueid ;
@@ -295,6 +297,7 @@ router.post('/signup', function (req, res, next){
                                 });
 
                                 connection.query("SELECT id FROM venues ORDER BY id DESC LIMIT 1", function(err, last_account_result){
+
                                     if(err){
                                         console.log(err);
                                         res.sendStatus(500);
@@ -340,11 +343,13 @@ router.post('/signup', function (req, res, next){
                 }
             }
         });
+
 	});
 });
 
 
-router.post('/newadmin', function (req, res, next){
+
+router.post('/newadmin', function (req, res){
     req.pool.getConnection(function(err,connection){
         if(err){
             console.log(err);
@@ -371,7 +376,7 @@ router.post('/newadmin', function (req, res, next){
                 }
                 password = hash;
                 queryString = "INSERT INTO accounts ( user_type, email, first_name, last_name, password_hash, phone_number) VALUES (?, ?, ?, ?, ?, ?)";
-                connection.query(queryString, [type, email, first_name, last_name, password, phone_number], function(err, result){
+                connection.query(queryString, [type, email, first_name, last_name, password, phone_number], function(err){
                     if(err){
                         console.log(err);
                     }else {
@@ -385,7 +390,7 @@ router.post('/newadmin', function (req, res, next){
     res.redirect("/");
 });
 
-router.post('/editAccDetails', function (req, res, next){
+router.post('/editAccDetails', function (req, res){
 
     req.pool.getConnection(function(err,connection){
         if(err){
@@ -394,7 +399,7 @@ router.post('/editAccDetails', function (req, res, next){
         }
 
         var reqBody = req.body;
-        var venue_name = reqBody.venue_name;
+        //var venue_name = reqBody.venue_name;
         var first_name = reqBody.first_name;
 		var last_name = reqBody.last_name;
 		var email = reqBody.email;
@@ -412,7 +417,7 @@ router.post('/editAccDetails', function (req, res, next){
 
         if (!(first_name === '')){
             queryString = "UPDATE accounts SET first_name = ? WHERE id = ?";
-            connection.query(queryString, [first_name, id], function(err, result){
+            connection.query(queryString, [first_name, id], function(err){
                 if(err){
                     console.log(err);
                 }else {
@@ -423,7 +428,7 @@ router.post('/editAccDetails', function (req, res, next){
 
         if (!(last_name === '')){
             queryString = "UPDATE accounts SET last_name = ? WHERE id = ?";
-            connection.query(queryString, [last_name, id], function(err, result){
+            connection.query(queryString, [last_name, id], function(err){
                 if(err){
                     console.log(err);
                 }else {
@@ -434,7 +439,7 @@ router.post('/editAccDetails', function (req, res, next){
 
         if (!(email === '')){
             queryString = "UPDATE accounts SET email = ? WHERE id = ?";
-            connection.query(queryString, [email, id], function(err, result){
+            connection.query(queryString, [email, id], function(err){
                 if(err){
                     console.log(err);
                 }else {
@@ -445,7 +450,7 @@ router.post('/editAccDetails', function (req, res, next){
 
         if (!(phone_number === '')){
             queryString = "UPDATE accounts SET phone_number = ? WHERE id = ?";
-            connection.query(queryString, [phone_number, id], function(err, result){
+            connection.query(queryString, [phone_number, id], function(err){
                 if(err){
                     console.log(err);
                 }else {
@@ -465,7 +470,7 @@ router.post('/editAccDetails', function (req, res, next){
                     }
                     password = hash;
                     queryString = "UPDATE accounts SET password_hash = ? WHERE id = ?";
-                    connection.query(queryString, [password, id], function(err, result){
+                    connection.query(queryString, [password, id], function(err){
                         if(err){
                             console.log(err);
                         }else {
@@ -482,7 +487,7 @@ router.post('/editAccDetails', function (req, res, next){
         if (type === "VENUE"){
             if (!(street_number === '')){
                 queryString = "UPDATE venues SET street_number = ? WHERE venue_owner = ?";
-                connection.query(queryString, [street_number, id], function(err, result){
+                connection.query(queryString, [street_number, id], function(err){
                     if(err){
                         console.log(err);
                     }else {
@@ -493,7 +498,7 @@ router.post('/editAccDetails', function (req, res, next){
 
             if (!(street_address === '')){
                 queryString = "UPDATE venues SET street_name = ? WHERE venue_owner = ?";
-                connection.query(queryString, [street_address, id], function(err, result){
+                connection.query(queryString, [street_address, id], function(err){
                     if(err){
                         console.log(err);
                     }else {
@@ -503,8 +508,10 @@ router.post('/editAccDetails', function (req, res, next){
             }
 
             if (!(suburb === '')){
+
                 /*queryString = "UPDATE venues SET suburb = ? WHERE venue_owner = ?";
                 connection.query(queryString, [suburb, id], function(err, result){
+
                     if(err){
                         console.log(err);
                     }else {
@@ -554,7 +561,7 @@ router.post('/editAccDetails', function (req, res, next){
 
             if (!(post_code === '')){
                 queryString = "UPDATE venues SET postcode = ? WHERE venue_owner = ?";
-                connection.query(queryString, [post_code, id], function(err, result){
+                connection.query(queryString, [post_code, id], function(err){
                     if(err){
                         console.log(err);
                     }else {
@@ -565,7 +572,7 @@ router.post('/editAccDetails', function (req, res, next){
 
             if (!(state === '')){
                 queryString = "UPDATE venues SET state = ? WHERE venue_owner = ?";
-                connection.query(queryString, [state, id], function(err, result){
+                connection.query(queryString, [state, id], function(err){
                     if(err){
                         console.log(err);
                     }else {

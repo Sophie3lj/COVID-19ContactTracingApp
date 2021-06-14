@@ -2,11 +2,11 @@ var express = require('express');
 var router = express.Router();
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
+router.get('/', function(req, res) {
     res.send('respond with a resource');
 });
 
-router.post('/login', function(req,res,next){
+router.post('/login', function(req,res){
 
     var bcrypt = require('bcrypt');
     //get connection
@@ -65,7 +65,7 @@ router.post('/login', function(req,res,next){
 
 });
 
-router.post('/GoogleLogin', function(req,res,next){
+router.post('/GoogleLogin', function(req,res){
     req.pool.getConnection(function(err, connection){
         if(err){
             console.log(err);
@@ -85,7 +85,7 @@ router.post('/GoogleLogin', function(req,res,next){
         connection.query("select id, email, password_hash FROM accounts WHERE email= ?",[email], function(err, result){
             if(err) console.log(err);
             if(result[0]===undefined){
-                connection.query("INSERT INTO accounts ( user_type, email, first_name, last_name, password_hash, phone_number) VALUES ('USER', ?,?,?, '-', '-')",[email,first_name,last_name], function(err, result){
+                connection.query("INSERT INTO accounts ( user_type, email, first_name, last_name, password_hash, phone_number) VALUES ('USER', ?,?,?, '-', '-')",[email,first_name,last_name], function(err){
                     if(err) console.log(err);
                     console.log("New google user created");
                 });
@@ -159,7 +159,7 @@ router.get('/MapCheck', function(req, res){
     }
 });
 
-router.post('/logout', function(req, res, next) {
+router.post('/logout', function(req, res) {
     delete req.session.email;
     delete req.session.user_type;
     delete req.session.user_id;
@@ -168,7 +168,7 @@ router.post('/logout', function(req, res, next) {
 });
 
 /* Query database for AccountDetails.html !!NEED SESSION CODE!! */
-router.get('/getAccountDetails', function(req, res, next) {
+router.get('/getAccountDetails', function(req, res) {
     req.pool.getConnection( function(err, connection) {
         if (err) {
             res.sendStatus(500);
@@ -190,15 +190,13 @@ router.get('/getAccountDetails', function(req, res, next) {
             query = "SELECT accounts.first_name, accounts.last_name, accounts.email, accounts.phone_number, venues.venue_name, venues.street_number, venues.street_name,  venues.postcode, venues.state, suburbs.suburb_name FROM ((accounts INNER JOIN venues ON accounts.id = venues.venue_owner) INNER JOIN suburbs ON venues.suburb = suburbs.id) WHERE accounts.id = ?";
             console.log('type VENUE details');
         }
-        connection.query(query, [user_id], function(err, rows, fields) {
+        connection.query(query, [user_id], function(err, rows) {
             connection.release();
             if (err) {
                 res.sendStatus(500);
                 return;
 
             }
-            console.log(rows[0].first_name);
-            console.log('query successful');
             res.json(rows);
 
         });
@@ -237,7 +235,7 @@ router.get('/getCheckinHistory', function(req, res) {
             res.sendStatus(404);
         }
 
-        connection.query(query, param, function(err, rows, fields) {
+        connection.query(query, param, function(err, rows) {
             connection.release();
             if (err) {
                 res.sendStatus(500);
@@ -284,7 +282,7 @@ router.post('/getCheckinSearchHistory', function(req, res) {
             res.sendStatus(404);
         }
 
-        connection.query(query, param, function(err, rows, fields) {
+        connection.query(query, param, function(err, rows) {
             connection.release();
             if (err) {
                 res.sendStatus(500);
@@ -296,7 +294,7 @@ router.post('/getCheckinSearchHistory', function(req, res) {
 });
 
 
-router.post('/checkin', function(req, res, next) {
+router.post('/checkin', function(req, res) {
 
     req.pool.getConnection(function(err,connection) {
         if (err) {
@@ -306,7 +304,7 @@ router.post('/checkin', function(req, res, next) {
 
         var query = 'INSERT INTO checkins (venue_id, user_id, date_time) VALUES (?, ?, NOW())' ;
 
-        connection.query(query, [req.body.code, req.session.user_id], function(err, rows, fields) {
+        connection.query(query, [req.body.code, req.session.user_id], function(err) {
             connection.release();
             if (err) {
                 res.sendStatus(500);
@@ -317,7 +315,7 @@ router.post('/checkin', function(req, res, next) {
     });
 });
 
-router.post('/checkinLocation', function(req, res, next) {
+router.post('/checkinLocation', function(req, res) {
 
     req.pool.getConnection(function(err,connection) {
         if (err) {
@@ -327,7 +325,7 @@ router.post('/checkinLocation', function(req, res, next) {
 
         var query = 'INSERT INTO checkins (user_id, date_time, lat, lng) VALUES (?, NOW(), ?, ?)' ;
 
-        connection.query(query, [req.session.user_id, req.body.lat, req.body.lng], function(err, rows, fields) {
+        connection.query(query, [req.session.user_id, req.body.lat, req.body.lng], function(err) {
             connection.release();
             if (err) {
                 res.sendStatus(500);
