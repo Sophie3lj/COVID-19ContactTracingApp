@@ -159,12 +159,12 @@
                                    <h1 class="centered-text no-vertical-margin">Check in</h1>
                                    <div class="small-text">Check in using a venue's check-in code or your current location</div>
                                </legend>
-                               <input type="text" class="pure-input" placeholder="Enter the checkin code" />
-                               <button type="submit" class="pure-button pure-button-primary rounded-button">Enter</button>
+                               <input type="text" class="pure-input" placeholder="Enter the checkin code" id="checkinCode"/>
+                               <button type="button" onclick="checkin()" class="pure-button pure-button-primary rounded-button">Enter</button>
                            </fieldset>
                        </form>
                        <p class="centered-text">or</p>
-                       <button class="pure-button rounded-button" id="checkin-location-button">Check in using location</button>
+                       <button class="pure-button rounded-button" id="checkin-location-button" onclick="checkinLocation()">Check in using location</button>
                    </div>
                 </div>
             </main>

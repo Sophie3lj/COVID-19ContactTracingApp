@@ -342,7 +342,7 @@ h4 {
 }
 
 #table-no-border {
-    border: 0;
+    border: 1px solid #cbcbcb;;
 }
 
 #app {

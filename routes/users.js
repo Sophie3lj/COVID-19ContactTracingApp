@@ -219,14 +219,14 @@ router.get('/getCheckinHistory', function(req, res) {
         // check user type and change the query
         if('user_type' in req.session){
             if(req.session.user_type === "USER"){
-                query = "SELECT 'USER', checkins.date_time, venues.venue_name, suburbs.suburb_name, hotspots.id AS hotspot FROM checkins INNER JOIN venues ON checkins.venue_id = venues.id INNER JOIN suburbs ON suburbs.id = venues.suburb LEFT JOIN hotspots ON suburbs.id = hotspots.suburb_id WHERE checkins.user_id = ?";
+                query = "SELECT 'USER', checkins.date_time, checkins.lat, checkins.lng, venues.venue_name, suburbs.suburb_name, hotspots.id AS hotspot FROM checkins LEFT JOIN venues ON checkins.venue_id = venues.id LEFT JOIN suburbs ON suburbs.id = venues.suburb LEFT JOIN hotspots ON suburbs.id = hotspots.suburb_id WHERE checkins.user_id = ?";
                 param.push(req.session.user_id);
             }
             else if(req.session.user_type === "ADMIN"){
-                query = "SELECT 'ADMIN', checkins.date_time, checkins.user_id, venues.venue_name, suburbs.suburb_name, hotspots.id AS hotspot FROM checkins INNER JOIN venues ON checkins.venue_id = venues.id INNER JOIN suburbs ON suburbs.id = venues.suburb LEFT JOIN hotspots ON suburbs.id = hotspots.suburb_id" ;
+                query = "SELECT 'ADMIN', checkins.date_time, checkins.lat, checkins.lng, checkins.user_id, venues.venue_name, suburbs.suburb_name, hotspots.id AS hotspot FROM checkins LEFT JOIN venues ON checkins.venue_id = venues.id LEFT JOIN suburbs ON suburbs.id = venues.suburb LEFT JOIN hotspots ON suburbs.id = hotspots.suburb_id" ;
             }
             else if(req.session.user_type === "VENUE"){
-                query = "SELECT 'VENUE', checkins.date_time, checkins.user_id, venues.venue_name, suburbs.suburb_name, hotspots.id AS hotspot FROM checkins INNER JOIN venues ON checkins.venue_id = venues.id INNER JOIN suburbs ON suburbs.id = venues.suburb LEFT JOIN hotspots ON suburbs.id = hotspots.suburb_id WHERE checkins.venue_id = ?" ;
+                query = "SELECT 'VENUE', checkins.date_time, checkins.user_id, hotspots.id AS hotspot FROM checkins LEFT JOIN venues ON checkins.venue_id = venues.id LEFT JOIN suburbs ON suburbs.id = venues.suburb LEFT JOIN hotspots ON suburbs.id = hotspots.suburb_id WHERE checkins.venue_id = ?" ;
                 param.push(req.session.venue_id);
             }
             else {
@@ -295,6 +295,48 @@ router.post('/getCheckinSearchHistory', function(req, res) {
     });
 });
 
+
+router.post('/checkin', function(req, res, next) {
+
+    req.pool.getConnection(function(err,connection) {
+        if (err) {
+            res.sendStatus(500);
+            return;
+        }
+
+        var query = 'INSERT INTO checkins (venue_id, user_id, date_time) VALUES (?, ?, NOW())' ;
+
+        connection.query(query, [req.body.code, req.session.user_id], function(err, rows, fields) {
+            connection.release();
+            if (err) {
+                res.sendStatus(500);
+                return;
+            }
+            res.end();
+        });
+    });
+});
+
+router.post('/checkinLocation', function(req, res, next) {
+
+    req.pool.getConnection(function(err,connection) {
+        if (err) {
+            res.sendStatus(500);
+            return;
+        }
+
+        var query = 'INSERT INTO checkins (user_id, date_time, lat, lng) VALUES (?, NOW(), ?, ?)' ;
+
+        connection.query(query, [req.session.user_id, req.body.lat, req.body.lng], function(err, rows, fields) {
+            connection.release();
+            if (err) {
+                res.sendStatus(500);
+                return;
+            }
+            res.end();
+        });
+    });
+});
 
 
 module.exports = router;

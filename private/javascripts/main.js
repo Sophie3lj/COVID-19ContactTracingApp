@@ -213,46 +213,109 @@ function GetCheckinHistory(){
 				date = new Date(row.date_time);
 
 				if ( 'ADMIN' in row ){
-					if (row.hotspot == null){
-						document.getElementById('addCheckinHistory').innerHTML = document.getElementById('addCheckinHistory').innerHTML +	`
-						<tr>
-							<td id="table-no-border">${date.toLocaleDateString()}</td>
-							<td id="table-no-border">${date.toLocaleTimeString()}</td>
-							<td id="table-no-border">${row.user_id}</td>
-							<td id="table-no-border">${row.venue_name} (${row.suburb_name})</td>
-							<td id="table-no-border"></td>
-						</tr>`;
+					if (row.lat == null){
+						if (row.hotspot == null){
+							document.getElementById('addCheckinHistory').innerHTML = document.getElementById('addCheckinHistory').innerHTML +	`
+							<tr>
+								<td id="table-no-border">${date.toLocaleDateString()}</td>
+								<td id="table-no-border">${date.toLocaleTimeString()}</td>
+								<td id="table-no-border">${row.user_id}</td>
+								<td id="table-no-border">${row.venue_name} (${row.suburb_name})</td>
+								<td id="table-no-border"></td>
+								<td id="table-no-border"></td>
+								<td id="table-no-border"></td>
+							</tr>`;
 
+						}
+						else{
+							document.getElementById('addCheckinHistory').innerHTML = document.getElementById('addCheckinHistory').innerHTML +	`
+							<tr>
+								<td id="table-no-border">${date.toLocaleDateString()}</td>
+								<td id="table-no-border">${date.toLocaleTimeString()}</td>
+								<td id="table-no-border">${row.user_id}</td>
+								<td id="table-no-border">${row.venue_name} (${row.suburb_name})</td>
+								<td id="table-no-border"></td>
+								<td id="table-no-border"></td>
+								<td id="table-no-border"><i class="fas fa-exclamation-triangle"></i></td>
+							</tr>`;
+						}
 					}
-					else{
-						document.getElementById('addCheckinHistory').innerHTML = document.getElementById('addCheckinHistory').innerHTML +	`
-						<tr>
-							<td id="table-no-border">${date.toLocaleDateString()}</td>
-							<td id="table-no-border">${date.toLocaleTimeString()}</td>
-							<td id="table-no-border">${row.user_id}</td>
-							<td id="table-no-border">${row.venue_name} (${row.suburb_name})</td>
-							<td id="table-no-border"><i class="fas fa-exclamation-triangle"></i></td>
-						</tr>`;
+					else {
+						if (row.hotspot == null){
+							document.getElementById('addCheckinHistory').innerHTML = document.getElementById('addCheckinHistory').innerHTML +	`
+							<tr>
+								<td id="table-no-border">${date.toLocaleDateString()}</td>
+								<td id="table-no-border">${date.toLocaleTimeString()}</td>
+								<td id="table-no-border">${row.user_id}</td>
+								<td id="table-no-border"></td>
+								<td id="table-no-border">${row.lat}</td>
+								<td id="table-no-border">${row.lng}</td>
+								<td id="table-no-border"></td>
+							</tr>`;
+
+						}
+						else{
+							document.getElementById('addCheckinHistory').innerHTML = document.getElementById('addCheckinHistory').innerHTML +	`
+							<tr>
+								<td id="table-no-border">${date.toLocaleDateString()}</td>
+								<td id="table-no-border">${date.toLocaleTimeString()}</td>
+								<td id="table-no-border">${row.user_id}</td>
+								<td id="table-no-border"></td>
+								<td id="table-no-border">${row.lat}</td>
+								<td id="table-no-border">${row.lng}</td>
+								<td id="table-no-border"><i class="fas fa-exclamation-triangle"></i></td>
+							</tr>`;
+						}
 					}
 				}
 				else if ( 'USER' in row ){
-					if (row.hotspot == null){
-						document.getElementById('addCheckinHistory').innerHTML = document.getElementById('addCheckinHistory').innerHTML +	`
-						<tr>
-							<td id="table-no-border">${date.toLocaleDateString()}</td>
-							<td id="table-no-border">${date.toLocaleTimeString()}</td>
-							<td id="table-no-border">${row.venue_name} (${row.suburb_name})</td>
-							<td id="table-no-border"></td>
-						</tr>`;
+					if (row.lat == null){
+						if (row.hotspot == null){
+							document.getElementById('addCheckinHistory').innerHTML = document.getElementById('addCheckinHistory').innerHTML +	`
+							<tr>
+								<td id="table-no-border">${date.toLocaleDateString()}</td>
+								<td id="table-no-border">${date.toLocaleTimeString()}</td>
+								<td id="table-no-border">${row.venue_name} (${row.suburb_name})</td>
+								<td id="table-no-border"></td>
+								<td id="table-no-border"></td>
+								<td id="table-no-border"></td>
+							</tr>`;
+						}
+						else{
+							document.getElementById('addCheckinHistory').innerHTML = document.getElementById('addCheckinHistory').innerHTML +	`
+							<tr>
+								<td id="table-no-border">${date.toLocaleDateString()}</td>
+								<td id="table-no-border">${date.toLocaleTimeString()}</td>
+								<td id="table-no-border">${row.venue_name} (${row.suburb_name})</td>
+								<td id="table-no-border"></td>
+								<td id="table-no-border"></td>
+								<td id="table-no-border"><i class="fas fa-exclamation-triangle"></i></td>
+							</tr>`;
+						}
 					}
-					else{
-						document.getElementById('addCheckinHistory').innerHTML = document.getElementById('addCheckinHistory').innerHTML +	`
-						<tr>
-							<td id="table-no-border">${date.toLocaleDateString()}</td>
-							<td id="table-no-border">${date.toLocaleTimeString()}</td>
-							<td id="table-no-border">${row.venue_name} (${row.suburb_name})</td>
-							<td id="table-no-border"><i class="fas fa-exclamation-triangle"></i></td>
-						</tr>`;
+					else {
+						if (row.hotspot == null){
+							document.getElementById('addCheckinHistory').innerHTML = document.getElementById('addCheckinHistory').innerHTML +	`
+							<tr>
+								<td id="table-no-border">${date.toLocaleDateString()}</td>
+								<td id="table-no-border">${date.toLocaleTimeString()}</td>
+								<td id="table-no-border"></td>
+								<td id="table-no-border">${row.lat}</td>
+								<td id="table-no-border">${row.lng}</td>
+								<td id="table-no-border"></td>
+							</tr>`;
+						}
+						else{
+							document.getElementById('addCheckinHistory').innerHTML = document.getElementById('addCheckinHistory').innerHTML +	`
+							<tr>
+								<td id="table-no-border">${date.toLocaleDateString()}</td>
+								<td id="table-no-border">${date.toLocaleTimeString()}</td>
+								<td id="table-no-border"></td>
+								<td id="table-no-border">${row.lat}</td>
+								<td id="table-no-border">${row.lng}</td>
+								<td id="table-no-border"><i class="fas fa-exclamation-triangle"></i></td>
+							</tr>`;
+						}
 					}
 				}
 				else if ( 'VENUE' in row ){
@@ -302,46 +365,109 @@ function GetCheckinSearchHistory(){
 				date = new Date(row.date_time);
 
 				if ( 'ADMIN' in row ){
-					if (row.hotspot == null){
-						document.getElementById('addCheckinHistory').innerHTML = document.getElementById('addCheckinHistory').innerHTML +	`
-						<tr>
-							<td id="table-no-border">${date.toLocaleDateString()}</td>
-							<td id="table-no-border">${date.toLocaleTimeString()}</td>
-							<td id="table-no-border">${row.user_id}</td>
-							<td id="table-no-border">${row.venue_name} (${row.suburb_name})</td>
-							<td id="table-no-border"></td>
-						</tr>`;
+					if (row.lat == null){
+						if (row.hotspot == null){
+							document.getElementById('addCheckinHistory').innerHTML = document.getElementById('addCheckinHistory').innerHTML +	`
+							<tr>
+								<td id="table-no-border">${date.toLocaleDateString()}</td>
+								<td id="table-no-border">${date.toLocaleTimeString()}</td>
+								<td id="table-no-border">${row.user_id}</td>
+								<td id="table-no-border">${row.venue_name} (${row.suburb_name})</td>
+								<td id="table-no-border"></td>
+								<td id="table-no-border"></td>
+								<td id="table-no-border"></td>
+							</tr>`;
 
+						}
+						else{
+							document.getElementById('addCheckinHistory').innerHTML = document.getElementById('addCheckinHistory').innerHTML +	`
+							<tr>
+								<td id="table-no-border">${date.toLocaleDateString()}</td>
+								<td id="table-no-border">${date.toLocaleTimeString()}</td>
+								<td id="table-no-border">${row.user_id}</td>
+								<td id="table-no-border">${row.venue_name} (${row.suburb_name})</td>
+								<td id="table-no-border"></td>
+								<td id="table-no-border"></td>
+								<td id="table-no-border"><i class="fas fa-exclamation-triangle"></i></td>
+							</tr>`;
+						}
 					}
-					else{
-						document.getElementById('addCheckinHistory').innerHTML = document.getElementById('addCheckinHistory').innerHTML +	`
-						<tr>
-							<td id="table-no-border">${date.toLocaleDateString()}</td>
-							<td id="table-no-border">${date.toLocaleTimeString()}</td>
-							<td id="table-no-border">${row.user_id}</td>
-							<td id="table-no-border">${row.venue_name} (${row.suburb_name})</td>
-							<td id="table-no-border"><i class="fas fa-exclamation-triangle"></i></td>
-						</tr>`;
+					else {
+						if (row.hotspot == null){
+							document.getElementById('addCheckinHistory').innerHTML = document.getElementById('addCheckinHistory').innerHTML +	`
+							<tr>
+								<td id="table-no-border">${date.toLocaleDateString()}</td>
+								<td id="table-no-border">${date.toLocaleTimeString()}</td>
+								<td id="table-no-border">${row.user_id}</td>
+								<td id="table-no-border"></td>
+								<td id="table-no-border">${row.lat}</td>
+								<td id="table-no-border">${row.lng}</td>
+								<td id="table-no-border"></td>
+							</tr>`;
+
+						}
+						else{
+							document.getElementById('addCheckinHistory').innerHTML = document.getElementById('addCheckinHistory').innerHTML +	`
+							<tr>
+								<td id="table-no-border">${date.toLocaleDateString()}</td>
+								<td id="table-no-border">${date.toLocaleTimeString()}</td>
+								<td id="table-no-border">${row.user_id}</td>
+								<td id="table-no-border"></td>
+								<td id="table-no-border">${row.lat}</td>
+								<td id="table-no-border">${row.lng}</td>
+								<td id="table-no-border"><i class="fas fa-exclamation-triangle"></i></td>
+							</tr>`;
+						}
 					}
 				}
 				else if ( 'USER' in row ){
-					if (row.hotspot == null){
-						document.getElementById('addCheckinHistory').innerHTML = document.getElementById('addCheckinHistory').innerHTML +	`
-						<tr>
-							<td id="table-no-border">${date.toLocaleDateString()}</td>
-							<td id="table-no-border">${date.toLocaleTimeString()}</td>
-							<td id="table-no-border">${row.venue_name} (${row.suburb_name})</td>
-							<td id="table-no-border"></td>
-						</tr>`;
+					if (row.lat == null){
+						if (row.hotspot == null){
+							document.getElementById('addCheckinHistory').innerHTML = document.getElementById('addCheckinHistory').innerHTML +	`
+							<tr>
+								<td id="table-no-border">${date.toLocaleDateString()}</td>
+								<td id="table-no-border">${date.toLocaleTimeString()}</td>
+								<td id="table-no-border">${row.venue_name} (${row.suburb_name})</td>
+								<td id="table-no-border"></td>
+								<td id="table-no-border"></td>
+								<td id="table-no-border"></td>
+							</tr>`;
+						}
+						else{
+							document.getElementById('addCheckinHistory').innerHTML = document.getElementById('addCheckinHistory').innerHTML +	`
+							<tr>
+								<td id="table-no-border">${date.toLocaleDateString()}</td>
+								<td id="table-no-border">${date.toLocaleTimeString()}</td>
+								<td id="table-no-border">${row.venue_name} (${row.suburb_name})</td>
+								<td id="table-no-border"></td>
+								<td id="table-no-border"></td>
+								<td id="table-no-border"><i class="fas fa-exclamation-triangle"></i></td>
+							</tr>`;
+						}
 					}
-					else{
-						document.getElementById('addCheckinHistory').innerHTML = document.getElementById('addCheckinHistory').innerHTML +	`
-						<tr>
-							<td id="table-no-border">${date.toLocaleDateString()}</td>
-							<td id="table-no-border">${date.toLocaleTimeString()}</td>
-							<td id="table-no-border">${row.venue_name} (${row.suburb_name})</td>
-							<td id="table-no-border"><i class="fas fa-exclamation-triangle"></i></td>
-						</tr>`;
+					else {
+						if (row.hotspot == null){
+							document.getElementById('addCheckinHistory').innerHTML = document.getElementById('addCheckinHistory').innerHTML +	`
+							<tr>
+								<td id="table-no-border">${date.toLocaleDateString()}</td>
+								<td id="table-no-border">${date.toLocaleTimeString()}</td>
+								<td id="table-no-border"></td>
+								<td id="table-no-border">${row.lat}</td>
+								<td id="table-no-border">${row.lng}</td>
+								<td id="table-no-border"></td>
+							</tr>`;
+						}
+						else{
+							document.getElementById('addCheckinHistory').innerHTML = document.getElementById('addCheckinHistory').innerHTML +	`
+							<tr>
+								<td id="table-no-border">${date.toLocaleDateString()}</td>
+								<td id="table-no-border">${date.toLocaleTimeString()}</td>
+								<td id="table-no-border"></td>
+								<td id="table-no-border">${row.lat}</td>
+								<td id="table-no-border">${row.lng}</td>
+								<td id="table-no-border"><i class="fas fa-exclamation-triangle"></i></td>
+							</tr>`;
+						}
 					}
 				}
 				else if ( 'VENUE' in row ){
@@ -372,4 +498,53 @@ function GetCheckinSearchHistory(){
 	xhttp.open('POST', '/users/getCheckinSearchHistory', true) ;
 	xhttp.setRequestHeader("Content-type", "application/json");
     xhttp.send(JSON.stringify(Search));
+}
+
+
+function checkin() {
+
+	let CheckinCode = {
+		code: document.getElementById('checkinCode').value,
+	};
+
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+    	if (this.readyState == 4 && this.status == 200) {
+			alert('Checkin Successful');
+    	}
+    };
+
+    xhttp.open("POST", "/users/checkin");
+	xhttp.setRequestHeader("Content-type", "application/json");
+    xhttp.send(JSON.stringify(CheckinCode));
+}
+
+function checkinLocation() {
+
+	var Checkin = {
+		lat: 0,
+		lng: 0
+	};
+
+	if (navigator.geolocation) {
+	    navigator.geolocation.getCurrentPosition( function (position) {
+	    	Checkin.lat = position.coords.latitude ;
+	    	Checkin.lng = position.coords.longitude ;
+
+	    	var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+		    	if (this.readyState == 4 && this.status == 200) {
+					alert('Checkin Successful');
+		    	}
+		    };
+
+		    xhttp.open("POST", "/users/checkinLocation");
+			xhttp.setRequestHeader("Content-type", "application/json");
+		    xhttp.send(JSON.stringify(Checkin));
+
+		});
+	}
+	else {
+		alert("Geolocation is not supported by this browser.");
+	}
 }
