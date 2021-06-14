@@ -79,7 +79,7 @@ function addOrRemCheckin(){
                 var new_marker;
 
                 for ( let row of checkins){
-                    if (row.lat == null){
+                    if (row.lat === null){
                         address = row.street_number.toString() + ' ' + row.street_name + ', ' + row.suburb_name + ' ' + row.state + ' ' + row.postcode.toString() ;
                         venue = 'Venue: ' + row.venue_name + ' (' + row.suburb_name + ') ' ;
                         mapboxClient.geocoding.forwardGeocode({
@@ -88,8 +88,7 @@ function addOrRemCheckin(){
                             limit: 1
                         }).send().then(function (response) {
                             var feature = response.body.features[0];
-                            var new_marker;
-                            if (row.hotspot == null){
+                            if (row.hotspot === null){
                                 new_marker = new mapboxgl.Marker({color: "#8CB89F"}).setLngLat(feature.center).addTo(map);
                             }
                             else{
@@ -100,7 +99,7 @@ function addOrRemCheckin(){
                     }
                     else{
                         venue = 'Location: lat(' + row.lat.toString() + ') lng(' + row.lng.toString() + ') ' ;
-                        if (row.hotspot == null){
+                        if (row.hotspot === null){
                             new_marker = new mapboxgl.Marker({color: "#8CB89F"}).setLngLat([row.lng,row.lat]).addTo(map);
                         }
                         else{
@@ -112,7 +111,7 @@ function addOrRemCheckin(){
                     date = new Date(row.date_time);
 
                     if ( 'ADMIN' in row ){
-                        if (row.hotspot == null){
+                        if (row.hotspot === null){
                             document.getElementById('addCheckins').innerHTML = document.getElementById('addCheckins').innerHTML + '<div class="checkin"><p>' + venue + '</p><p>User: ' + row.first_name + ' ' + row.last_name + '</p><p>Date: ' + date.toLocaleDateString() + '</p></div>';
                         }
                         else{
@@ -120,7 +119,7 @@ function addOrRemCheckin(){
                         }
                     }
                     else{
-                        if (row.hotspot == null){
+                        if (row.hotspot === null){
                             document.getElementById('addCheckins').innerHTML = document.getElementById('addCheckins').innerHTML + '<div class="checkin"><p>' + venue + '</p><p>Date: ' + date.toLocaleDateString() + '</p></div>';
                         }
                         else{
@@ -153,27 +152,32 @@ function addOrRemHotspot(){
             if ( this.readyState == 4 && this.status == 200 ) {
                 var hotspots = JSON.parse(this.responseText) ;
 
-                for ( let row of hotspots){
-                    mapboxClient.geocoding.forwardGeocode({
-                        query: row.suburb_name + ' SA Australia',
-                        autocomplete: false,
-                        limit: 1
-                    }).send().then(function (response) {
-                        var feature = response.body.features[0];
-                        var new_marker = new mapboxgl.Marker({color: "#ff6666"}).setLngLat(feature.center).addTo(map);
-                        hotspot_markers.push(new_marker) ;
-                    });
-
-                    if ( 'ADMIN' in row ){
-                        document.getElementById('addHotspots').innerHTML = document.getElementById('addHotspots').innerHTML + '<div class="checkin"><p>Suburb: ' + row.suburb_name + '</p><button class="pure-button pure-button-primary rounded-button" style="margin-bottom: 1em;" onclick="deleteHotspot('+ row.id +')">Remove</button></div>';
-                    }
-                    else{
-                        document.getElementById('addHotspots').innerHTML = document.getElementById('addHotspots').innerHTML + '<div class="checkin"><p>Suburb: ' + row.suburb_name + '</p></div>';
-                    }
+                if ('admin' in hotspots){
+                    document.getElementById('addHotspots').innerHTML = '<input style="margin: 1em auto; display: block; width: 90%;" type="text" id="newHotspot" name="newHotspot" placeholder="New Hotspot"/><button class="pure-button pure-button-primary rounded-button" style="margin: 1em auto; display: block;" onclick="createHotspot()">Add</button>' ;
                 }
+                else{
+                    for ( let row of hotspots){
+                        mapboxClient.geocoding.forwardGeocode({
+                            query: row.suburb_name + ' SA Australia',
+                            autocomplete: false,
+                            limit: 1
+                        }).send().then(function (response) {
+                            var feature = response.body.features[0];
+                            var new_marker = new mapboxgl.Marker({color: "#ff6666"}).setLngLat(feature.center).addTo(map);
+                            hotspot_markers.push(new_marker) ;
+                        });
 
-                if ( 'ADMIN' in hotspots[0] ){
-                    document.getElementById('addHotspots').innerHTML = document.getElementById('addHotspots').innerHTML + '<input style="margin: 1em auto; display: block; width: 90%;" type="text" id="newHotspot" name="newHotspot" placeholder="New Hotspot"/><button class="pure-button pure-button-primary rounded-button" style="margin: 1em auto; display: block;" onclick="createHotspot()">Add</button>' ;
+                        if ( 'ADMIN' in row ){
+                            document.getElementById('addHotspots').innerHTML = document.getElementById('addHotspots').innerHTML + '<div class="checkin"><p>Suburb: ' + row.suburb_name + '</p><button class="pure-button pure-button-primary rounded-button" style="margin-bottom: 1em;" onclick="deleteHotspot('+ row.id +')">Remove</button></div>';
+                        }
+                        else{
+                            document.getElementById('addHotspots').innerHTML = document.getElementById('addHotspots').innerHTML + '<div class="checkin"><p>Suburb: ' + row.suburb_name + '</p></div>';
+                        }
+                    }
+
+                    if ( 'ADMIN' in hotspots[0] ){
+                        document.getElementById('addHotspots').innerHTML = document.getElementById('addHotspots').innerHTML + '<input style="margin: 1em auto; display: block; width: 90%;" type="text" id="newHotspot" name="newHotspot" placeholder="New Hotspot"/><button class="pure-button pure-button-primary rounded-button" style="margin: 1em auto; display: block;" onclick="createHotspot()">Add</button>' ;
+                    }
                 }
             }
         } ;
