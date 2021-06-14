@@ -16,6 +16,8 @@ var vueinst = new Vue({
 		AccountDetails_email: 'email',
 		AccountDetails_phoneNumber: 'phone_number',
 		AccountDetails_venueName: 'venue_name',
+		AccountDetails_streetNumber: 0,
+		AccountDetails_streetName: 'street_name',
 		AccountDetails_streetAddress: 'street_address',
 		AccountDetails_suburb: 'suburb',
 		AccountDetails_postcode: 'postcode',
@@ -23,31 +25,8 @@ var vueinst = new Vue({
 	}
 });
 
-
-// when i tried to do it using normal stuff
 function updateMenu(){
 	vueinst.user_log = loggedin;
-	/*
-	if(loggedin == "USER"){
-		document.getElementById("user_menu").classList.remove("hide-menu");
-		document.getElementById("default_menu").classList.add("hide-menu");
-	} else if(loggedin == "VENUE"){
-		document.getElementById("venue_menu").classList.remove("hide-menu");
-		document.getElementById("default_menu").classList.add("hide-menu");
-	} else if(loggedin == "ADMIN"){
-		document.getElementById("venue_menu").classList.remove("hide-menu");
-		document.getElementById("default_menu").classList.add("hide-menu");
-	} else {
-		if (!document.getElementById("user_menu").classList.contains("hide-menu")){
-			document.getElementById("user_menu").classList.add("hide-menu");
-		} else if(!document.getElementById("venue_menu").classList.contains("hide-menu")) {
-			document.getElementById("venue_menu").classList.add("hide-menu");
-		} else if(!document.getElementById("admin_menu").classList.contains("hide-menu")){
-			document.getElementById("admin_menu").classList.add("hide-menu");
-		} else {
-			document.getElementById("default_menu").classList.remove("hide-menu");
-		}
-	}*/
 }
 
 function loginCheck(){
@@ -112,6 +91,37 @@ function onSignIn(googleUser) {
 	// The ID token you need to pass to your backend:
 	var id_token = googleUser.getAuthResponse().id_token;
 	console.log("ID Token: " + id_token);
+}
+
+function signUpAdmin() {
+	let signup_details = {
+		email: document.getElementById('email').value,
+		password: document.getElementById('password').value,
+		first_name: document.getElementById('first_name').value,
+		last_name: document.getElementById('last_name').value,
+		phone_number: document.getElementById('phone_number').value
+	};
+
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if ( this.readyState == 4 && this.status == 200 ) {
+			window.location.pathname="/";
+		}
+		else if ( this.readyState == 4 && this.status == 401 ) {
+			window.location.hash="#preexisting-user";
+			window.location.pathname="/SignUp";
+		}else if(this.status == 500){
+			window.location.hash="#signup_failed";
+			window.location.pathname="/SignUp";
+		} else if(this.readyState == 4 && this.status == 400){
+			window.location.hash="#value-error";
+			window.location.pathname="/SignUp";
+		}
+	};
+
+	xhttp.open('POST', '/newadmin', true) ;
+	xhttp.setRequestHeader("Content-type", "application/json");
+    xhttp.send(JSON.stringify(signup_details));
 }
 
 function login(){
@@ -191,7 +201,7 @@ function GetAccountDetails() {
 			vueinst.AccountDetails_venueName = accountDetails[0].venue_name;
 			vueinst.AccountDetails_streetNumber = accountDetails[0].street_number;
 			vueinst.AccountDetails_streetName = accountDetails[0].street_name;
-			vueinst.AccountDetails_streetAddress = accountDetails[0].street_number + accountDetails[0].street_name;
+			vueinst.AccountDetails_streetAddress = accountDetails[0].street_number + ' ' + accountDetails[0].street_name;
 			vueinst.AccountDetails_suburb = accountDetails[0].suburb_name;
 			vueinst.AccountDetails_postcode = accountDetails[0].postcode;
 			vueinst.AccountDetails_state = accountDetails[0].state;

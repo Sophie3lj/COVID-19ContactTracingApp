@@ -108,7 +108,7 @@
 							<div class="flex"><a href="/users/CheckinHistory" class="pure-menu-link">Check-In History</a></div>
 						</li>
 						<li class="pure-menu-item">
-							<div class="flex"><a href="/users/AddAdmin" class="pure-menu-link">Add New Admin</a></div>
+							<div class="flex"><a href="/users/AdminCheck" class="pure-menu-link">Add New Admin</a></div>
 						</li>
 					</ul>
 					<ul class="pure-menu-list" id="right">
@@ -159,7 +159,7 @@
 								<legend>
 									<h1>Edit Account Details</h1>
 								</legend>
-								<div class="pure-g user">
+								<div class="pure-g user" v-if="user_log !== 'VENUE'">
 									<input class="pure-input-1-2" type="text" name="first_name" id="first_name" v-bind:placeholder="AccountDetails_firstName"/>
 									<input class="pure-input-1-2" type="text" name="last_name" id="last_name" v-bind:placeholder="AccountDetails_lastName"/>
 								</div>
@@ -170,11 +170,11 @@
 								<div v-if="user_log === 'VENUE'">
 									<span class="venue"><input class="pure-input-1" type="text" name="venue_name" id="venue_name" v-bind:placeholder="AccountDetails_venueName"/></span>
 									<div class="pure-g venue">
-										<input class="pure-input-1-4" type="text" name="street_number" id="street_number" vue-bind:placeholder="AccountDetails_streetNumber"/>
-										<input class="pure-input-3-4" type="text" name="street_address" id="street_address" vue-bind:placeholder="AccountDetails_streetName"/>
-										<input class="pure-input-1-2" type="text" name="suburb" id="suburb" vue-bind:placeholder="AccountDetails_suburb"/>
-										<input class="pure-input-1-4" type="text" name="post_code" id="post_code" vue-bind:placeholder="AccountDetails_postcode"/>
-										<input class="pure-input-1-4" type="text" name="state" id="state" vue-bind:placeholder="AccountDetails_state"/>
+										<input class="pure-input-1-4" type="text" name="street_number" id="street_number" v-bind:placeholder="AccountDetails_streetNumber"/>
+										<input class="pure-input-3-4" type="text" name="street_address" id="street_address" v-bind:placeholder="AccountDetails_streetName"/>
+										<input class="pure-input-1-2" type="text" name="suburb" id="suburb" v-bind:placeholder="AccountDetails_suburb"/>
+										<input class="pure-input-1-4" type="text" name="post_code" id="post_code" v-bind:placeholder="AccountDetails_postcode"/>
+										<input class="pure-input-1-4" type="text" name="state" id="state" v-bind:placeholder="AccountDetails_state"/>
 									</div>
 								</div>
 								<div class="shared">

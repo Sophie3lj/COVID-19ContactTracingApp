@@ -159,6 +159,20 @@ router.get('/MapCheck', function(req, res){
     }
 });
 
+router.get('/AdminCheck', function(req, res){
+    if('user_type' in req.session){
+        if(req.session.user_type === "ADMIN"){
+            res.redirect('/users/AddAdmin');
+        }
+        else {
+            res.sendStatus(401);
+        }
+    }
+    else {
+        res.sendStatus(401);
+    }
+});
+
 router.post('/logout', function(req, res) {
     delete req.session.email;
     delete req.session.user_type;
@@ -187,7 +201,7 @@ router.get('/getAccountDetails', function(req, res) {
             console.log('type ADMIN details');
         }
         else if (req.session.user_type === "VENUE") {
-            query = "SELECT accounts.first_name, accounts.last_name, accounts.email, accounts.phone_number, venues.venue_name, venues.street_number, venues.street_name,  venues.postcode, venues.state, suburbs.suburb_name FROM ((accounts INNER JOIN venues ON accounts.id = venues.venue_owner) INNER JOIN suburbs ON venues.suburb = suburbs.id) WHERE accounts.id = ?";
+            query = "SELECT accounts.email, accounts.phone_number, venues.venue_name, venues.street_number, venues.street_name,  venues.postcode, venues.state, suburbs.suburb_name FROM ((accounts INNER JOIN venues ON accounts.id = venues.venue_owner) INNER JOIN suburbs ON venues.suburb = suburbs.id) WHERE accounts.id = ?";
             console.log('type VENUE details');
         }
         connection.query(query, [user_id], function(err, rows) {

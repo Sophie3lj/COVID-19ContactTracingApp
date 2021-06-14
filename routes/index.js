@@ -26,7 +26,7 @@ router.get('/mapCheckins', function(req, res) {
                 param.push(req.session.user_id);
             }
             else if(req.session.user_type === "ADMIN"){
-                query = "SELECT 'ADMIN', checkins.date_time, checkins.lat, checkins.lng, accounts.first_name, accounts.last_name, venues.venue_name, venues.street_number, venues.street_name, suburbs.suburb_name, venues.postcode, venues.state, hotspots.id AS hotspot FROM checkins INNER JOIN accounts ON checkins.user_id = accounts.id INNER JOIN venues ON checkins.venue_id = venues.id INNER JOIN suburbs ON suburbs.id = venues.suburb LEFT JOIN hotspots ON suburbs.id = hotspots.suburb_id" ;
+                query = "SELECT 'ADMIN', checkins.date_time, checkins.lat, checkins.lng, accounts.first_name, accounts.last_name, venues.venue_name, venues.street_number, venues.street_name, suburbs.suburb_name, venues.postcode, venues.state, hotspots.id AS hotspot FROM checkins LEFT JOIN accounts ON checkins.user_id = accounts.id LEFT JOIN venues ON checkins.venue_id = venues.id LEFT JOIN suburbs ON suburbs.id = venues.suburb LEFT JOIN hotspots ON suburbs.id = hotspots.suburb_id" ;
             }
             else {
                 res.sendStatus(404);
@@ -128,6 +128,16 @@ router.post('/createHotspot', function(req, res){
 
             if(rows[0] !== undefined){
                 suburb_id = rows[0].id;
+
+                var query3 = "INSERT INTO hotspots (suburb_id) VALUES (?)";
+                connection.query(query3, [suburb_id], function(err) {
+                    connection.release();
+                    if (err) {
+                        res.sendStatus(500);
+                        return;
+                    }
+                    res.end();
+                });
             }
             else{
                 var query2 = "INSERT INTO suburbs (suburb_name) VALUES (?)";
@@ -136,21 +146,27 @@ router.post('/createHotspot', function(req, res){
                         res.sendStatus(500);
                         return;
                     }
+                    var query4 = "SELECT id FROM suburbs WHERE suburbs.suburb_name = ?";
+                    connection.query(query4, [req.body.suburb], function(err, rows2) {
+                        if (err) {
+                            res.sendStatus(500);
+                            return;
+                        }
+                        suburb_id = rows2[0].id;
+
+                        var query5 = "INSERT INTO hotspots (suburb_id) VALUES (?)";
+                        connection.query(query5, [suburb_id], function(err) {
+                            connection.release();
+                            if (err) {
+                                res.sendStatus(500);
+                                return;
+                            }
+                            res.end();
+                        });
+                    });
                 });
-
             }
-
-            var query3 = "INSERT INTO hotspots (suburb_id) VALUES (?)";
-            connection.query(query3, [suburb_id], function(err) {
-                connection.release();
-                if (err) {
-                    res.sendStatus(500);
-                    return;
-                }
-                res.end();
-            });
         });
-
     });
 });
 
@@ -167,11 +183,8 @@ router.post('/deleteHotspot', function(req, res){
                 res.sendStatus(500);
                 return;
             }
-
             res.end();
-
         });
-
     });
 });
 
@@ -212,7 +225,6 @@ router.post('/signup', function (req, res, next){
             }
 
            if (existing_user_check[0] !== undefined){
-                console.log('existing_user_check');
                 res.sendStatus(401);
                 return;
             } else {
@@ -250,7 +262,6 @@ router.post('/signup', function (req, res, next){
                                     res.sendStatus(500);
                                     return;
                                 }
-                                console.log("second query");
                                 //Get last ID from suburbs
                                 connection.query("select id FROM suburbs ORDER BY ID DESC LIMIT 1", function(err, last_suburb_result){
                                     if (err){
@@ -258,8 +269,6 @@ router.post('/signup', function (req, res, next){
                                         res.sendStatus(500);
                                         return;
                                     }
-                                    console.log("third query");
-
                                     //Check if suburb is in database
                                     if(suburbs_result[0] !== undefined){
                                         suburb_id = suburbs_result[0].id;
@@ -277,21 +286,17 @@ router.post('/signup', function (req, res, next){
                                             if(err){
                                                 console.log(err);
                                                 res.sendStatus(500);
-                                            }else{
-                                                console.log("New suburb created");
                                             }
                                         });
                                     }
 
                                     venueString = "INSERT INTO venues ( venue_name, venue_owner, street_number, street_name, suburb, postcode, state) VALUES (?,?,?,?,?,?,?)";
                                     //console.log(venueString);
-                                    connection.query(venueString,[venue_name,req.session.user_id,street_number,street_address,suburb_id,post_code,state], function(err, result){
+                                    connection.query(venueString,[venue_name,id,street_number,street_address,suburb_id,post_code,state], function(err, result){
                                         if(err){
                                             console.log(err);
                                             res.sendStatus(400);
                                             return;
-                                        }else{
-                                            console.log("New venue created");
                                         }
                                     });
                                 });
@@ -363,31 +368,57 @@ router.post('/newadmin', function (req, res){
 		var phone_number = reqBody.phone_number;
 		var password = reqBody.password;
 		var type = "ADMIN";
+		var id ;
 
-		var queryString = '';
-
-		bcrypt.genSalt(10, function(err, salt){
+		connection.query("SELECT * FROM accounts WHERE email = ?", [email], function(err, existing_user_check){
             if(err){
                 console.log(err);
+                res.sendStatus(500);
+                return;
             }
-            bcrypt.hash(password, salt, function(err, hash){
-                if(err){
-                    console.log(err);
-                }
-                password = hash;
-                queryString = "INSERT INTO accounts ( user_type, email, first_name, last_name, password_hash, phone_number) VALUES (?, ?, ?, ?, ?, ?)";
-                connection.query(queryString, [type, email, first_name, last_name, password, phone_number], function(err){
+
+           if (existing_user_check[0] !== undefined){
+                console.log('existing_user_check');
+                res.sendStatus(401);
+                return;
+            } else {
+
+        		var queryString = '';
+
+        		bcrypt.genSalt(10, function(err, salt){
                     if(err){
                         console.log(err);
-                    }else {
-                        console.log("New user created");
                     }
+                    bcrypt.hash(password, salt, function(err, hash){
+                        if(err){
+                            console.log(err);
+                        }
+                        password = hash;
+                        queryString = "INSERT INTO accounts ( user_type, email, first_name, last_name, password_hash, phone_number) VALUES (?, ?, ?, ?, ?, ?)";
+                        connection.query(queryString, [type, email, first_name, last_name, password, phone_number], function(err){
+                            if(err){
+                                console.log(err);
+                                res.sendStatus(500);
+                                return;
+                            }else {
+                                console.log("New admin created");
+                                connection.query("select id FROM accounts ORDER BY ID DESC LIMIT 1", function(err, last_account_result){
+                                    if(err){
+                                        console.log(err);
+                                        res.sendStatus(500);
+                                        return;
+                                    }
+                                    id = last_account_result[0].id;
+                                });
+                            }
+                        });
+                    });
                 });
-                //console.log(password);
-            });
-        });
+
+                res.send();
+            }
+		});
     });
-    res.redirect("/");
 });
 
 router.post('/editAccDetails', function (req, res){
@@ -399,7 +430,7 @@ router.post('/editAccDetails', function (req, res){
         }
 
         var reqBody = req.body;
-        //var venue_name = reqBody.venue_name;
+        var venue_name = reqBody.venue_name;
         var first_name = reqBody.first_name;
 		var last_name = reqBody.last_name;
 		var email = reqBody.email;
@@ -420,8 +451,6 @@ router.post('/editAccDetails', function (req, res){
             connection.query(queryString, [first_name, id], function(err){
                 if(err){
                     console.log(err);
-                }else {
-                    console.log("First Name Successfully Updated");
                 }
             });
         }
@@ -431,8 +460,6 @@ router.post('/editAccDetails', function (req, res){
             connection.query(queryString, [last_name, id], function(err){
                 if(err){
                     console.log(err);
-                }else {
-                    console.log("Last Name Successfully Updated");
                 }
             });
         }
@@ -442,8 +469,6 @@ router.post('/editAccDetails', function (req, res){
             connection.query(queryString, [email, id], function(err){
                 if(err){
                     console.log(err);
-                }else {
-                    console.log("Email Successfully Updated");
                 }
             });
         }
@@ -453,8 +478,6 @@ router.post('/editAccDetails', function (req, res){
             connection.query(queryString, [phone_number, id], function(err){
                 if(err){
                     console.log(err);
-                }else {
-                    console.log("Phone Number Successfully Updated");
                 }
             });
         }
@@ -473,11 +496,8 @@ router.post('/editAccDetails', function (req, res){
                     connection.query(queryString, [password, id], function(err){
                         if(err){
                             console.log(err);
-                        }else {
-                            console.log("Password Successfully Updated");
                         }
                     });
-                    //console.log(password);
                 });
             });
         }
@@ -490,8 +510,6 @@ router.post('/editAccDetails', function (req, res){
                 connection.query(queryString, [street_number, id], function(err){
                     if(err){
                         console.log(err);
-                    }else {
-                        console.log("Street Number Successfully Updated");
                     }
                 });
             }
@@ -501,23 +519,11 @@ router.post('/editAccDetails', function (req, res){
                 connection.query(queryString, [street_address, id], function(err){
                     if(err){
                         console.log(err);
-                    }else {
-                        console.log("Street Name Successfully Updated");
                     }
                 });
             }
 
             if (!(suburb === '')){
-
-                /*queryString = "UPDATE venues SET suburb = ? WHERE venue_owner = ?";
-                connection.query(queryString, [suburb, id], function(err, result){
-
-                    if(err){
-                        console.log(err);
-                    }else {
-                        console.log("Suburb Successfully Updated");
-                    }
-                });*/
 
                 connection.query("SELECT id FROM suburbs WHERE suburbs.suburb_name = ?",[suburb], function(err, suburbs_result){
                     if (err){
@@ -541,8 +547,6 @@ router.post('/editAccDetails', function (req, res){
                             connection.query("INSERT INTO suburbs (suburb_name) VALUES (?)",[suburb], function(err, result){
                                 if(err){
                                     console.log(err);
-                                }else{
-                                    console.log("New suburb created");
                                 }
                             });
                         }
@@ -551,8 +555,6 @@ router.post('/editAccDetails', function (req, res){
                         connection.query(queryString, [suburb_id, id], function(err, result){
                             if(err){
                                 console.log(err);
-                            }else {
-                                console.log("Suburb Successfully Updated");
                             }
                         });
                     });
@@ -564,8 +566,6 @@ router.post('/editAccDetails', function (req, res){
                 connection.query(queryString, [post_code, id], function(err){
                     if(err){
                         console.log(err);
-                    }else {
-                        console.log("Postcode Successfully Updated");
                     }
                 });
             }
@@ -575,8 +575,6 @@ router.post('/editAccDetails', function (req, res){
                 connection.query(queryString, [state, id], function(err){
                     if(err){
                         console.log(err);
-                    }else {
-                        console.log("State Successfully Updated");
                     }
                 });
             }

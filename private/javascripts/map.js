@@ -14,27 +14,7 @@ var vueinst = new Vue({
 // when i tried to do it using normal stuff
 function updateMenu(){
 	vueinst.user_log = loggedin;
-	/*
-	if(loggedin == "USER"){
-		document.getElementById("user_menu").classList.remove("hide-menu");
-		document.getElementById("default_menu").classList.add("hide-menu");
-	} else if(loggedin == "VENUE"){
-		document.getElementById("venue_menu").classList.remove("hide-menu");
-		document.getElementById("default_menu").classList.add("hide-menu");
-	} else if(loggedin == "ADMIN"){
-		document.getElementById("venue_menu").classList.remove("hide-menu");
-		document.getElementById("default_menu").classList.add("hide-menu");
-	} else {
-		if (!document.getElementById("user_menu").classList.contains("hide-menu")){
-			document.getElementById("user_menu").classList.add("hide-menu");
-		} else if(!document.getElementById("venue_menu").classList.contains("hide-menu")) {
-			document.getElementById("venue_menu").classList.add("hide-menu");
-		} else if(!document.getElementById("admin_menu").classList.contains("hide-menu")){
-			document.getElementById("admin_menu").classList.add("hide-menu");
-		} else {
-			document.getElementById("default_menu").classList.remove("hide-menu");
-		}
-	}*/
+
 }
 
 function loginCheck(){
@@ -175,7 +155,7 @@ function addOrRemHotspot(){
                         }
                     }
 
-                    if ( 'ADMIN' in hotspots[0] ){
+                    if ( hotspots[0] !== undefined && 'ADMIN' in hotspots[0] ){
                         document.getElementById('addHotspots').innerHTML = document.getElementById('addHotspots').innerHTML + '<input style="margin: 1em auto; display: block; width: 90%;" type="text" id="newHotspot" name="newHotspot" placeholder="New Hotspot"/><button class="pure-button pure-button-primary rounded-button" style="margin: 1em auto; display: block;" onclick="createHotspot()">Add</button>' ;
                     }
                 }

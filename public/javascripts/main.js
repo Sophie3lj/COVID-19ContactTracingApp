@@ -14,27 +14,7 @@ var vueinst = new Vue({
 // when i tried to do it using normal stuff
 function updateMenu(){
 	vueinst.user_log = loggedin;
-	/*
-	if(loggedin == "USER"){
-		document.getElementById("user_menu").classList.remove("hide-menu");
-		document.getElementById("default_menu").classList.add("hide-menu");
-	} else if(loggedin == "VENUE"){
-		document.getElementById("venue_menu").classList.remove("hide-menu");
-		document.getElementById("default_menu").classList.add("hide-menu");
-	} else if(loggedin == "ADMIN"){
-		document.getElementById("venue_menu").classList.remove("hide-menu");
-		document.getElementById("default_menu").classList.add("hide-menu");
-	} else {
-		if (!document.getElementById("user_menu").classList.contains("hide-menu")){
-			document.getElementById("user_menu").classList.add("hide-menu");
-		} else if(!document.getElementById("venue_menu").classList.contains("hide-menu")) {
-			document.getElementById("venue_menu").classList.add("hide-menu");
-		} else if(!document.getElementById("admin_menu").classList.contains("hide-menu")){
-			document.getElementById("admin_menu").classList.add("hide-menu");
-		} else {
-			document.getElementById("default_menu").classList.remove("hide-menu");
-		}
-	}*/
+
 }
 
 function loginCheck(){
@@ -94,12 +74,6 @@ function onSignIn(googleUser) {
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("first_name=" + profile.getGivenName() + "&last_name=" + profile.getFamilyName() + "&email=" + profile.getEmail());
 
-
-
-
-	// The ID token you need to pass to your backend:
-	//var id_token = googleUser.getAuthResponse().id_token;
-
 }
 
 function signUp() {
@@ -140,6 +114,8 @@ function signUp() {
     xhttp.send(JSON.stringify(signup_details));
 }
 
+
+
 function login(){
 	let login_details = {
 		email: document.getElementById('email').value,
@@ -155,8 +131,6 @@ function login(){
 
 			window.location.hash="#login_failed";
 			window.location.pathname="/Login";
-		}else if(this.status == 500){
-			//window.location.pathname="/Login.html#login_failed";
 		}
 	};
 
@@ -177,23 +151,3 @@ function logout(){
 	xhttp.open('POST', '/users/logout', true) ;
 	xhttp.send();
 }
-
-/*
-function signup(){
-	let user_details = {
-		email: document.getElementById('email').value,
-		password: document.getElementById('password').value
-	};
-
-	var xhttp = new XMLHttpRequest();
-	xhttp.onreadystatechange = function() {
-		if ( this.readyState == 4 && this.status == 200 ) {
-			// filler
-			let a = 1 ;
-		}
-	};
-
-	xhttp.open('POST', '/signup', true) ;
-	xmlhttp.setRequestHeader("Content-type", "application/json");
-	xmlhttp.send(JSON.stringify(login_details));
-}*/
