@@ -78,6 +78,15 @@ router.get('/mapHotspots', function(req, res) {
                 res.sendStatus(500);
                 return;
             }
+
+            if (rows[0] === undefined && req.session.user_type === "ADMIN"){
+                console.log('no row');
+                rows = {
+                    admin: true
+                };
+                console.log(rows.admin);
+            }
+
             res.json(rows);
         });
     });
@@ -197,8 +206,9 @@ router.post('/SignUp', function (req, res, next){
                 console.log(err);
             }
 
-            if (existing_user_check !== undefined){
-                res.redirect('/Signup#signup_failed');
+            if (existing_user_check[0] !== undefined){
+                console.log('redirect now');
+                res.redirect('/SignUp#signup_failed');
             }
 
         });
