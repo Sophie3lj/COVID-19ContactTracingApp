@@ -319,13 +319,13 @@ router.post('/signup', function (req, res, next){
                     req.session.user_id = id;
                     req.session.email = email;
                     req.session.user_type = type;
-                    res.redirect("/");
+                    res.send();
                 } else {
                     req.session.user_id = id;
                     req.session.email = email;
                     req.session.user_type = type;
                     req.session.user_name = first_name + ' ' + last_name;
-                    res.redirect("/");
+                    res.send();
                 }
             }
         });
