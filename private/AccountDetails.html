@@ -157,7 +157,7 @@
                         <h1>Account Details</h1>
                         <!--First set of data displayed for USER or ADMIN type clients-->
 
-                        <div class="pure-g" v-if="user_log === 'USER' || user_log === 'ADMIN'">
+                        <div class="pure-g" id="account-details-data" v-if="user_log === 'USER' || user_log === 'ADMIN'">
 
                             <div class="pure-u-4-24">
                                 <div id="account-details-grid-elements">First Name:</div>
@@ -185,7 +185,7 @@
                             </div>
                         </div>
                         <!--Second set of data displayed for VENUE type clients-->
-                        <div class="pure-g" v-else-if="user_log === 'VENUE'">
+                        <div class="pure-g" id="account-details-data" v-else-if="user_log === 'VENUE'">
                             <div class="pure-u-3-24">
                                 <div id="account-details-grid-elements">Venue Name:</div>
                             </div>
