@@ -25,7 +25,7 @@ The default admin login is:
 
 username: `admin@example.com`
 
-pasword: `admin`
+password: `admin`
 
 # Install
 This app requires the following:
