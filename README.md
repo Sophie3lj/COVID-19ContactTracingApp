@@ -1,4 +1,4 @@
-# contact-tracing-app
+# COVID-19 Contact Tracing App
 A Website used to log and view venue and location based check-ins to track the spread of COVID-19.
 Able to display check-in and hotspot information based on login type.
 The avaliable user types and corresponding capabilities are:
